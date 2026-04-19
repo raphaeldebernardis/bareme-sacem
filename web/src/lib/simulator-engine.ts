@@ -207,11 +207,21 @@ export function simulate(
   const sacem = Math.max(0, evalCompute(fiche.compute, answers));
 
   let spre = 0;
-  if (fiche.spre && !evalCondition(fiche.spre.skipWhen, answers)) {
-    // Make the SACEM figure available to the SPRE compute tree so
-    // formulas like `sacem * 0.65` resolve correctly.
-    const spreAnswers = { ...answers, sacem };
-    spre = Math.max(0, evalCompute(fiche.spre.compute, spreAnswers));
+  if (fiche.spre) {
+    // skipWhen is an opt-in gate: SPRE is skipped only when the
+    // condition is explicitly defined AND matches. An undefined
+    // skipWhen means SPRE always applies, not the other way around
+    // (evalCondition(undefined) is vacuously true, which would have
+    // silently zeroed every SPRE figure).
+    const shouldSkip =
+      fiche.spre.skipWhen !== undefined &&
+      evalCondition(fiche.spre.skipWhen, answers);
+    if (!shouldSkip) {
+      // Make the SACEM figure available to the SPRE compute tree so
+      // formulas like `sacem * 0.65` resolve correctly.
+      const spreAnswers = { ...answers, sacem };
+      spre = Math.max(0, evalCompute(fiche.spre.compute, spreAnswers));
+    }
   }
 
   const buildScenario = (totalAnnual: number): Scenario => ({
