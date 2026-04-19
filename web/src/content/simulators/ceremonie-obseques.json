@@ -1,0 +1,38 @@
+{
+  "slug": "ceremonie-obseques",
+  "activity": "cérémonies funéraires",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 2) pour un opérateur funéraire. La SACEM retient 25 % des convois comme sonorisés.",
+  "questions": [
+    {
+      "id": "convois_annuels",
+      "label": "Nombre de convois organisés par an",
+      "type": "number",
+      "default": 150,
+      "min": 10,
+      "max": 3000,
+      "step": 10,
+      "unit": "convois"
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "formula",
+    "expr": "max(206.64, convois_annuels * 0.25 * 4.16)",
+    "modifiers": [
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 102.27
+    }
+  },
+  "footnote": "SACEM tarif général par défaut (4,16 € par convoi sonorisé, minimum 206,64 € HT). Tarif réduit : 3,33 € par convoi, minimum 165,31 € HT. La SACEM considère qu'un convoi sur quatre est sonorisé."
+}

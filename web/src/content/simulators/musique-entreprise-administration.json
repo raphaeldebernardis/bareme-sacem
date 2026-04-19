@@ -1,0 +1,121 @@
+{
+  "slug": "musique-entreprise-administration",
+  "activity": "musique en entreprise ou administration",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 26). Forfait annuel par site selon salariés et événements.",
+  "questions": [
+    {
+      "id": "salaries",
+      "label": "Nombre de salariés (ou postes de travail en coworking)",
+      "type": "number",
+      "default": 50,
+      "min": 1,
+      "max": 5000,
+      "step": 1,
+      "unit": "salariés"
+    },
+    {
+      "id": "evenements",
+      "label": "Événements annuels avec diffusion musicale",
+      "type": "select",
+      "default": "aucun",
+      "options": [
+        { "value": "aucun", "label": "Aucun (sonorisation simple)" },
+        { "value": "peu", "label": "1 à 5 événements par an" },
+        { "value": "beaucoup", "label": "Plus de 5 événements par an" }
+      ]
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "lookup",
+    "rows": [
+      { "match": { "salaries": { "lte": 9 }, "evenements": "aucun" }, "value": 95.39 },
+      { "match": { "salaries": { "lte": 9 }, "evenements": "peu" }, "value": 143.10 },
+      { "match": { "salaries": { "lte": 9 }, "evenements": "beaucoup" }, "value": 214.63 },
+
+      { "match": { "salaries": { "lte": 19 }, "evenements": "aucun" }, "value": 119.24 },
+      { "match": { "salaries": { "lte": 19 }, "evenements": "peu" }, "value": 178.85 },
+      { "match": { "salaries": { "lte": 19 }, "evenements": "beaucoup" }, "value": 268.28 },
+
+      { "match": { "salaries": { "lte": 29 }, "evenements": "aucun" }, "value": 149.04 },
+      { "match": { "salaries": { "lte": 29 }, "evenements": "peu" }, "value": 223.59 },
+      { "match": { "salaries": { "lte": 29 }, "evenements": "beaucoup" }, "value": 335.35 },
+
+      { "match": { "salaries": { "lte": 39 }, "evenements": "aucun" }, "value": 186.30 },
+      { "match": { "salaries": { "lte": 39 }, "evenements": "peu" }, "value": 279.46 },
+      { "match": { "salaries": { "lte": 39 }, "evenements": "beaucoup" }, "value": 419.21 },
+
+      { "match": { "salaries": { "lte": 49 }, "evenements": "aucun" }, "value": 232.88 },
+      { "match": { "salaries": { "lte": 49 }, "evenements": "peu" }, "value": 349.33 },
+      { "match": { "salaries": { "lte": 49 }, "evenements": "beaucoup" }, "value": 523.99 },
+
+      { "match": { "salaries": { "lte": 74 }, "evenements": "aucun" }, "value": 279.46 },
+      { "match": { "salaries": { "lte": 74 }, "evenements": "peu" }, "value": 419.21 },
+      { "match": { "salaries": { "lte": 74 }, "evenements": "beaucoup" }, "value": 628.79 },
+
+      { "match": { "salaries": { "lte": 99 }, "evenements": "aucun" }, "value": 335.35 },
+      { "match": { "salaries": { "lte": 99 }, "evenements": "peu" }, "value": 503.04 },
+      { "match": { "salaries": { "lte": 99 }, "evenements": "beaucoup" }, "value": 754.55 },
+
+      { "match": { "salaries": { "lte": 124 }, "evenements": "aucun" }, "value": 402.43 },
+      { "match": { "salaries": { "lte": 124 }, "evenements": "peu" }, "value": 603.64 },
+      { "match": { "salaries": { "lte": 124 }, "evenements": "beaucoup" }, "value": 905.48 },
+
+      { "match": { "salaries": { "lte": 149 }, "evenements": "aucun" }, "value": 482.93 },
+      { "match": { "salaries": { "lte": 149 }, "evenements": "peu" }, "value": 724.36 },
+      { "match": { "salaries": { "lte": 149 }, "evenements": "beaucoup" }, "value": 1086.56 },
+
+      { "match": { "salaries": { "lte": 174 }, "evenements": "aucun" }, "value": 579.49 },
+      { "match": { "salaries": { "lte": 174 }, "evenements": "peu" }, "value": 869.24 },
+      { "match": { "salaries": { "lte": 174 }, "evenements": "beaucoup" }, "value": 1303.88 },
+
+      { "match": { "salaries": { "lte": 199 }, "evenements": "aucun" }, "value": 695.38 },
+      { "match": { "salaries": { "lte": 199 }, "evenements": "peu" }, "value": 1043.09 },
+      { "match": { "salaries": { "lte": 199 }, "evenements": "beaucoup" }, "value": 1564.64 },
+
+      { "match": { "salaries": { "lte": 224 }, "evenements": "aucun" }, "value": 834.48 },
+      { "match": { "salaries": { "lte": 224 }, "evenements": "peu" }, "value": 1251.71 },
+      { "match": { "salaries": { "lte": 224 }, "evenements": "beaucoup" }, "value": 1877.58 },
+
+      { "match": { "salaries": { "lte": 249 }, "evenements": "aucun" }, "value": 1001.36 },
+      { "match": { "salaries": { "lte": 249 }, "evenements": "peu" }, "value": 1502.06 },
+      { "match": { "salaries": { "lte": 249 }, "evenements": "beaucoup" }, "value": 2253.08 },
+
+      { "match": { "salaries": { "lte": 499 }, "evenements": "aucun" }, "value": 1201.66 },
+      { "match": { "salaries": { "lte": 499 }, "evenements": "peu" }, "value": 1802.46 },
+      { "match": { "salaries": { "lte": 499 }, "evenements": "beaucoup" }, "value": 2703.70 },
+
+      { "match": { "salaries": { "lte": 999 }, "evenements": "aucun" }, "value": 1441.99 },
+      { "match": { "salaries": { "lte": 999 }, "evenements": "peu" }, "value": 2162.96 },
+      { "match": { "salaries": { "lte": 999 }, "evenements": "beaucoup" }, "value": 3244.43 },
+
+      { "match": { "salaries": { "lte": 1999 }, "evenements": "aucun" }, "value": 1730.36 },
+      { "match": { "salaries": { "lte": 1999 }, "evenements": "peu" }, "value": 2595.55 },
+      { "match": { "salaries": { "lte": 1999 }, "evenements": "beaucoup" }, "value": 3893.33 },
+
+      { "match": { "salaries": { "lte": 3500 }, "evenements": "aucun" }, "value": 2076.44 },
+      { "match": { "salaries": { "lte": 3500 }, "evenements": "peu" }, "value": 3114.65 },
+      { "match": { "salaries": { "lte": 3500 }, "evenements": "beaucoup" }, "value": 4671.99 },
+
+      { "match": { "evenements": "aucun" }, "formula": "2076.44 + (salaries - 3500) * 0.59" },
+      { "match": { "evenements": "peu" }, "formula": "3114.65 + (salaries - 3500) * 0.89" },
+      { "match": { "evenements": "beaucoup" }, "formula": "4671.99 + (salaries - 3500) * 1.33" }
+    ],
+    "modifiers": [
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 110.60
+    }
+  },
+  "footnote": "SACEM au tarif général par défaut. Au-delà de 3 500 salariés : majoration par salarié supplémentaire (0,59 € / 0,89 € / 1,33 € selon événements, tarif général). Une entreprise multi-sites paie un forfait par site sonorisé."
+}

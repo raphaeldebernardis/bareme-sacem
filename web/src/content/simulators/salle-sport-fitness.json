@@ -1,0 +1,49 @@
+{
+  "slug": "salle-sport-fitness",
+  "activity": "salle de sport ou de fitness",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 11). Composante sonorisation au m² + forfait cours collectifs.",
+  "questions": [
+    {
+      "id": "surface",
+      "label": "Surface totale de l'établissement",
+      "type": "number",
+      "default": 800,
+      "min": 100,
+      "max": 10000,
+      "step": 50,
+      "unit": "m²"
+    },
+    {
+      "id": "heures_cours",
+      "label": "Heures de cours collectifs par semaine",
+      "type": "number",
+      "default": 12,
+      "min": 0,
+      "max": 200,
+      "step": 1,
+      "unit": "heures/semaine",
+      "help": "Cours en présentiel + heures d'accès aux salles interactives. 0 si uniquement autonomie."
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "formula",
+    "expr": "max(200, surface * (heures_cours > 0 ? 0.65 : 0.85)) * 1.1605 + ceil(heures_cours / 12) * 557.00",
+    "modifiers": [
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 110.60
+    }
+  },
+  "footnote": "SACEM au tarif général par défaut. Abattement 35 % sur la surface si sonorisation + cours, 15 % sinon (plancher 200 m²). Au-delà de 12 h de cours hebdo, une tranche de 557 € s'ajoute par paquet de 12 h. Salle de débit réservée clientèle non incluse dans ce calcul."
+}

@@ -1,0 +1,108 @@
+{
+  "slug": "spectacle-pluralite-genre",
+  "activity": "spectacle à pluralité de genre (cirque, ballet, son et lumière)",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 76). Forfait par séance ou taux 5,50 % sur recettes.",
+  "questions": [
+    {
+      "id": "budget",
+      "label": "Budget des dépenses engagées",
+      "type": "select",
+      "default": 3000,
+      "options": [
+        { "value": 1000, "label": "≤ 1 000 €" },
+        { "value": 1500, "label": "≤ 1 500 €" },
+        { "value": 2000, "label": "≤ 2 000 €" },
+        { "value": 3000, "label": "≤ 3 000 €" },
+        { "value": 4000, "label": "≤ 4 000 €" },
+        { "value": 5000, "label": "≤ 5 000 €" },
+        { "value": 10000, "label": "Plus de 5 000 €" }
+      ]
+    },
+    {
+      "id": "prix_acces",
+      "label": "Prix d'accès",
+      "type": "select",
+      "default": 14,
+      "options": [
+        { "value": 5, "label": "≤ 5 € (ou gratuit)" },
+        { "value": 8, "label": "≤ 8 €" },
+        { "value": 14, "label": "≤ 14 €" },
+        { "value": 20, "label": "≤ 20 €" },
+        { "value": 30, "label": "Plus de 20 €" }
+      ]
+    },
+    {
+      "id": "recettes",
+      "label": "Recettes prévisionnelles (si budget > 5 000 € ou prix > 20 €)",
+      "type": "number",
+      "default": 0,
+      "min": 0,
+      "max": 2000000,
+      "step": 1000,
+      "unit": "€ HT",
+      "when": { "budget": 10000 }
+    },
+    {
+      "id": "musique_enregistree",
+      "label": "Musique enregistrée (DJ, bande-son)",
+      "type": "boolean",
+      "default": false,
+      "help": "Majoration +25 %. Musique 100 % vivante : pas de SPRE."
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "lookup",
+    "rows": [
+      { "match": { "budget": 1000, "prix_acces": 5 }, "value": 62.20 },
+      { "match": { "budget": 1000, "prix_acces": 8 }, "value": 78.78 },
+      { "match": { "budget": 1000, "prix_acces": 14 }, "value": 110.28 },
+      { "match": { "budget": 1000 }, "value": 154.38 },
+
+      { "match": { "budget": 1500, "prix_acces": 5 }, "value": 78.78 },
+      { "match": { "budget": 1500, "prix_acces": 8 }, "value": 94.53 },
+      { "match": { "budget": 1500, "prix_acces": 14 }, "value": 132.33 },
+      { "match": { "budget": 1500 }, "value": 185.26 },
+
+      { "match": { "budget": 2000, "prix_acces": 5 }, "value": 106.34 },
+      { "match": { "budget": 2000, "prix_acces": 8 }, "value": 122.88 },
+      { "match": { "budget": 2000, "prix_acces": 14 }, "value": 158.80 },
+      { "match": { "budget": 2000 }, "value": 222.31 },
+
+      { "match": { "budget": 3000, "prix_acces": 5 }, "value": 148.88 },
+      { "match": { "budget": 3000, "prix_acces": 8 }, "value": 178.18 },
+      { "match": { "budget": 3000, "prix_acces": 14 }, "value": 206.43 },
+      { "match": { "budget": 3000 }, "value": 266.78 },
+
+      { "match": { "budget": 4000, "prix_acces": 5 }, "value": 198.00 },
+      { "match": { "budget": 4000, "prix_acces": 8 }, "value": 231.63 },
+      { "match": { "budget": 4000, "prix_acces": 14 }, "value": 268.35 },
+      { "match": { "budget": 4000 }, "value": 320.13 },
+
+      { "match": { "budget": 5000, "prix_acces": 5 }, "value": 247.50 },
+      { "match": { "budget": 5000, "prix_acces": 8 }, "value": 301.11 },
+      { "match": { "budget": 5000, "prix_acces": 14 }, "value": 348.86 },
+      { "match": { "budget": 5000 }, "value": 384.15 },
+
+      { "match": { "budget": 10000 }, "formula": "max(384.15, recettes * 0.055)" }
+    ],
+    "modifiers": [
+      { "kind": "multiply", "value": 1.25, "when": { "musique_enregistree": true } },
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 102.27
+    },
+    "skipWhen": { "musique_enregistree": false }
+  },
+  "footnote": "SACEM au tarif général par défaut, musique vivante. Musique vivante exclusive : pas de SPRE. Feux d'artifice pyromélodiques : budget = prix d'achat spectacle. Corsos/cavalcades : forfait minimum × chars/formations. Modulation domaine public : possible avec remise du programme."
+}

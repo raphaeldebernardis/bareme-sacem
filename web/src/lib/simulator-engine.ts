@@ -53,21 +53,33 @@ export function evalCondition(
 // min() max(), and identifiers that resolve to answer values.
 // ---------------------------------------------------------------------------
 
-function evalFormula(expr: string, answers: Record<string, unknown>): number {
-  // Replace min(a,b) / max(a,b) with Math equivalents, then use Function in a
-  // restricted scope. We only trust JSON we ship ourselves.
-  const sanitized = expr
-    .replace(/\bmin\s*\(/g, "Math.min(")
-    .replace(/\bmax\s*\(/g, "Math.max(");
+const MATH_FNS = ["min", "max", "ceil", "floor", "round", "abs", "sqrt", "pow"];
 
+function evalFormula(expr: string, answers: Record<string, unknown>): number {
+  // Replace known math helpers with Math.* equivalents, then use Function in a
+  // restricted scope. We only trust JSON we ship ourselves.
+  let sanitized = expr;
+  for (const fn of MATH_FNS) {
+    sanitized = sanitized.replace(new RegExp(`\\b${fn}\\s*\\(`, "g"), `Math.${fn}(`);
+  }
+
+  const reserved = new Set(["Math", ...MATH_FNS]);
   const ids = Array.from(new Set(sanitized.match(/[a-zA-Z_][a-zA-Z0-9_]*/g) ?? []))
-    .filter((id) => id !== "Math" && id !== "min" && id !== "max");
+    .filter((id) => !reserved.has(id));
 
   const args = ids;
   const values = ids.map((id) => {
     const v = answers[id];
     if (typeof v === "number") return v;
-    if (typeof v === "string" && !Number.isNaN(Number(v))) return Number(v);
+    // Coerce booleans to 1/0 so formulas can use both arithmetic (`flag * 10`)
+    // and ternary (`flag ? a : b`) against the same answer.
+    if (typeof v === "boolean") return v ? 1 : 0;
+    // Pass strings through untouched so `categorie == 'musical'` works. Numeric
+    // strings still coerce to numbers so `"42" * 2 === 84`.
+    if (typeof v === "string") {
+      const n = Number(v);
+      return Number.isNaN(n) ? v : n;
+    }
     return 0;
   });
 

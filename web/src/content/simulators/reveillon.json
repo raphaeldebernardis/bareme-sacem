@@ -1,0 +1,88 @@
+{
+  "slug": "reveillon",
+  "activity": "réveillon (24 ou 31 décembre)",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 32). Forfait selon prix du menu × convives, bascule au % des recettes au-delà.",
+  "questions": [
+    {
+      "id": "convives",
+      "label": "Nombre de convives",
+      "type": "number",
+      "default": 100,
+      "min": 10,
+      "max": 500,
+      "step": 10,
+      "unit": "convives"
+    },
+    {
+      "id": "menu",
+      "label": "Prix du menu",
+      "type": "select",
+      "default": 100,
+      "options": [
+        { "value": 40, "label": "≤ 40 €" },
+        { "value": 60, "label": "≤ 60 €" },
+        { "value": 100, "label": "≤ 100 €" },
+        { "value": 150, "label": "≤ 150 €" },
+        { "value": 200, "label": "≤ 200 €" },
+        { "value": 250, "label": "Plus de 200 €" }
+      ]
+    },
+    {
+      "id": "musique_enregistree",
+      "label": "Musique enregistrée (DJ, playlist)",
+      "type": "boolean",
+      "default": true,
+      "help": "Si décoché, musique vivante exclusive : pas de SPRE. Musique enregistrée : majoration +25 % sur la SACEM."
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "lookup",
+    "rows": [
+      { "match": { "convives": { "lte": 40 }, "menu": 40 }, "value": 62.20 },
+      { "match": { "convives": { "lte": 100 }, "menu": 40 }, "value": 209.00 },
+      { "match": { "convives": { "lte": 150 }, "menu": 40 }, "value": 319.00 },
+      { "match": { "convives": { "lte": 200 }, "menu": 40 }, "value": 429.00 },
+
+      { "match": { "convives": { "lte": 40 }, "menu": 60 }, "value": 121.00 },
+      { "match": { "convives": { "lte": 100 }, "menu": 60 }, "value": 287.38 },
+      { "match": { "convives": { "lte": 150 }, "menu": 60 }, "value": 438.63 },
+      { "match": { "convives": { "lte": 200 }, "menu": 60 }, "value": 589.88 },
+
+      { "match": { "convives": { "lte": 40 }, "menu": 100 }, "value": 209.00 },
+      { "match": { "convives": { "lte": 100 }, "menu": 100 }, "value": 496.38 },
+      { "match": { "convives": { "lte": 150 }, "menu": 100 }, "value": 757.63 },
+      { "match": { "convives": { "lte": 200 }, "menu": 100 }, "value": 1018.88 },
+
+      { "match": { "convives": { "lte": 40 }, "menu": 150 }, "value": 319.00 },
+      { "match": { "convives": { "lte": 100 }, "menu": 150 }, "value": 757.63 },
+      { "match": { "convives": { "lte": 150 }, "menu": 150 }, "value": 1156.38 },
+      { "match": { "convives": { "lte": 200 }, "menu": 150 }, "value": 1555.13 },
+
+      { "match": { "convives": { "lte": 40 }, "menu": 200 }, "value": 429.00 },
+      { "match": { "convives": { "lte": 100 }, "menu": 200 }, "value": 1018.88 },
+      { "match": { "convives": { "lte": 150 }, "menu": 200 }, "value": 1555.13 },
+      { "match": { "convives": { "lte": 200 }, "menu": 200 }, "value": 2091.38 },
+
+      { "match": {}, "formula": "convives * menu * 0.055" }
+    ],
+    "modifiers": [
+      { "kind": "multiply", "value": 1.25, "when": { "musique_enregistree": true } },
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 102.27
+    },
+    "skipWhen": { "musique_enregistree": false }
+  },
+  "footnote": "SACEM au tarif général par défaut, musique vivante. Majoration +25 % appliquée si musique enregistrée. Au-delà de 200 convives ou 200 € de menu : bascule automatique au 5,50 % des recettes. Invitations > 5 % des payants : majoration non incluse. Concert live : pas de SPRE."
+}

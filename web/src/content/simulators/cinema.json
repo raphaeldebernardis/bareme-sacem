@@ -1,0 +1,54 @@
+{
+  "slug": "cinema",
+  "activity": "cinéma",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 4). Pourcentage sur les recettes billetterie (films + ambiance).",
+  "questions": [
+    {
+      "id": "recettes_billetterie",
+      "label": "Recettes annuelles de billetterie HT",
+      "type": "number",
+      "default": 300000,
+      "min": 10000,
+      "max": 20000000,
+      "step": 10000,
+      "unit": "€ HT"
+    },
+    {
+      "id": "recettes_pub",
+      "label": "Recettes annuelles publicitaires HT (films publicitaires)",
+      "type": "number",
+      "default": 0,
+      "min": 0,
+      "max": 2000000,
+      "step": 1000,
+      "unit": "€ HT"
+    },
+    {
+      "id": "sonorisation_hall",
+      "label": "Sonorisation des halls, foyer, espaces communs (en plus des projections)",
+      "type": "boolean",
+      "default": true
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "formula",
+    "expr": "recettes_billetterie * 0.025 + recettes_pub * 0.025 + recettes_billetterie * 0.00016 + sonorisation_hall * recettes_billetterie * 0.001875",
+    "modifiers": [
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.05",
+      "min": 109.42
+    }
+  },
+  "footnote": "SACEM au tarif général par défaut. 2,5 % films + 2,5 % films publicitaires + 0,016 % ambiance + 0,1875 % sonorisation locaux (1re tranche). Cinéconcert / cinéma muet : 0,91 % à 1,83 % non simulés. La SPRE ne porte que sur la part enregistrée hors films ; l'estimation retenue ici est simplifiée."
+}

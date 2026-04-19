@@ -1,0 +1,71 @@
+{
+  "slug": "enseignement-superieur",
+  "activity": "université ou enseignement supérieur",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 18). Forfaits cumulables : salle de consommation + parties communes.",
+  "questions": [
+    {
+      "id": "salle_places",
+      "label": "Places en salle de consommation/restauration",
+      "type": "number",
+      "default": 100,
+      "min": 0,
+      "max": 2000,
+      "step": 10,
+      "unit": "places",
+      "help": "0 si pas de salle sonorisée."
+    },
+    {
+      "id": "appareil",
+      "label": "Appareil principal en salle",
+      "type": "select",
+      "default": "radio",
+      "options": [
+        { "value": "tv", "label": "Télévision" },
+        { "value": "radio", "label": "Radio / lecteur" },
+        { "value": "jukebox", "label": "Juke-box" }
+      ]
+    },
+    {
+      "id": "lieux_sonorises",
+      "label": "Lieux sonorisés en parties communes",
+      "type": "number",
+      "default": 10,
+      "min": 0,
+      "max": 200,
+      "step": 1,
+      "unit": "lieux",
+      "help": "Halls, foyers, bibliothèques, salles d'étude, couloirs, etc."
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "composite",
+    "op": "sum",
+    "parts": [
+      {
+        "kind": "formula",
+        "expr": "salle_places <= 0 ? 0 : (appareil == 'tv' ? 156.72 : appareil == 'jukebox' ? (salle_places <= 100 ? 314.11 : salle_places <= 300 ? 470.80 : 470.80 + ceil((salle_places - 300) / 100) * 63.94) : (salle_places <= 100 ? 235.20 : salle_places <= 300 ? 352.97 : 352.97 + ceil((salle_places - 300) / 100) * 47.48))"
+      },
+      {
+        "kind": "formula",
+        "expr": "ceil(lieux_sonorises / 10) * 153.09"
+      }
+    ],
+    "modifiers": [
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 119.88
+    }
+  },
+  "footnote": "SACEM au tarif général par défaut. Combinaison d'appareils : tarif principal + 2/3 ou 3/4 du secondaire (non simulé ici, sélectionner l'appareil dominant). Pas d'abattement pour durée d'ouverture : le forfait intègre déjà les congés scolaires. Enseignement primaire / secondaire : autres barèmes."
+}

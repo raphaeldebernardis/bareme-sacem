@@ -1,0 +1,66 @@
+{
+  "slug": "agence-bureau-ouvert-public",
+  "activity": "agence commerciale ou bureau ouvert au public",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 6). Forfait annuel selon le nombre d'employés en contact direct avec le public.",
+  "questions": [
+    {
+      "id": "employes",
+      "label": "Nombre d'employés en contact direct avec le public",
+      "type": "number",
+      "default": 6,
+      "min": 1,
+      "max": 500,
+      "step": 1,
+      "unit": "employés",
+      "help": "Guichetiers, hôtesses d'accueil, conseillers. Pas les administratifs non accueillants."
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "lookup",
+    "rows": [
+      { "match": { "employes": { "lte": 2 } }, "value": 138.00 },
+      { "match": { "employes": { "lte": 4 } }, "value": 261.63 },
+      { "match": { "employes": { "lte": 6 } }, "value": 392.79 },
+      { "match": { "employes": { "lte": 8 } }, "value": 521.99 },
+      { "match": { "employes": { "lte": 10 } }, "value": 651.82 },
+      { "match": { "employes": { "lte": 12 } }, "value": 749.81 },
+      { "match": { "employes": { "lte": 14 } }, "value": 866.63 },
+      { "match": { "employes": { "lte": 16 } }, "value": 983.48 },
+      { "match": { "employes": { "lte": 18 } }, "value": 1100.62 },
+      { "match": { "employes": { "lte": 20 } }, "value": 1218.09 },
+      { "match": { "employes": { "lte": 22 } }, "value": 1297.19 },
+      { "match": { "employes": { "lte": 24 } }, "value": 1402.00 },
+      { "match": { "employes": { "lte": 26 } }, "value": 1508.99 },
+      { "match": { "employes": { "lte": 28 } }, "value": 1613.48 },
+      { "match": { "employes": { "lte": 30 } }, "value": 1716.96 },
+      { "match": { "employes": { "lte": 32 } }, "value": 1806.78 },
+      { "match": { "employes": { "lte": 34 } }, "value": 1894.34 },
+      { "match": { "employes": { "lte": 36 } }, "value": 1984.79 },
+      { "match": { "employes": { "lte": 38 } }, "value": 2073.63 },
+      { "match": { "employes": { "lte": 40 } }, "value": 2150.13 },
+      { "match": { "employes": { "lte": 42 } }, "value": 2226.60 },
+      { "match": { "employes": { "lte": 44 } }, "value": 2302.06 },
+      { "match": { "employes": { "lte": 46 } }, "value": 2378.60 },
+      { "match": { "employes": { "lte": 48 } }, "value": 2454.72 },
+      { "match": { "employes": { "lte": 50 } }, "value": 2530.83 },
+      { "match": {}, "formula": "2530.83 + max(0, (employes - 50) / 2) * 65.07" }
+    ],
+    "modifiers": [
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 110.60
+    }
+  },
+  "footnote": "SACEM au tarif général par défaut. Au-delà de 50 employés : approximation par tranches de 2 (le barème réel grossit par 2 puis 3 puis 4 employés au-delà de 150)."
+}

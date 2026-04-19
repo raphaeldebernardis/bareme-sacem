@@ -1,0 +1,70 @@
+{
+  "slug": "transport-routier-voyageur",
+  "activity": "transport routier de voyageurs",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 10). Forfait annuel par véhicule sonorisé selon taille du parc et places.",
+  "questions": [
+    {
+      "id": "cars_petits",
+      "label": "Véhicules jusqu'à 34 places",
+      "type": "number",
+      "default": 5,
+      "min": 0,
+      "max": 200,
+      "step": 1,
+      "unit": "véhicules"
+    },
+    {
+      "id": "cars_grands",
+      "label": "Véhicules de 35 places et plus",
+      "type": "number",
+      "default": 0,
+      "min": 0,
+      "max": 200,
+      "step": 1,
+      "unit": "véhicules"
+    },
+    {
+      "id": "type_diffusion",
+      "label": "Type de diffusion à bord",
+      "type": "radio",
+      "default": "simple",
+      "options": [
+        { "value": "simple", "label": "Musique ou audiovisuel simple" },
+        { "value": "combine", "label": "Musique + programmes audiovisuels combinés (+50 %)" },
+        { "value": "karaoke", "label": "Karaoké à bord (+100 %)" }
+      ]
+    },
+    {
+      "id": "affectation",
+      "label": "Affectation exclusive",
+      "type": "radio",
+      "default": "standard",
+      "options": [
+        { "value": "standard", "label": "Aucune (tourisme, urbain, mixte)" },
+        { "value": "scolaire", "label": "Transport scolaire exclusif (-50 %)" },
+        { "value": "entreprise", "label": "Transport d'entreprises exclusif (-20 %)" }
+      ]
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "formula",
+    "expr": "((cars_petits + cars_grands) <= 10 ? cars_petits * 145.45 + cars_grands * 167.31 : (cars_petits + cars_grands) <= 20 ? cars_petits * 124.69 + cars_grands * 142.94 : cars_petits * 116.00 + cars_grands * 134.10) * (type_diffusion == 'combine' ? 1.5 : type_diffusion == 'karaoke' ? 2 : 1) * (affectation == 'scolaire' ? 0.5 : affectation == 'entreprise' ? 0.8 : 1)",
+    "modifiers": [
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 134.66
+    }
+  },
+  "footnote": "SACEM au tarif général par défaut. Tarif dégressif par tranche de parc : ≤10, 11-20, ≥21 véhicules. Karaoké couvre toutes les autres sources sans cumul."
+}

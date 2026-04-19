@@ -1,0 +1,64 @@
+{
+  "slug": "animation-chr",
+  "activity": "animations CHR (café-hôtel-restaurant)",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 67) pour les animations musicales dans un établissement CHR, en complément de la redevance d'activité principale.",
+  "questions": [
+    {
+      "id": "animations",
+      "label": "Nombre d'animations musicales par an",
+      "type": "number",
+      "default": 12,
+      "min": 1,
+      "max": 104,
+      "step": 1,
+      "unit": "animations"
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    },
+    {
+      "id": "musique_vivante",
+      "label": "Animations exclusivement en musique vivante (concerts, artistes live)",
+      "type": "boolean",
+      "default": false,
+      "help": "Si coché, pas de SPRE (musique 100 % vivante)."
+    }
+  ],
+  "compute": {
+    "kind": "lookup",
+    "rows": [
+      { "match": { "animations": { "lte": 6 } }, "value": 546.77 },
+      { "match": { "animations": { "lte": 12 } }, "value": 984.19 },
+      { "match": { "animations": { "lte": 18 } }, "value": 1405.98 },
+      { "match": { "animations": { "lte": 24 } }, "value": 1718.42 },
+      { "match": { "animations": { "lte": 30 } }, "value": 2265.19 },
+      { "match": { "animations": { "lte": 36 } }, "value": 2702.60 },
+      { "match": { "animations": { "lte": 42 } }, "value": 3124.40 },
+      { "match": { "animations": { "lte": 48 } }, "value": 3436.83 },
+      { "match": { "animations": { "lte": 54 } }, "value": 3866.43 },
+      { "match": { "animations": { "lte": 60 } }, "value": 4296.03 },
+      { "match": { "animations": { "lte": 66 } }, "value": 4725.63 },
+      { "match": { "animations": { "lte": 72 } }, "value": 5155.24 },
+      { "match": { "animations": { "lte": 78 } }, "value": 5584.84 },
+      { "match": { "animations": { "lte": 84 } }, "value": 6014.44 },
+      { "match": { "animations": { "lte": 90 } }, "value": 6444.05 },
+      { "match": { "animations": { "lte": 96 } }, "value": 6873.65 },
+      { "match": {}, "value": 7303.25 }
+    ],
+    "modifiers": [
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 102.27
+    },
+    "skipWhen": { "musique_vivante": true }
+  },
+  "footnote": "SACEM au tarif général par défaut. Au-delà de 104 animations, l'établissement bascule sur le barème 'établissements commerciaux où il est d'usage de consommer en musique'. Pour les animations en musique vivante exclusive, pas de SPRE."
+}

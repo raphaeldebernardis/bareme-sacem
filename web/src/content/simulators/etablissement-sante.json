@@ -1,0 +1,89 @@
+{
+  "slug": "etablissement-sante",
+  "activity": "établissement de santé (hôpital, clinique)",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 17). Forfaits cumulables : salles, parties communes, chambres.",
+  "questions": [
+    {
+      "id": "lits",
+      "label": "Nombre de lits",
+      "type": "number",
+      "default": 150,
+      "min": 1,
+      "max": 2000,
+      "step": 10,
+      "unit": "lits"
+    },
+    {
+      "id": "places_restauration",
+      "label": "Places en salle de consommation/restauration sonorisée",
+      "type": "number",
+      "default": 100,
+      "min": 0,
+      "max": 1000,
+      "step": 10,
+      "unit": "places"
+    },
+    {
+      "id": "appareil",
+      "label": "Appareil principal en salle",
+      "type": "select",
+      "default": "radio",
+      "options": [
+        { "value": "tv", "label": "Télévision" },
+        { "value": "radio", "label": "Radio / lecteur" },
+        { "value": "jukebox_ecran", "label": "Juke-box avec écran" }
+      ]
+    },
+    {
+      "id": "parties_communes",
+      "label": "Sonorisation des parties communes (halls + couloirs : 2 ensembles)",
+      "type": "boolean",
+      "default": true
+    },
+    {
+      "id": "chambres_sonorisees",
+      "label": "Chambres avec diffusion audiovisuelle",
+      "type": "number",
+      "default": 0,
+      "min": 0,
+      "max": 2000,
+      "step": 1,
+      "unit": "chambres"
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "composite",
+    "op": "sum",
+    "parts": [
+      {
+        "kind": "formula",
+        "expr": "places_restauration <= 0 ? 0 : (appareil == 'tv' ? 442.43 : appareil == 'jukebox_ecran' ? (places_restauration <= 30 ? 1036.00 : places_restauration <= 60 ? 1139.63 : places_restauration <= 100 ? 1253.48 : 1378.14) : (places_restauration <= 30 ? 664.33 : places_restauration <= 60 ? 730.73 : places_restauration <= 100 ? 804.26 : 883.88))"
+      },
+      {
+        "kind": "formula",
+        "expr": "parties_communes * (lits < 150 ? 575.86 : lits <= 500 ? 1151.84 : 2303.68)"
+      },
+      {
+        "kind": "formula",
+        "expr": "chambres_sonorisees <= 0 ? 0 : (min(chambres_sonorisees, 50) * 14.96 + max(0, min(chambres_sonorisees, 75) - 50) * 14.51 + max(0, min(chambres_sonorisees, 125) - 75) * 13.62 + max(0, min(chambres_sonorisees, 200) - 125) * 13.18 + max(0, min(chambres_sonorisees, 300) - 200) * 12.23 + max(0, min(chambres_sonorisees, 400) - 300) * 11.77 + max(0, chambres_sonorisees - 400) * 11.35)"
+      }
+    ],
+    "modifiers": [
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 102.27
+    }
+  },
+  "footnote": "SACEM au tarif général par défaut. Parties communes : 2 ensembles (halls/salons + couloirs/paliers) cumulables ; ce simulateur suppose les deux sonorisés. Diffusions VOD payantes dans les chambres : calcul au % non simulé. EHPAD / établissements médico-sociaux : autorisation n° 21."
+}

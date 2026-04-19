@@ -1,0 +1,48 @@
+{
+  "slug": "local-associatif",
+  "activity": "local associatif, foyer du troisième âge, amicale",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 35). Forfait par appareil avec abattement en cas de pluralité.",
+  "questions": [
+    {
+      "id": "membres",
+      "label": "Nombre de membres de l'association",
+      "type": "number",
+      "default": 100,
+      "min": 1,
+      "max": 5000,
+      "step": 10,
+      "unit": "membres"
+    },
+    {
+      "id": "appareils",
+      "label": "Nombre d'appareils de diffusion (TV, radio, lecteur, juke-box)",
+      "type": "number",
+      "default": 1,
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "unit": "appareils"
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "formula",
+    "expr": "appareils * (membres <= 200 ? 83.96 : 126.62) * (appareils > 1 ? 0.80 : 1)",
+    "modifiers": [
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 110.60
+    }
+  },
+  "footnote": "SACEM au tarif général par défaut. Bar du local : prix ≥ marché local → barème café-restaurant à la place. EHPAD / structures médicalisées : autres barèmes."
+}

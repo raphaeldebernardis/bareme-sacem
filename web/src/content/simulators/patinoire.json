@@ -1,0 +1,39 @@
+{
+  "slug": "patinoire",
+  "activity": "patinoire",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 29). Pourcentage des recettes de billetterie (hors TVA).",
+  "questions": [
+    {
+      "id": "recettes",
+      "label": "Recettes annuelles de billetterie HT",
+      "type": "number",
+      "default": 100000,
+      "min": 1000,
+      "max": 5000000,
+      "step": 1000,
+      "unit": "€ HT"
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "percentage",
+    "of": "recettes",
+    "rate": 0.0188,
+    "modifiers": [
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 110.60
+    }
+  },
+  "footnote": "SACEM au tarif général par défaut. Invitations > 5 % des payants : excédent réintégré dans l'assiette au prix moyen d'entrée (non pris en compte ici). Salle de débit : barème café-restaurant en complément. Patinoire éphémère gratuite : application du barème karting."
+}

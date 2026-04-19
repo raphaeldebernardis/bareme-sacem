@@ -1,0 +1,49 @@
+{
+  "slug": "retransmission-sportive",
+  "activity": "retransmission d'événement sportif",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 3). Forfait par événement selon capacité et durée.",
+  "questions": [
+    {
+      "id": "places",
+      "label": "Nombre de places assises (ou m² × 1 pour les standing)",
+      "type": "number",
+      "default": 80,
+      "min": 10,
+      "max": 1000,
+      "step": 10,
+      "unit": "places"
+    },
+    {
+      "id": "duree_jours",
+      "label": "Durée totale de l'événement retransmis",
+      "type": "number",
+      "default": 30,
+      "min": 1,
+      "max": 120,
+      "step": 1,
+      "unit": "jours",
+      "help": "Période couverte (Coupe du Monde ~30 j, Jeux Olympiques ~15 j, Tour de France ~23 j)."
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "formula",
+    "expr": "(places <= 100 ? 111.39 : 222.78) + max(0, ceil((duree_jours - 30) / 15)) * (places <= 100 ? 55.70 : 111.39)",
+    "modifiers": [
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 102.27
+    }
+  },
+  "footnote": "SACEM au tarif général par défaut. Forfait 30 jours non fractionnable, majoration par tranche de 15 jours supplémentaires. Standing : compter 1 place par m² sonorisé. Association bénévole : -50 % possible sur SPRE."
+}

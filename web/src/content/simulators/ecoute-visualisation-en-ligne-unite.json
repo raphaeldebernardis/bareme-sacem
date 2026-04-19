@@ -1,0 +1,28 @@
+{
+  "slug": "ecoute-visualisation-en-ligne-unite",
+  "activity": "service d'écoute/visualisation à la demande en ligne (à l'unité)",
+  "intro": "Tarifs réels du barème SACEM (autorisation n° 55). Forfait annuel selon plafond d'écoutes (CA ≤ 20 000 €).",
+  "questions": [
+    {
+      "id": "ecoutes",
+      "label": "Écoutes ou visualisations par an",
+      "type": "number",
+      "default": 40000,
+      "min": 1000,
+      "max": 700000,
+      "step": 1000,
+      "unit": "écoutes"
+    }
+  ],
+  "compute": {
+    "kind": "lookup",
+    "rows": [
+      { "match": { "ecoutes": { "lte": 16000 } }, "value": 50 },
+      { "match": { "ecoutes": { "lte": 45000 } }, "value": 140 },
+      { "match": { "ecoutes": { "lte": 160000 } }, "value": 480 },
+      { "match": { "ecoutes": { "lte": 350000 } }, "value": 1000 },
+      { "match": {}, "value": 2000 }
+    ]
+  },
+  "footnote": "Tarif général. Éligibilité au forfait : CA ≤ 20 000 € et ≤ 700 000 écoutes/an. Au-delà, barème sur mesure. Droits voisins à négocier séparément. SPRE non applicable à ce barème. Usage IA interdit (TDM RESERVATION-1)."
+}

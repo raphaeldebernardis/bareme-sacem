@@ -1,0 +1,96 @@
+{
+  "slug": "parc-stationnement",
+  "activity": "parc de stationnement",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 28). Grille par nombre d'emplacements × prix de la 1re heure.",
+  "questions": [
+    {
+      "id": "emplacements",
+      "label": "Nombre d'emplacements",
+      "type": "number",
+      "default": 300,
+      "min": 50,
+      "max": 3000,
+      "step": 50,
+      "unit": "emplacements"
+    },
+    {
+      "id": "prix_heure",
+      "label": "Prix de la 1re heure",
+      "type": "select",
+      "default": 0.61,
+      "options": [
+        { "value": 0.30, "label": "Gratuit ou ≤ 0,30 €" },
+        { "value": 0.38, "label": "0,31 € à 0,38 €" },
+        { "value": 0.46, "label": "0,39 € à 0,46 €" },
+        { "value": 0.53, "label": "0,47 € à 0,53 €" },
+        { "value": 0.61, "label": "0,54 € à 0,61 €" },
+        { "value": 0.69, "label": "0,62 € à 0,69 €" },
+        { "value": 0.76, "label": "0,70 € à 0,76 €" },
+        { "value": 0.84, "label": "0,77 € à 0,84 €" },
+        { "value": 0.91, "label": "0,85 € à 0,91 €" },
+        { "value": 0.99, "label": "0,92 € à 0,99 €" },
+        { "value": 1.07, "label": "1,00 € à 1,07 €" }
+      ]
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": true,
+      "help": "Le tarif réduit est le plus courant pour les parkings."
+    }
+  ],
+  "compute": {
+    "kind": "lookup",
+    "rows": [
+      { "match": { "emplacements": { "lte": 200 }, "prix_heure": 0.30 }, "value": 44.06 },
+      { "match": { "emplacements": { "lte": 200 }, "prix_heure": 0.38 }, "value": 60.06 },
+      { "match": { "emplacements": { "lte": 200 }, "prix_heure": 0.46 }, "value": 73.33 },
+      { "match": { "emplacements": { "lte": 200 }, "prix_heure": 0.53 }, "value": 86.74 },
+      { "match": { "emplacements": { "lte": 200 }, "prix_heure": 0.61 }, "value": 100.01 },
+      { "match": { "emplacements": { "lte": 200 }, "prix_heure": 0.69 }, "value": 113.42 },
+      { "match": { "emplacements": { "lte": 200 }, "prix_heure": 0.76 }, "value": 126.69 },
+      { "match": { "emplacements": { "lte": 200 }, "prix_heure": 0.84 }, "value": 140.10 },
+      { "match": { "emplacements": { "lte": 200 }, "prix_heure": 0.91 }, "value": 153.21 },
+      { "match": { "emplacements": { "lte": 200 }, "prix_heure": 0.99 }, "value": 166.63 },
+      { "match": { "emplacements": { "lte": 200 }, "prix_heure": 1.07 }, "value": 179.89 },
+
+      { "match": { "emplacements": { "lte": 300 }, "prix_heure": 0.30 }, "value": 66.62 },
+      { "match": { "emplacements": { "lte": 300 }, "prix_heure": 0.38 }, "value": 90.55 },
+      { "match": { "emplacements": { "lte": 300 }, "prix_heure": 0.46 }, "value": 110.68 },
+      { "match": { "emplacements": { "lte": 300 }, "prix_heure": 0.53 }, "value": 130.80 },
+      { "match": { "emplacements": { "lte": 300 }, "prix_heure": 0.61 }, "value": 150.92 },
+      { "match": { "emplacements": { "lte": 300 }, "prix_heure": 0.69 }, "value": 171.05 },
+      { "match": { "emplacements": { "lte": 300 }, "prix_heure": 0.76 }, "value": 191.17 },
+      { "match": { "emplacements": { "lte": 300 }, "prix_heure": 0.84 }, "value": 211.29 },
+      { "match": { "emplacements": { "lte": 300 }, "prix_heure": 0.91 }, "value": 231.42 },
+      { "match": { "emplacements": { "lte": 300 }, "prix_heure": 0.99 }, "value": 251.54 },
+      { "match": { "emplacements": { "lte": 300 }, "prix_heure": 1.07 }, "value": 271.66 },
+
+      { "match": { "emplacements": { "lte": 600 }, "prix_heure": 0.30 }, "value": 120.13 },
+      { "match": { "emplacements": { "lte": 600 }, "prix_heure": 0.61 }, "value": 272.27 },
+      { "match": { "emplacements": { "lte": 600 }, "prix_heure": 1.07 }, "value": 490.12 },
+
+      { "match": { "emplacements": { "lte": 1000 }, "prix_heure": 0.30 }, "value": 155.50 },
+      { "match": { "emplacements": { "lte": 1000 }, "prix_heure": 0.61 }, "value": 351.55 },
+      { "match": { "emplacements": { "lte": 1000 }, "prix_heure": 1.07 }, "value": 632.66 },
+
+      { "match": { "emplacements": { "lte": 1400 }, "prix_heure": 0.30 }, "value": 185.53 },
+      { "match": { "emplacements": { "lte": 1400 }, "prix_heure": 0.61 }, "value": 419.39 },
+      { "match": { "emplacements": { "lte": 1400 }, "prix_heure": 1.07 }, "value": 754.93 },
+
+      { "match": {}, "formula": "754.93 + max(0, (emplacements - 1400) / 200) * 10" }
+    ],
+    "modifiers": [
+      { "kind": "multiply", "value": 1.25, "when": { "tarif_reduit": false } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 110.60
+    }
+  },
+  "footnote": "SACEM au tarif réduit par défaut (pratique courante pour les parkings). Le tarif général est 25 % plus élevé. Au-delà de 1 400 emplacements : approximation ; pour les grands parcs, se référer au barème officiel."
+}

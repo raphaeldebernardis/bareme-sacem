@@ -1,0 +1,84 @@
+{
+  "slug": "manifestation-musique-fond-sonore",
+  "activity": "manifestation avec musique en fond sonore",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 14). Forfait par jour (entrée gratuite/payante) ou par semaine (sonorisation rue/stand).",
+  "questions": [
+    {
+      "id": "mode",
+      "label": "Type de manifestation",
+      "type": "radio",
+      "default": "gratuite",
+      "options": [
+        { "value": "gratuite", "label": "Événement, entrée gratuite (par jour)" },
+        { "value": "payante", "label": "Événement, entrée payante (par jour)" },
+        { "value": "stand", "label": "Sonorisation de rue ou de stand (par semaine)" }
+      ]
+    },
+    {
+      "id": "jours",
+      "label": "Nombre de jours de manifestation",
+      "type": "number",
+      "default": 3,
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "unit": "jours",
+      "when": { "mode": { "in": ["gratuite", "payante"] } }
+    },
+    {
+      "id": "semaines",
+      "label": "Nombre de semaines de sonorisation",
+      "type": "number",
+      "default": 1,
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "unit": "semaines",
+      "when": { "mode": "stand" }
+    },
+    {
+      "id": "capacite",
+      "label": "Capacité ou fréquentation",
+      "type": "select",
+      "default": 3000,
+      "when": { "mode": "payante" },
+      "options": [
+        { "value": 3000, "label": "Jusqu'à 3 000" },
+        { "value": 10000, "label": "Jusqu'à 10 000" },
+        { "value": 50000, "label": "Jusqu'à 50 000" },
+        { "value": 100000, "label": "Jusqu'à 100 000" },
+        { "value": 200000, "label": "Plus de 100 000" }
+      ]
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "lookup",
+    "rows": [
+      { "match": { "mode": "gratuite" }, "formula": "jours * 78.12" },
+      { "match": { "mode": "stand" }, "formula": "semaines * 78.12" },
+
+      { "match": { "mode": "payante", "capacite": 3000 }, "formula": "jours * 106.52" },
+      { "match": { "mode": "payante", "capacite": 10000 }, "formula": "jours * 160.49" },
+      { "match": { "mode": "payante", "capacite": 50000 }, "formula": "jours * 255.65" },
+      { "match": { "mode": "payante", "capacite": 100000 }, "formula": "jours * 426.08" },
+      { "match": { "mode": "payante" }, "formula": "jours * (426.08 + max(0, (capacite - 100000) / 25000) * 142.03)" }
+    ],
+    "modifiers": [
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 102.27
+    }
+  },
+  "footnote": "SACEM au tarif général par défaut. Prix d'entrée > 20 € : majoration proportionnelle (non appliquée ici). Réduction d'éducation populaire ou partenariat SACEM : non cumulables. Droits provisionnels si non déclaration : 2× forfait ou max grille."
+}

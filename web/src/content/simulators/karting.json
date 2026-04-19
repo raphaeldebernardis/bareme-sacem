@@ -1,0 +1,40 @@
+{
+  "slug": "karting",
+  "activity": "karting",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 22). Forfait annuel à la surface sonorisée avec minimum par établissement.",
+  "questions": [
+    {
+      "id": "surface",
+      "label": "Surface sonorisée totale",
+      "type": "number",
+      "default": 2000,
+      "min": 100,
+      "max": 20000,
+      "step": 100,
+      "unit": "m²"
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "formula",
+    "expr": "surface * 0.61",
+    "modifiers": [
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } },
+      { "kind": "min", "value": 142.24, "when": { "tarif_reduit": false } },
+      { "kind": "min", "value": 113.79, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 110.60
+    }
+  },
+  "footnote": "SACEM au tarif général par défaut. Minimum annuel par établissement : 142,24 € (113,79 € réduit). Salle de débit : barème café-restaurant en complément."
+}

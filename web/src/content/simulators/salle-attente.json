@@ -1,0 +1,70 @@
+{
+  "slug": "salle-attente",
+  "activity": "cabinet médical ou paramédical",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 33) pour une salle d'attente. Forfait selon le nombre de praticiens, quel que soit le nombre de salles.",
+  "questions": [
+    {
+      "id": "praticiens",
+      "label": "Nombre de praticiens dans le cabinet",
+      "type": "number",
+      "default": 2,
+      "min": 1,
+      "max": 30,
+      "step": 1,
+      "unit": "praticiens"
+    },
+    {
+      "id": "audiovisuel",
+      "label": "Diffusion via téléviseur ou vidéo (pas seulement radio)",
+      "type": "boolean",
+      "default": false,
+      "help": "Si coché, un minimum plus élevé s'applique par salle d'attente."
+    },
+    {
+      "id": "salles_av",
+      "label": "Nombre de salles d'attente avec diffusion audiovisuelle",
+      "type": "number",
+      "default": 1,
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "unit": "salles",
+      "when": { "audiovisuel": true }
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "composite",
+    "op": "max",
+    "parts": [
+      {
+        "kind": "lookup",
+        "rows": [
+          { "match": { "praticiens": { "lte": 2 } }, "value": 138.00 },
+          { "match": { "praticiens": { "lte": 5 } }, "value": 261.63 },
+          { "match": {}, "value": 392.79 }
+        ]
+      },
+      {
+        "kind": "formula",
+        "expr": "audiovisuel * salles_av * 237.42"
+      }
+    ],
+    "modifiers": [
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 110.60
+    }
+  },
+  "footnote": "SACEM au tarif général par défaut. Si diffusion par téléviseur, plancher de 237,42 € HT par salle (189,94 € en tarif réduit)."
+}

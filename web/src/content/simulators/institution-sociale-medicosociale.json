@@ -1,0 +1,94 @@
+{
+  "slug": "institution-sociale-medicosociale",
+  "activity": "institution sociale ou médico-sociale (EHPAD, foyer)",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 21). Forfaits cumulables : salles, parties communes, chambres.",
+  "questions": [
+    {
+      "id": "lits",
+      "label": "Nombre de lits",
+      "type": "number",
+      "default": 80,
+      "min": 1,
+      "max": 1000,
+      "step": 5,
+      "unit": "lits"
+    },
+    {
+      "id": "places_restauration",
+      "label": "Places en salle de restauration sonorisée",
+      "type": "number",
+      "default": 50,
+      "min": 0,
+      "max": 500,
+      "step": 5,
+      "unit": "places"
+    },
+    {
+      "id": "appareil",
+      "label": "Appareil principal en salle",
+      "type": "select",
+      "default": "radio",
+      "options": [
+        { "value": "tv", "label": "Télévision" },
+        { "value": "radio", "label": "CD-DVD-Radio" },
+        { "value": "jukebox", "label": "Juke-box" }
+      ]
+    },
+    {
+      "id": "lieux_communs",
+      "label": "Lieux sonorisés en parties communes",
+      "type": "number",
+      "default": 5,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "lieux",
+      "help": "Salons, halls, couloirs, ascenseurs, salles de repos."
+    },
+    {
+      "id": "chambres_sonorisees",
+      "label": "Chambres avec diffusion audiovisuelle gratuite",
+      "type": "number",
+      "default": 0,
+      "min": 0,
+      "max": 1000,
+      "step": 1,
+      "unit": "chambres"
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "composite",
+    "op": "sum",
+    "parts": [
+      {
+        "kind": "formula",
+        "expr": "places_restauration <= 0 ? 0 : (lits <= 100 ? (appareil == 'tv' ? 264.24 : appareil == 'jukebox' ? 529.26 : 396.58) : lits <= 300 ? (appareil == 'tv' ? 396.58 : appareil == 'jukebox' ? 793.88 : 595.06) : (appareil == 'tv' ? 396.58 + ceil((lits - 300) / 100) * 53.73 : appareil == 'jukebox' ? 793.88 + ceil((lits - 300) / 100) * 107.35 : 595.06 + ceil((lits - 300) / 100) * 80.15))"
+      },
+      {
+        "kind": "formula",
+        "expr": "ceil(lieux_communs / 10) * 257.82"
+      },
+      {
+        "kind": "formula",
+        "expr": "chambres_sonorisees <= 0 ? 0 : (min(chambres_sonorisees, 50) * 14.96 + max(0, min(chambres_sonorisees, 75) - 50) * 14.51 + max(0, min(chambres_sonorisees, 125) - 75) * 13.62 + max(0, min(chambres_sonorisees, 200) - 125) * 13.18 + max(0, min(chambres_sonorisees, 300) - 200) * 12.23 + max(0, min(chambres_sonorisees, 400) - 300) * 11.77 + max(0, chambres_sonorisees - 400) * 11.35)"
+      }
+    ],
+    "modifiers": [
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 102.27
+    }
+  },
+  "footnote": "SACEM au tarif général par défaut. Majorations monnayeur (+33/50 %) et diffusion VOD payante non simulées. Établissements de santé (hôpital, clinique) : autorisation n° 17."
+}

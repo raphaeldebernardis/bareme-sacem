@@ -1,0 +1,88 @@
+{
+  "slug": "magasin-commerce-detail",
+  "activity": "magasin ou commerce de détail",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 23). Forfait annuel selon le nombre d'employés en contact avec la clientèle.",
+  "questions": [
+    {
+      "id": "employes",
+      "label": "Nombre d'employés en contact avec la clientèle",
+      "type": "number",
+      "default": 4,
+      "min": 1,
+      "max": 500,
+      "step": 1,
+      "unit": "employés",
+      "help": "Direction, caissiers, vendeurs, personnel de réception, animateurs."
+    },
+    {
+      "id": "audiovisuel",
+      "label": "Diffusion via téléviseur ou vidéo",
+      "type": "boolean",
+      "default": false,
+      "help": "Si coché, un minimum de 237,42 € HT (189,94 € réduit) s'applique."
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "composite",
+    "op": "max",
+    "parts": [
+      {
+        "kind": "lookup",
+        "rows": [
+          { "match": { "employes": { "lte": 2 } }, "value": 206.64 },
+          { "match": { "employes": { "lte": 4 } }, "value": 392.47 },
+          { "match": { "employes": { "lte": 6 } }, "value": 589.01 },
+          { "match": { "employes": { "lte": 8 } }, "value": 783.30 },
+          { "match": { "employes": { "lte": 10 } }, "value": 977.90 },
+          { "match": { "employes": { "lte": 12 } }, "value": 1124.67 },
+          { "match": { "employes": { "lte": 14 } }, "value": 1299.50 },
+          { "match": { "employes": { "lte": 16 } }, "value": 1474.53 },
+          { "match": { "employes": { "lte": 18 } }, "value": 1650.91 },
+          { "match": { "employes": { "lte": 20 } }, "value": 1827.62 },
+          { "match": { "employes": { "lte": 22 } }, "value": 1945.83 },
+          { "match": { "employes": { "lte": 24 } }, "value": 2102.84 },
+          { "match": { "employes": { "lte": 26 } }, "value": 2263.79 },
+          { "match": { "employes": { "lte": 28 } }, "value": 2420.43 },
+          { "match": { "employes": { "lte": 30 } }, "value": 2575.54 },
+          { "match": { "employes": { "lte": 32 } }, "value": 2710.07 },
+          { "match": { "employes": { "lte": 34 } }, "value": 2841.52 },
+          { "match": { "employes": { "lte": 36 } }, "value": 2977.29 },
+          { "match": { "employes": { "lte": 38 } }, "value": 3110.58 },
+          { "match": { "employes": { "lte": 40 } }, "value": 3225.13 },
+          { "match": { "employes": { "lte": 42 } }, "value": 3340.08 },
+          { "match": { "employes": { "lte": 44 } }, "value": 3453.37 },
+          { "match": { "employes": { "lte": 46 } }, "value": 3567.98 },
+          { "match": { "employes": { "lte": 48 } }, "value": 3682.21 },
+          { "match": { "employes": { "lte": 50 } }, "value": 3796.46 },
+          { "match": {}, "formula": "3796.46 + max(0, (employes - 50) / 2) * 97.66" }
+        ]
+      },
+      {
+        "kind": "formula",
+        "expr": "audiovisuel * 237.42"
+      }
+    ],
+    "modifiers": [
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "lookup",
+      "rows": [
+        { "match": { "employes": { "lte": 2 } }, "value": 110.60 },
+        { "match": { "employes": { "lte": 5 } }, "value": 196.61 },
+        { "match": { "employes": { "lte": 10 } }, "value": 233.49 },
+        { "match": { "employes": { "lte": 15 } }, "value": 356.39 },
+        { "match": {}, "value": 479.27 }
+      ]
+    }
+  },
+  "footnote": "SACEM au tarif général par défaut. Au-delà de 50 employés : approximation par tranches de 2 (le barème réel grossit par 2 puis 3 puis 4 employés au-delà de 150). Ouverture saisonnière ou occasionnelle : prorata non pris en compte."
+}

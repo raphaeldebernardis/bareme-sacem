@@ -1,0 +1,77 @@
+{
+  "slug": "restauration-rapide",
+  "activity": "restauration rapide",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 31). Grille par contenance × jours d'ouverture, avec forfait unique pour les ambulants et ≤ 10 places.",
+  "questions": [
+    {
+      "id": "places",
+      "label": "Nombre de places assises",
+      "type": "number",
+      "default": 30,
+      "min": 0,
+      "max": 400,
+      "step": 1,
+      "unit": "places",
+      "help": "0 ou ≤ 10 pour un ambulant ou un établissement de passage."
+    },
+    {
+      "id": "jours",
+      "label": "Jours d'ouverture par semaine",
+      "type": "select",
+      "default": 6,
+      "options": [
+        { "value": 5, "label": "5 jours ou moins" },
+        { "value": 6, "label": "6 jours" },
+        { "value": 7, "label": "7 jours" }
+      ]
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "lookup",
+    "rows": [
+      { "match": { "places": { "lte": 10 } }, "value": 272.83 },
+
+      { "match": { "places": { "lte": 30 }, "jours": 5 }, "value": 405.60 },
+      { "match": { "places": { "lte": 30 }, "jours": 6 }, "value": 458.52 },
+      { "match": { "places": { "lte": 30 }, "jours": 7 }, "value": 493.79 },
+
+      { "match": { "places": { "lte": 60 }, "jours": 5 }, "value": 527.31 },
+      { "match": { "places": { "lte": 60 }, "jours": 6 }, "value": 596.05 },
+      { "match": { "places": { "lte": 60 }, "jours": 7 }, "value": 641.94 },
+
+      { "match": { "places": { "lte": 100 }, "jours": 5 }, "value": 659.12 },
+      { "match": { "places": { "lte": 100 }, "jours": 6 }, "value": 745.09 },
+      { "match": { "places": { "lte": 100 }, "jours": 7 }, "value": 802.41 },
+
+      { "match": { "places": { "lte": 150 }, "jours": 5 }, "value": 823.89 },
+      { "match": { "places": { "lte": 150 }, "jours": 6 }, "value": 931.37 },
+      { "match": { "places": { "lte": 150 }, "jours": 7 }, "value": 1002.99 },
+
+      { "match": { "places": { "lte": 200 }, "jours": 5 }, "value": 947.49 },
+      { "match": { "places": { "lte": 200 }, "jours": 6 }, "value": 1071.07 },
+      { "match": { "places": { "lte": 200 }, "jours": 7 }, "value": 1153.45 },
+
+      { "match": { "jours": 5 }, "value": 1089.61 },
+      { "match": { "jours": 6 }, "value": 1231.72 },
+      { "match": { "jours": 7 }, "value": 1326.46 }
+    ],
+    "modifiers": [
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } },
+      { "kind": "min", "value": 272.83 }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 119.88
+    }
+  },
+  "footnote": "SACEM au tarif général par défaut. Forfait unique 272,83 € HT pour les établissements jusqu'à 10 places ou ambulants. Ouverture < 5 jours : réductions (-15 % pour 4 j, -20 % pour ≤ 3 j) non prises en compte ici. Barème SPRE identique à celui des cafés-restaurants."
+}

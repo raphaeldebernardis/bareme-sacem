@@ -1,0 +1,47 @@
+{
+  "slug": "bowling-salle-jeux",
+  "activity": "bowling, salle de jeux ou libre-service",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 82). Forfait à la surface, abattement 15 % puis -50 % pour l'emprise bowling.",
+  "questions": [
+    {
+      "id": "surface",
+      "label": "Surface totale sonorisée",
+      "type": "number",
+      "default": 800,
+      "min": 50,
+      "max": 10000,
+      "step": 50,
+      "unit": "m²"
+    },
+    {
+      "id": "activite_bowling",
+      "label": "Activité principale : bowling (pistes)",
+      "type": "boolean",
+      "default": false,
+      "help": "Si coché, la surface retenue est divisée par 2 après abattement de 15 %."
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "formula",
+    "expr": "surface * 0.85 * (activite_bowling ? 0.5 : 1) * 2.96",
+    "modifiers": [
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } },
+      { "kind": "min", "value": 335.17, "when": { "tarif_reduit": false } },
+      { "kind": "min", "value": 268.14, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 110.60
+    }
+  },
+  "footnote": "SACEM au tarif général par défaut. Minimum 335,17 € (268,14 € réduit) par type d'espace sonorisé. Un complexe multi-activités additionne les tarifs par espace (bowling, salle de jeux, halls, salons) — ce simulateur retient un seul espace."
+}

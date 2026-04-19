@@ -1,0 +1,46 @@
+{
+  "slug": "meuble-tourisme-chambre-hote",
+  "activity": "meublé de tourisme, gîte ou chambre d'hôtes",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 85). Forfait annuel unique par lieu de diffusion.",
+  "questions": [
+    {
+      "id": "lieux",
+      "label": "Nombre de lieux de diffusion (gîtes, meublés, chambres d'hôtes)",
+      "type": "number",
+      "default": 1,
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "unit": "lieux",
+      "help": "1 par meublé/gîte, 1 par chambre d'hôtes (max 5 chambres par exploitation)."
+    },
+    {
+      "id": "rural_faible_revenu",
+      "label": "Exploitation rurale (INSEE) avec revenu annuel < 72 600 € HT",
+      "type": "boolean",
+      "default": false,
+      "help": "Forfait réduit 107,22 € au lieu de 134,01 € par lieu."
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "formula",
+    "expr": "lieux * (rural_faible_revenu ? 107.22 : 134.01)",
+    "modifiers": [
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 59.94
+    }
+  },
+  "footnote": "SACEM au tarif général par défaut. Ouverture saisonnière ≤ 5 mois : -40 % (prorata non simulé ici). Les hôtels et résidences de tourisme relèvent du barème hébergement touristique (n° 20)."
+}

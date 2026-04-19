@@ -1,0 +1,74 @@
+{
+  "slug": "hebergement-touristique",
+  "activity": "hôtel ou résidence de tourisme",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 20). Forfait par chambre avec dégressivité par tranches et ajustement étoiles.",
+  "questions": [
+    {
+      "id": "chambres",
+      "label": "Nombre de chambres (ou studios, appartements)",
+      "type": "number",
+      "default": 30,
+      "min": 1,
+      "max": 500,
+      "step": 1,
+      "unit": "chambres"
+    },
+    {
+      "id": "etoiles",
+      "label": "Classement de l'établissement",
+      "type": "select",
+      "default": 3,
+      "options": [
+        { "value": 1, "label": "1 étoile (-25 %)" },
+        { "value": 2, "label": "2 étoiles (-15 %)" },
+        { "value": 3, "label": "3 étoiles ou non classé (base)" },
+        { "value": 4, "label": "4 étoiles (+25 %)" },
+        { "value": 5, "label": "5 étoiles (+50 %)" }
+      ]
+    },
+    {
+      "id": "parties_communes",
+      "label": "Diffusion dans les parties communes (halls, salons, couloirs)",
+      "type": "boolean",
+      "default": true
+    },
+    {
+      "id": "chambres_sonorisees",
+      "label": "Diffusion dans les chambres",
+      "type": "boolean",
+      "default": false,
+      "help": "TV diffusant de la musique ou sonorisation directe des chambres."
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "composite",
+    "op": "max",
+    "parts": [
+      {
+        "kind": "lookup",
+        "rows": [
+          { "match": { "chambres": { "lte": 10 } }, "value": 141.28 },
+          { "match": {}, "formula": "(chambres_sonorisees * (min(chambres, 19) * 16.09 + max(0, min(chambres, 49) - 19) * 15.17 + max(0, min(chambres, 99) - 49) * 14.17 + max(0, min(chambres, 149) - 99) * 13.23 + max(0, chambres - 149) * 12.50) + parties_communes * (min(chambres, 19) * 8.87 + max(0, min(chambres, 49) - 19) * 6.23 + max(0, min(chambres, 99) - 49) * 2.48 + max(0, min(chambres, 149) - 99) * 1.01 + max(0, chambres - 149) * 0.41)) * (etoiles == 1 ? 0.75 : etoiles == 2 ? 0.85 : etoiles == 4 ? 1.25 : etoiles == 5 ? 1.50 : 1)" }
+        ]
+      },
+      { "kind": "constant", "value": 141.28 }
+    ],
+    "modifiers": [
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 119.88
+    }
+  },
+  "footnote": "SACEM au tarif général par défaut. Forfait unique 141,28 € HT (113,02 € réduit) pour ≤ 10 chambres. Au-delà : tranches cumulatives par chambre × ajustement étoiles, plancher forfait petit hôtel. Ouverture saisonnière : prorata non pris en compte. VOD payante : calcul séparé au % des recettes."
+}

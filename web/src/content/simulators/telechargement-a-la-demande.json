@@ -1,0 +1,28 @@
+{
+  "slug": "telechargement-a-la-demande",
+  "activity": "service de téléchargement musical à la demande",
+  "intro": "Tarifs réels du barème SACEM (autorisation n° 59). Forfait annuel selon plafond de téléchargements (CA ≤ 20 000 €).",
+  "questions": [
+    {
+      "id": "downloads",
+      "label": "Nombre de téléchargements par an",
+      "type": "number",
+      "default": 2000,
+      "min": 100,
+      "max": 30000,
+      "step": 100,
+      "unit": "téléchargements"
+    }
+  ],
+  "compute": {
+    "kind": "lookup",
+    "rows": [
+      { "match": { "downloads": { "lte": 700 } }, "value": 50 },
+      { "match": { "downloads": { "lte": 2000 } }, "value": 140 },
+      { "match": { "downloads": { "lte": 7000 } }, "value": 480 },
+      { "match": { "downloads": { "lte": 15000 } }, "value": 1000 },
+      { "match": {}, "value": 2000 }
+    ]
+  },
+  "footnote": "Tarif général. Éligibilité au forfait : CA ≤ 20 000 € et ≤ 30 000 téléchargements/an. Au-delà, barème sur mesure SACEM. Droits voisins (artistes/producteurs) à négocier séparément. SPRE non applicable à ce barème."
+}

@@ -1,0 +1,93 @@
+{
+  "slug": "festival",
+  "activity": "festival",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 68). Pourcentage sur recettes ou budget artistique.",
+  "questions": [
+    {
+      "id": "assiette",
+      "label": "Assiette de calcul",
+      "type": "radio",
+      "default": "recettes",
+      "options": [
+        { "value": "recettes", "label": "Recettes (entrées 100 % + annexes 50 %)" },
+        { "value": "depenses", "label": "Dépenses engagées (budget artistique majoré)" }
+      ]
+    },
+    {
+      "id": "recettes_entrees",
+      "label": "Recettes d'entrées HT",
+      "type": "number",
+      "default": 50000,
+      "min": 0,
+      "max": 10000000,
+      "step": 1000,
+      "unit": "€ HT",
+      "when": { "assiette": "recettes" }
+    },
+    {
+      "id": "recettes_annexes",
+      "label": "Recettes annexes HT (consommations, programmes…)",
+      "type": "number",
+      "default": 10000,
+      "min": 0,
+      "max": 5000000,
+      "step": 1000,
+      "unit": "€ HT",
+      "when": { "assiette": "recettes" }
+    },
+    {
+      "id": "budget_artistique",
+      "label": "Budget artistique HT",
+      "type": "number",
+      "default": 30000,
+      "min": 1000,
+      "max": 5000000,
+      "step": 1000,
+      "unit": "€ HT",
+      "when": { "assiette": "depenses" }
+    },
+    {
+      "id": "categorie",
+      "label": "Catégorie de spectacle",
+      "type": "select",
+      "default": "musical",
+      "options": [
+        { "value": "musical", "label": "Concerts / variétés / musique / comédie musicale (11 %)" },
+        { "value": "pluralite", "label": "Pluralité de genres : ballets, cirque, sons et lumières (5,50 %)" },
+        { "value": "accompagnement", "label": "Audiovisuel ou musique d'accompagnement (2,50 %)" },
+        { "value": "humour", "label": "Humoristes / variétés scéniques (16,25 %)" }
+      ]
+    },
+    {
+      "id": "musique_enregistree",
+      "label": "Musique enregistrée (DJ, playlist)",
+      "type": "boolean",
+      "default": false,
+      "help": "+25 % sur le taux. Projections audiovisuelles : majoration non applicable."
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "formula",
+    "expr": "(assiette == 'recettes' ? recettes_entrees + recettes_annexes * 0.5 * 0.75 : budget_artistique * 1.35) * (categorie == 'musical' ? 0.11 : categorie == 'pluralite' ? 0.055 : categorie == 'accompagnement' ? 0.025 : 0.1625)",
+    "min": 61.88,
+    "modifiers": [
+      { "kind": "multiply", "value": 1.25, "when": { "musique_enregistree": true } },
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 102.27
+    },
+    "skipWhen": { "musique_enregistree": false }
+  },
+  "footnote": "SACEM au tarif général par défaut, musique vivante. Musique vivante exclusive : pas de SPRE. Projection audiovisuelle : pas de +25 % (l'application l'ajoute dès la case cochée). Abattements d'éducation populaire / partenariat SACEM non simulés."
+}

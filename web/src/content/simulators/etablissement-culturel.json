@@ -1,0 +1,111 @@
+{
+  "slug": "etablissement-culturel",
+  "activity": "bibliothèque, musée ou établissement culturel",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 16). Forfait m² + bornes/casques + audioguides + conférences.",
+  "questions": [
+    {
+      "id": "surface",
+      "label": "Surface sonorisée (parties communes)",
+      "type": "number",
+      "default": 1000,
+      "min": 0,
+      "max": 20000,
+      "step": 100,
+      "unit": "m²"
+    },
+    {
+      "id": "heures_hebdo",
+      "label": "Heures d'ouverture hebdomadaires",
+      "type": "select",
+      "default": 45,
+      "options": [
+        { "value": 10, "label": "Jusqu'à 10 h/sem (25 %)" },
+        { "value": 25, "label": "Jusqu'à 25 h/sem (33 %)" },
+        { "value": 45, "label": "Jusqu'à 45 h/sem (66 %)" },
+        { "value": 46, "label": "Plus de 45 h/sem (100 %)" }
+      ]
+    },
+    {
+      "id": "bornes",
+      "label": "Bornes multimédia interactives",
+      "type": "number",
+      "default": 0,
+      "min": 0,
+      "max": 500,
+      "step": 1,
+      "unit": "bornes"
+    },
+    {
+      "id": "casques",
+      "label": "Casques d'écoute fixes / audioguides gratuits",
+      "type": "number",
+      "default": 0,
+      "min": 0,
+      "max": 500,
+      "step": 1,
+      "unit": "casques"
+    },
+    {
+      "id": "jours_annee",
+      "label": "Jours d'ouverture par an",
+      "type": "number",
+      "default": 300,
+      "min": 50,
+      "max": 365,
+      "step": 1,
+      "unit": "jours"
+    },
+    {
+      "id": "conferences",
+      "label": "Conférences musicales gratuites organisées dans l'année",
+      "type": "boolean",
+      "default": false
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "composite",
+    "op": "sum",
+    "parts": [
+      {
+        "kind": "composite",
+        "op": "max",
+        "parts": [
+          {
+            "kind": "formula",
+            "expr": "min(surface, 2000) * 1.20 * (heures_hebdo == 10 ? 0.25 : heures_hebdo == 25 ? 0.33 : heures_hebdo == 45 ? 0.66 : 1) * (surface > 8000 ? 3000/min(surface,8000) : surface > 4000 ? 2500/min(surface,4000) : surface > 2000 ? 2000/min(surface,2000) : 1)"
+          },
+          { "kind": "constant", "value": 136.80 }
+        ]
+      },
+      {
+        "kind": "formula",
+        "expr": "bornes > 0 ? min(bornes / 100 * jours_annee * 18.25, bornes * 237.42) : 0"
+      },
+      {
+        "kind": "formula",
+        "expr": "casques > 0 ? min(casques / 100 * jours_annee * 3.68, casques * 47.61) : 0"
+      },
+      {
+        "kind": "formula",
+        "expr": "conferences * 86.39"
+      }
+    ],
+    "modifiers": [
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 109.42
+    }
+  },
+  "footnote": "SACEM au tarif général par défaut. Surface pondérée au-delà de 2 000 m² (plafonnée à 2 500 puis 3 000 m²). Pour chaque type d'appareil (bornes, casques) : on retient le montant minimum entre forfait par jour d'ouverture et forfait par appareil à l'année. Audioguides payants (% recettes) non simulés ici."
+}

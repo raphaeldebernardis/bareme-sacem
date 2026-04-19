@@ -1,0 +1,79 @@
+{
+  "slug": "site-internet-monetise",
+  "activity": "site internet monétisé",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 86). Redevance forfaitaire selon thématique × recettes × nombre de vidéos.",
+  "questions": [
+    {
+      "id": "thematique",
+      "label": "Thématique du site",
+      "type": "radio",
+      "default": "generaliste",
+      "options": [
+        { "value": "sport", "label": "Sport ou information" },
+        { "value": "generaliste", "label": "Généraliste" },
+        { "value": "musique", "label": "Musique ou humour" }
+      ]
+    },
+    {
+      "id": "recettes",
+      "label": "Recettes annuelles",
+      "type": "select",
+      "default": 1100000,
+      "options": [
+        { "value": 100000, "label": "≤ 100 000 €" },
+        { "value": 1100000, "label": "100 001 à 1,1 M€" },
+        { "value": 10000000, "label": "1,1 à 10 M€" },
+        { "value": 20000000, "label": "Plus de 10 M€" }
+      ]
+    },
+    {
+      "id": "videos",
+      "label": "Nombre moyen de vidéos disponibles",
+      "type": "select",
+      "default": 100,
+      "options": [
+        { "value": 50, "label": "Moins de 100" },
+        { "value": 300, "label": "100 à 500" },
+        { "value": 1000, "label": "Plus de 500" }
+      ]
+    }
+  ],
+  "compute": {
+    "kind": "lookup",
+    "rows": [
+      { "match": { "thematique": "sport", "recettes": 100000 }, "value": 200 },
+      { "match": { "thematique": "sport", "recettes": 1100000, "videos": 50 }, "value": 300 },
+      { "match": { "thematique": "sport", "recettes": 1100000, "videos": 300 }, "value": 900 },
+      { "match": { "thematique": "sport", "recettes": 1100000 }, "value": 1400 },
+      { "match": { "thematique": "sport", "recettes": 10000000, "videos": 50 }, "value": 2500 },
+      { "match": { "thematique": "sport", "recettes": 10000000, "videos": 300 }, "value": 8000 },
+      { "match": { "thematique": "sport", "recettes": 10000000 }, "value": 13000 },
+      { "match": { "thematique": "sport", "videos": 50 }, "value": 14000 },
+      { "match": { "thematique": "sport", "videos": 300 }, "value": 45000 },
+      { "match": { "thematique": "sport" }, "value": 69000 },
+
+      { "match": { "thematique": "generaliste", "recettes": 100000 }, "value": 480 },
+      { "match": { "thematique": "generaliste", "recettes": 1100000, "videos": 50 }, "value": 800 },
+      { "match": { "thematique": "generaliste", "recettes": 1100000, "videos": 300 }, "value": 2500 },
+      { "match": { "thematique": "generaliste", "recettes": 1100000 }, "value": 3900 },
+      { "match": { "thematique": "generaliste", "recettes": 10000000, "videos": 50 }, "value": 7100 },
+      { "match": { "thematique": "generaliste", "recettes": 10000000, "videos": 300 }, "value": 23000 },
+      { "match": { "thematique": "generaliste", "recettes": 10000000 }, "value": 36000 },
+      { "match": { "thematique": "generaliste", "videos": 50 }, "value": 40000 },
+      { "match": { "thematique": "generaliste", "videos": 300 }, "value": 129000 },
+      { "match": { "thematique": "generaliste" }, "value": 198000 },
+
+      { "match": { "thematique": "musique", "recettes": 100000 }, "value": 1920 },
+      { "match": { "thematique": "musique", "recettes": 1100000, "videos": 50 }, "value": 3100 },
+      { "match": { "thematique": "musique", "recettes": 1100000, "videos": 300 }, "value": 10000 },
+      { "match": { "thematique": "musique", "recettes": 1100000 }, "value": 15300 },
+      { "match": { "thematique": "musique", "recettes": 10000000, "videos": 50 }, "value": 28100 },
+      { "match": { "thematique": "musique", "recettes": 10000000, "videos": 300 }, "value": 92000 },
+      { "match": { "thematique": "musique", "recettes": 10000000 }, "value": 141000 },
+      { "match": { "thematique": "musique", "videos": 50 }, "value": 159000 },
+      { "match": { "thematique": "musique", "videos": 300 }, "value": 514000 },
+      { "match": { "thematique": "musique" }, "value": 791000 }
+    ]
+  },
+  "footnote": "Tarif général (pas de notion de tarif réduit pour ce barème). Petites recettes (≤ 100 000 €) : forfait unifié indépendamment du nombre de vidéos. Les droits voisins (SPRE et producteurs) sont négociés séparément."
+}

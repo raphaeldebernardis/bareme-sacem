@@ -1,0 +1,71 @@
+{
+  "slug": "camping",
+  "activity": "camping ou hébergement de plein air",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 66). Forfait par emplacement + unités d'hébergement, modulation selon classement.",
+  "questions": [
+    {
+      "id": "emplacements",
+      "label": "Nombre d'emplacements",
+      "type": "number",
+      "default": 50,
+      "min": 1,
+      "max": 1000,
+      "step": 1,
+      "unit": "emplacements"
+    },
+    {
+      "id": "unites_tv",
+      "label": "Unités d'hébergement avec TV (mobile-homes, bungalows, chalets)",
+      "type": "number",
+      "default": 0,
+      "min": 0,
+      "max": 500,
+      "step": 1,
+      "unit": "unités"
+    },
+    {
+      "id": "etoiles",
+      "label": "Classement",
+      "type": "select",
+      "default": 3,
+      "options": [
+        { "value": 1, "label": "1 étoile (-25 %)" },
+        { "value": 2, "label": "2 étoiles (-15 %)" },
+        { "value": 3, "label": "3 étoiles ou non classé (base)" },
+        { "value": 4, "label": "4 étoiles (+25 %)" },
+        { "value": 5, "label": "5 étoiles (+50 %)" }
+      ]
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "composite",
+    "op": "max",
+    "parts": [
+      {
+        "kind": "lookup",
+        "rows": [
+          { "match": { "emplacements": { "lte": 10 } }, "value": 141.28 },
+          { "match": {}, "formula": "(min(emplacements, 19) * 8.87 + max(0, min(emplacements, 49) - 19) * 6.23 + max(0, min(emplacements, 99) - 49) * 2.48 + max(0, min(emplacements, 149) - 99) * 1.01 + max(0, emplacements - 149) * 0.41 + min(unites_tv, 19) * 16.09 + max(0, min(unites_tv, 49) - 19) * 15.17 + max(0, min(unites_tv, 99) - 49) * 14.17 + max(0, min(unites_tv, 149) - 99) * 13.23 + max(0, unites_tv - 149) * 12.50) * (etoiles == 1 ? 0.75 : etoiles == 2 ? 0.85 : etoiles == 4 ? 1.25 : etoiles == 5 ? 1.50 : 1)" }
+        ]
+      },
+      { "kind": "constant", "value": 141.28 }
+    ],
+    "modifiers": [
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 119.88
+    }
+  },
+  "footnote": "SACEM au tarif général par défaut. ≤ 10 emplacements : forfait unique 141,28 € HT (113,02 € réduit). Au-delà : tranches cumulatives par emplacement (espaces communs) et unité TV, × ajustement étoiles. Salles de consommation/restauration et animations musicales attractives non incluses ici."
+}

@@ -1,0 +1,38 @@
+{
+  "slug": "musique-ecole-creche-loisirs",
+  "activity": "école, crèche ou centre de loisirs",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 73). Forfait annuel unique par établissement.",
+  "questions": [
+    {
+      "id": "etablissements",
+      "label": "Nombre d'établissements gérés (SIRET distincts)",
+      "type": "number",
+      "default": 1,
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "établissements"
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "formula",
+    "expr": "etablissements * 86.39",
+    "modifiers": [
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 51.14
+    }
+  },
+  "footnote": "SACEM au tarif général par défaut. Minimum SPRE réduit à 51,14 € (manifestations non commerciales). Cadre pédagogique hors barème (accord Éducation nationale). Budget artistique ≤ 650 € par manifestation avec intervenant."
+}

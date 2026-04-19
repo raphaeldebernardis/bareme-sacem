@@ -1,0 +1,87 @@
+{
+  "slug": "salle-concert-theatre",
+  "activity": "salle de concert, théâtre ou établissement de spectacles",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 69). Pourcentage sur recettes + forfait annuel de sonorisation.",
+  "questions": [
+    {
+      "id": "recettes_spectacles",
+      "label": "Recettes annuelles de billetterie HT",
+      "type": "number",
+      "default": 150000,
+      "min": 0,
+      "max": 20000000,
+      "step": 1000,
+      "unit": "€ HT"
+    },
+    {
+      "id": "categorie",
+      "label": "Catégorie dominante",
+      "type": "select",
+      "default": "musical",
+      "options": [
+        { "value": "musical", "label": "Concerts / variétés / musique / comédie musicale (11 %)" },
+        { "value": "pluralite", "label": "Pluralité : ballets, cirque, sons et lumières (5,50 %)" },
+        { "value": "accompagnement", "label": "Audiovisuel / musique d'accompagnement (2,50 %)" },
+        { "value": "humour", "label": "Humoristes / variétés scéniques (16,25 %)" }
+      ]
+    },
+    {
+      "id": "musique_enregistree",
+      "label": "Musique enregistrée (DJ, playlist durant les spectacles)",
+      "type": "boolean",
+      "default": false,
+      "help": "+25 % sur SACEM des spectacles."
+    },
+    {
+      "id": "frequentation",
+      "label": "Fréquentation annuelle (pour le forfait de sonorisation)",
+      "type": "select",
+      "default": 25000,
+      "options": [
+        { "value": 25000, "label": "Jusqu'à 25 000 spectateurs" },
+        { "value": 50000, "label": "25 001 à 50 000" },
+        { "value": 75000, "label": "50 001 à 75 000" },
+        { "value": 100000, "label": "75 001 à 100 000" },
+        { "value": 150000, "label": "Plus de 100 000 (par 25 000 : +361,18 €)" }
+      ]
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "composite",
+    "op": "sum",
+    "parts": [
+      {
+        "kind": "formula",
+        "expr": "recettes_spectacles * (categorie == 'musical' ? 0.11 : categorie == 'pluralite' ? 0.055 : categorie == 'accompagnement' ? 0.025 : 0.1625) * (musique_enregistree ? 1.25 : 1)"
+      },
+      {
+        "kind": "lookup",
+        "rows": [
+          { "match": { "frequentation": 25000 }, "value": 240.78 },
+          { "match": { "frequentation": 50000 }, "value": 529.72 },
+          { "match": { "frequentation": 75000 }, "value": 794.59 },
+          { "match": { "frequentation": 100000 }, "value": 1059.47 },
+          { "match": {}, "value": 1420.65 }
+        ]
+      }
+    ],
+    "modifiers": [
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "formula",
+      "expr": "sacem * 0.65",
+      "min": 109.42
+    },
+    "skipWhen": { "musique_enregistree": false }
+  },
+  "footnote": "SACEM au tarif général par défaut, musique vivante. SPRE spectacles : uniquement si musique enregistrée. SPRE sonorisation : 65 % × forfait (min 109,42 €) — simplification. Réduction -20 % sur contrat signé 15 j. avant : non simulée (opt-in séparé). Plafond humoriste : 11 % à 16,25 % selon demande ayants droit."
+}

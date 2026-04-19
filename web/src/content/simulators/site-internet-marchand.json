@@ -1,0 +1,53 @@
+{
+  "slug": "site-internet-marchand",
+  "activity": "site internet marchand (e-commerce)",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 87). Redevance forfaitaire selon fréquentation × nombre de vidéos.",
+  "questions": [
+    {
+      "id": "visiteurs_m",
+      "label": "Visiteurs mensuels moyens",
+      "type": "select",
+      "default": 500000,
+      "options": [
+        { "value": 500000, "label": "Moins de 1 M / mois" },
+        { "value": 3000000, "label": "1 à 5 M / mois" },
+        { "value": 8000000, "label": "5 à 10 M / mois" },
+        { "value": 15000000, "label": "10 M et plus / mois" }
+      ]
+    },
+    {
+      "id": "videos",
+      "label": "Nombre moyen de vidéos",
+      "type": "select",
+      "default": 50,
+      "options": [
+        { "value": 5, "label": "Moins de 10" },
+        { "value": 50, "label": "10 à 100" },
+        { "value": 300, "label": "101 à 500" },
+        { "value": 1000, "label": "Plus de 500" }
+      ]
+    }
+  ],
+  "compute": {
+    "kind": "lookup",
+    "rows": [
+      { "match": { "visiteurs_m": 500000, "videos": 5 }, "value": 350 },
+      { "match": { "visiteurs_m": 500000, "videos": 50 }, "value": 910 },
+      { "match": { "visiteurs_m": 500000 }, "value": 1370 },
+
+      { "match": { "visiteurs_m": 3000000, "videos": 5 }, "value": 900 },
+      { "match": { "visiteurs_m": 3000000, "videos": 50 }, "value": 2400 },
+      { "match": { "visiteurs_m": 3000000 }, "value": 3600 },
+
+      { "match": { "visiteurs_m": 8000000, "videos": 5 }, "value": 2400 },
+      { "match": { "visiteurs_m": 8000000, "videos": 50 }, "value": 6300 },
+      { "match": { "visiteurs_m": 8000000 }, "value": 9400 },
+
+      { "match": { "videos": 5 }, "value": 7300 },
+      { "match": { "videos": 50 }, "value": 19000 },
+      { "match": { "videos": 300 }, "value": 28500 },
+      { "match": {}, "value": 38000 }
+    ]
+  },
+  "footnote": "Tarif général (pas de notion de tarif réduit pour ce barème). Sites médias / plateformes vidéo / musique : barème n° 86 à la place. Droits voisins négociés séparément."
+}
