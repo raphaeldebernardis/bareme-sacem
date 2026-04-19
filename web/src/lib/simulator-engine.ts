@@ -5,6 +5,7 @@ import type {
   FicheSimulator,
   Modifier,
   Question,
+  Scenario,
   SimulatorResult,
 } from "./simulator-types";
 
@@ -213,15 +214,20 @@ export function simulate(
     spre = Math.max(0, evalCompute(fiche.spre.compute, spreAnswers));
   }
 
-  const total = sacem + spre;
+  const buildScenario = (totalAnnual: number): Scenario => ({
+    totalAnnual,
+    breakevenMonths:
+      totalAnnual > 0 ? Math.ceil((PLAYSAFE_PRICE_HT / totalAnnual) * 12) : Infinity,
+    savings: ([5, 10, 15] as const).map((horizon) => ({
+      horizon,
+      amount: Math.max(0, totalAnnual * horizon - PLAYSAFE_PRICE_HT),
+    })),
+  });
 
-  const breakevenMonths =
-    total > 0 ? Math.ceil((PLAYSAFE_PRICE_HT / total) * 12) : Infinity;
-
-  const savings = ([5, 10, 15] as const).map((horizon) => ({
-    horizon,
-    amount: Math.max(0, total * horizon - PLAYSAFE_PRICE_HT),
-  }));
-
-  return { sacem, spre, total, breakevenMonths, savings };
+  return {
+    sacem,
+    spre,
+    withSpre: buildScenario(sacem + spre),
+    withoutSpre: buildScenario(sacem),
+  };
 }

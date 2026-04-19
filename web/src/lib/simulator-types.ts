@@ -184,12 +184,20 @@ export interface FicheSimulator {
 // Simulator output
 // ---------------------------------------------------------------------------
 
+export interface Scenario {
+  /** Annual SACEM + SPRE (or SACEM alone) in €. */
+  totalAnnual: number;
+  /** Months to break even vs PlaySafe's one-time fee. */
+  breakevenMonths: number;
+  /** Savings at 5, 10, 15 years horizons. */
+  savings: { horizon: 5 | 10 | 15; amount: number }[];
+}
+
 export interface SimulatorResult {
   sacem: number;
   spre: number;
-  total: number;
-  /** Months to break even compared to PlaySafe's one-time fee. */
-  breakevenMonths: number;
-  /** Savings over 5, 10, 15 years. */
-  savings: { horizon: 5 | 10 | 15; amount: number }[];
+  /** Conservative: SACEM + SPRE both due (current SPRE official position). */
+  withSpre: Scenario;
+  /** SACEM only: if PlaySafe's L. 213-1 / L. 214-1 reading prevails. */
+  withoutSpre: Scenario;
 }
