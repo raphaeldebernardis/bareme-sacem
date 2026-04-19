@@ -71,9 +71,17 @@ export type Compute =
   | CompositeCompute
   | ConstantCompute;
 
+/**
+ * All compute nodes may carry post-modifiers (multiply/add/min/max)
+ * which are applied after the raw value is computed. Typical use:
+ *   - tarif réduit: multiply by 0.8 when the checkbox is on
+ *   - abattement CA: multiply by 0.85 when revenue is under a threshold
+ *   - star multiplier on camping forfait
+ */
 export interface ConstantCompute {
   kind: "constant";
   value: number;
+  modifiers?: Modifier[];
 }
 
 /**
@@ -93,6 +101,7 @@ export interface LookupCompute {
   kind: "lookup";
   rows: LookupRow[];
   fallback?: number;
+  modifiers?: Modifier[];
 }
 
 /**
@@ -104,6 +113,7 @@ export interface PercentageCompute {
   rate: number;
   of: string;
   min?: number;
+  modifiers?: Modifier[];
 }
 
 /**
@@ -115,6 +125,7 @@ export interface FormulaCompute {
   kind: "formula";
   expr: string;
   min?: number;
+  modifiers?: Modifier[];
 }
 
 /**

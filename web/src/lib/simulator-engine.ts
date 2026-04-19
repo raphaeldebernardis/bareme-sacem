@@ -112,57 +112,62 @@ export function evalCompute(
   compute: Compute,
   answers: Record<string, unknown>
 ): number {
+  let raw: number;
   switch (compute.kind) {
     case "constant":
-      return compute.value;
+      raw = compute.value;
+      break;
 
     case "lookup": {
+      raw = compute.fallback ?? 0;
       for (const row of compute.rows) {
         if (evalCondition(row.match, answers)) {
-          if (row.formula) return evalFormula(row.formula, answers);
-          return row.value ?? 0;
+          raw = row.formula ? evalFormula(row.formula, answers) : (row.value ?? 0);
+          break;
         }
       }
-      return compute.fallback ?? 0;
+      break;
     }
 
     case "percentage": {
-      const raw = Number(answers[compute.of]);
-      const base = Number.isFinite(raw) ? raw : 0;
-      let result = base * compute.rate;
-      if (compute.min !== undefined) result = Math.max(result, compute.min);
-      return result;
+      const input = Number(answers[compute.of]);
+      const base = Number.isFinite(input) ? input : 0;
+      raw = base * compute.rate;
+      if (compute.min !== undefined) raw = Math.max(raw, compute.min);
+      break;
     }
 
     case "formula": {
-      let result = evalFormula(compute.expr, answers);
-      if (compute.min !== undefined) result = Math.max(result, compute.min);
-      return result;
+      raw = evalFormula(compute.expr, answers);
+      if (compute.min !== undefined) raw = Math.max(raw, compute.min);
+      break;
     }
 
     case "composite": {
       const values = compute.parts.map((p) => evalCompute(p, answers));
-      let result: number;
       switch (compute.op) {
         case "sum":
-          result = values.reduce((a, b) => a + b, 0);
+          raw = values.reduce((a, b) => a + b, 0);
           break;
         case "max":
-          result = Math.max(...values, 0);
+          raw = Math.max(...values, 0);
           break;
         case "highestPlusFractionOfLower": {
           const sorted = [...values].sort((a, b) => b - a);
           const [highest, ...rest] = sorted;
           const fraction = compute.fraction ?? 0;
-          result = (highest ?? 0) + rest.reduce((a, b) => a + b * fraction, 0);
+          raw = (highest ?? 0) + rest.reduce((a, b) => a + b * fraction, 0);
           break;
         }
         default:
-          result = 0;
+          raw = 0;
       }
-      return applyModifiers(result, compute.modifiers, answers);
+      break;
     }
   }
+
+  // Apply post-modifiers uniformly on every compute kind.
+  return applyModifiers(raw, compute.modifiers, answers);
 }
 
 // ---------------------------------------------------------------------------
