@@ -1,0 +1,71 @@
+{
+  "slug": "salon-coiffure",
+  "activity": "salon de coiffure",
+  "intro": "Tarifs réels du barème SACEM 2026 (autorisation n° 34). Par défaut, tarif général. Cochez la case si vous avez signé le contrat général de représentation dans les 15 jours suivant la présentation par un agent SACEM.",
+  "questions": [
+    {
+      "id": "appareil",
+      "label": "Type de matériel de diffusion",
+      "type": "radio",
+      "default": "hp",
+      "options": [
+        { "value": "simple", "label": "Radio ou TV sans haut-parleur supplémentaire" },
+        { "value": "hp", "label": "Appareil avec haut-parleur supplémentaire" }
+      ]
+    },
+    {
+      "id": "employes",
+      "label": "Nombre d'employés",
+      "type": "number",
+      "default": 4,
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "unit": "employés"
+    },
+    {
+      "id": "appareils_simples",
+      "label": "Nombre d'appareils simples",
+      "type": "number",
+      "default": 1,
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "unit": "appareils",
+      "when": { "appareil": "simple" }
+    },
+    {
+      "id": "tarif_reduit",
+      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
+      "type": "boolean",
+      "default": false
+    }
+  ],
+  "compute": {
+    "kind": "lookup",
+    "rows": [
+      { "match": { "appareil": "simple" }, "formula": "139.24 * appareils_simples" },
+      { "match": { "appareil": "hp", "employes": { "lte": 5 } }, "value": 216.94 },
+      { "match": { "appareil": "hp", "employes": { "lte": 10 } }, "value": 291.56 },
+      { "match": { "appareil": "hp", "employes": { "lte": 15 } }, "value": 581.38 },
+      { "match": { "appareil": "hp" }, "value": 1162.75 }
+    ],
+    "fallback": 139.24,
+    "modifiers": [
+      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+    ]
+  },
+  "spre": {
+    "compute": {
+      "kind": "lookup",
+      "rows": [
+        { "match": { "employes": { "lte": 2 } }, "value": 110.17 },
+        { "match": { "employes": { "lte": 5 } }, "value": 134.64 },
+        { "match": { "employes": { "lte": 10 } }, "value": 146.91 },
+        { "match": { "employes": { "lte": 15 } }, "value": 232.55 },
+        { "match": {}, "value": 342.73 }
+      ]
+    }
+  },
+  "footnote": "SACEM au tarif général par défaut. Le tarif réduit (-20 %) s'applique si vous avez signé le contrat général de représentation dans les 15 jours suivant la présentation par un agent SACEM. La SPRE n'a pas de tarif réduit et se base sur le nombre d'employés en contact direct avec la clientèle (minimum 110,17 € HT)."
+}
