@@ -44,10 +44,10 @@ describe("evalCondition", () => {
 });
 
 // ---------------------------------------------------------------------------
-// evalCompute — basic kinds
+// evalCompute, basic kinds
 // ---------------------------------------------------------------------------
 
-describe("evalCompute — basic kinds", () => {
+describe("evalCompute, basic kinds", () => {
   it("returns a constant", () => {
     expect(evalCompute({ kind: "constant", value: 42 }, {})).toBe(42);
   });
@@ -144,10 +144,10 @@ describe("evalCompute — basic kinds", () => {
 });
 
 // ---------------------------------------------------------------------------
-// evalCompute — modifiers
+// evalCompute, modifiers
 // ---------------------------------------------------------------------------
 
-describe("evalCompute — modifiers", () => {
+describe("evalCompute, modifiers", () => {
   it("applies multiply modifier conditionally", () => {
     const compute: Compute = {
       kind: "constant",
@@ -221,10 +221,10 @@ describe("evalCompute — modifiers", () => {
 });
 
 // ---------------------------------------------------------------------------
-// SPRE behaviour — the regression guard
+// SPRE behaviour, the regression guard
 // ---------------------------------------------------------------------------
 
-describe("simulate — SPRE handling", () => {
+describe("simulate, SPRE handling", () => {
   const baseFiche: FicheSimulator = {
     slug: "test",
     activity: "test",

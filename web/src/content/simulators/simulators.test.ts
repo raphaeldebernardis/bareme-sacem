@@ -27,7 +27,7 @@ describe("all simulator JSONs are well-formed", () => {
     expect(slugs).toHaveLength(49);
   });
 
-  it.each(slugs)("%s — parses and simulates with default answers", (slug) => {
+  it.each(slugs)("%s, parses and simulates with default answers", (slug) => {
     const fiche = loadFiche(slug);
     expect(fiche.slug).toBe(slug);
     expect(fiche.activity).toBeTruthy();
@@ -47,7 +47,7 @@ describe("all simulator JSONs are well-formed", () => {
 });
 
 // ---------------------------------------------------------------------------
-// Per-fiche golden values — taken from the example sections of the source
+// Per-fiche golden values, taken from the example sections of the source
 // markdown files. These pin the JSON to the real SACEM 2026 barèmes.
 // ---------------------------------------------------------------------------
 
