@@ -105,5 +105,5 @@
       "min": 110.60
     }
   },
-  "footnote": "SACEM au tarif général par défaut. Hypothèse : sonorisation seule (ni spectacles musicaux ni animations) — grille point 1 du barème. Avec spectacles : pourcentage 0,08 % à 0,45 % sur recettes (non simulé ici). Au-delà de 49 € d'accès : paliers supplémentaires par tranche de 7 €."
+  "footnote": "SACEM au tarif général par défaut. Hypothèse : sonorisation seule (ni spectacles musicaux ni animations), grille point 1 du barème. Avec spectacles : pourcentage 0,08 % à 0,45 % sur recettes (non simulé ici). Au-delà de 49 € d'accès : paliers supplémentaires par tranche de 7 €."
 }

@@ -176,14 +176,14 @@ Trois patterns SPRE courants :
 
 ## 7. Archétypes par type de barème
 
-### Archétype A — Forfait unique
+### Archétype A, Forfait unique
 **Exemples** : attente-telephonique, ceremonie-obseques, musique-ecole-creche-loisirs
 
 ```jsonc
 "compute": { "kind": "constant", "value": 62.62 }
 ```
 
-### Archétype B — Forfait par tranche d'une variable
+### Archétype B, Forfait par tranche d'une variable
 **Exemples** : salon-coiffure (hp), musique-college-lycee, musique-entreprise-administration (salariés), club-sport-amateur (licenciés)
 
 ```jsonc
@@ -198,7 +198,7 @@ Trois patterns SPRE courants :
 }
 ```
 
-### Archétype C — Grille 2D (variable × variable)
+### Archétype C, Grille 2D (variable × variable)
 **Exemples** : café-restaurant (appareil × places), salle-attente, enseignement-superieur
 
 Match sur deux clés dans la même ligne. Les lignes plus spécifiques
@@ -216,13 +216,13 @@ passent avant les plus larges.
 }
 ```
 
-### Archétype D — Grille 3D (variable × variable × variable)
+### Archétype D, Grille 3D (variable × variable × variable)
 **Exemples** : hebergement-touristique, camping, parc-attractions-loisirs, sites internet
 
 Même principe, trois clés par ligne. Attendez-vous à 20-80 lignes. OK
 pour la lisibilité tant que le tableau est ordonné par dimension.
 
-### Archétype E — Per unit avec tranches cumulatives
+### Archétype E, Per unit avec tranches cumulatives
 **Exemples** : chambres d'un hôpital / EHPAD (tranches 50 / 25 / 50…),
 emplacements d'un camping (0-19 / 20-49 / 50-99…)
 
@@ -230,7 +230,7 @@ Utiliser une `formula` qui reconstitue l'escalier, ou un `composite`
 `sum` de plusieurs sub-computes `lookup` partielles, ou une helper
 convention à forger au besoin.
 
-### Archétype F — Pourcentage sur recettes / CA / budget
+### Archétype F, Pourcentage sur recettes / CA / budget
 **Exemples** : bar-karaoke, patinoire, cinema, festival, concert-spectacle
 
 ```jsonc
@@ -242,7 +242,7 @@ convention à forger au besoin.
 }
 ```
 
-### Archétype G — Composite additif (plusieurs blocs tarifaires)
+### Archétype G, Composite additif (plusieurs blocs tarifaires)
 **Exemples** : etablissement-sante (salle + parties communes + chambres),
 camping (emplacements + unités + restaurant), institution-sociale-medicosociale
 
@@ -258,7 +258,7 @@ camping (emplacements + unités + restaurant), institution-sociale-medicosociale
 }
 ```
 
-### Archétype H — Coefficient multiplicateur (étoiles, CA ≤ seuil, etc.)
+### Archétype H, Coefficient multiplicateur (étoiles, CA ≤ seuil, etc.)
 **Exemples** : camping (1*..5*), café-resto (abattement 15 % si CA ≤ 80k)
 
 Pose un modifier sur le compute racine plutôt que de redéfinir la grille.
@@ -270,7 +270,7 @@ Pose un modifier sur le compute racine plutôt que de redéfinir la grille.
 ]
 ```
 
-### Archétype I — Combinaison d'appareils
+### Archétype I, Combinaison d'appareils
 **Exemples** : café-resto (TV + radio = max + 2/3 min), EHPAD, enseignement-sup
 
 ```jsonc

@@ -43,5 +43,5 @@
       "min": 110.60
     }
   },
-  "footnote": "SACEM au tarif général par défaut. Minimum 335,17 € (268,14 € réduit) par type d'espace sonorisé. Un complexe multi-activités additionne les tarifs par espace (bowling, salle de jeux, halls, salons) — ce simulateur retient un seul espace."
+  "footnote": "SACEM au tarif général par défaut. Minimum 335,17 € (268,14 € réduit) par type d'espace sonorisé. Un complexe multi-activités additionne les tarifs par espace (bowling, salle de jeux, halls, salons), ce simulateur retient un seul espace."
 }

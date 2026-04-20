@@ -83,5 +83,5 @@
     },
     "skipWhen": { "musique_enregistree": false }
   },
-  "footnote": "SACEM au tarif général par défaut, musique vivante. SPRE spectacles : uniquement si musique enregistrée. SPRE sonorisation : 65 % × forfait (min 109,42 €) — simplification. Réduction -20 % sur contrat signé 15 j. avant : non simulée (opt-in séparé). Plafond humoriste : 11 % à 16,25 % selon demande ayants droit."
+  "footnote": "SACEM au tarif général par défaut, musique vivante. SPRE spectacles : uniquement si musique enregistrée. SPRE sonorisation : 65 % × forfait (min 109,42 €), simplification. Réduction -20 % sur contrat signé 15 j. avant : non simulée (opt-in séparé). Plafond humoriste : 11 % à 16,25 % selon demande ayants droit."
 }

@@ -19,9 +19,9 @@
       "type": "select",
       "default": 1,
       "options": [
-        { "value": 1, "label": "Niveau 1 — Fond sonore (hors pratique sportive)" },
-        { "value": 2, "label": "Niveau 2 — Accompagnement (ambiance, jingles, DJ, fanfare)" },
-        { "value": 3, "label": "Niveau 3 — Synchronisation (danse, GRS, patinage, nat. sync.)" }
+        { "value": 1, "label": "Niveau 1, Fond sonore (hors pratique sportive)" },
+        { "value": 2, "label": "Niveau 2, Accompagnement (ambiance, jingles, DJ, fanfare)" },
+        { "value": 3, "label": "Niveau 3, Synchronisation (danse, GRS, patinage, nat. sync.)" }
       ]
     },
     {
