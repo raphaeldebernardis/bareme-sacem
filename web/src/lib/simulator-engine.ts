@@ -9,7 +9,12 @@ import type {
   SimulatorResult,
 } from "./simulator-types";
 
-export const PLAYSAFE_PRICE_HT = 450;
+// Plan le moins cher : Essentiel facturation annuelle, 8,72 € HT/mois × 12.
+export const PLAYSAFE_ANNUAL_HT = 104.64;
+export const PLAYSAFE_MONTHLY_HT = 8.72;
+// Ancien export gardé en alias pour compat avec les imports existants ;
+// pointe désormais sur le coût annuel (et non plus le forfait à vie).
+export const PLAYSAFE_PRICE_HT = PLAYSAFE_ANNUAL_HT;
 
 // ---------------------------------------------------------------------------
 // Condition evaluation
@@ -243,11 +248,15 @@ export function simulate(
 
   const buildScenario = (totalAnnual: number): Scenario => ({
     totalAnnual,
+    // Avec un abonnement, la rentabilisation est immédiate dès que le
+    // coût annuel SACEM/SPRE dépasse le coût annuel de PlaySafe (104,64 €).
     breakevenMonths:
-      totalAnnual > 0 ? Math.ceil((PLAYSAFE_PRICE_HT / totalAnnual) * 12) : Infinity,
+      totalAnnual > PLAYSAFE_ANNUAL_HT ? 1
+      : totalAnnual > 0 ? Infinity
+      : Infinity,
     savings: ([5, 10, 15] as const).map((horizon) => ({
       horizon,
-      amount: Math.max(0, totalAnnual * horizon - PLAYSAFE_PRICE_HT),
+      amount: Math.max(0, totalAnnual * horizon - PLAYSAFE_ANNUAL_HT * horizon),
     })),
   });
 
