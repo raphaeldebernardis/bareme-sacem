@@ -19,90 +19,459 @@
       "type": "select",
       "default": 21,
       "options": [
-        { "value": 7, "label": "Jusqu'à 7 €" },
-        { "value": 14, "label": "Jusqu'à 14 €" },
-        { "value": 21, "label": "Jusqu'à 21 €" },
-        { "value": 28, "label": "Jusqu'à 28 €" },
-        { "value": 35, "label": "Jusqu'à 35 €" },
-        { "value": 42, "label": "Jusqu'à 42 €" },
-        { "value": 49, "label": "Jusqu'à 49 €" }
+        {
+          "value": 7,
+          "label": "Jusqu'à 7 €"
+        },
+        {
+          "value": 14,
+          "label": "Jusqu'à 14 €"
+        },
+        {
+          "value": 21,
+          "label": "Jusqu'à 21 €"
+        },
+        {
+          "value": 28,
+          "label": "Jusqu'à 28 €"
+        },
+        {
+          "value": 35,
+          "label": "Jusqu'à 35 €"
+        },
+        {
+          "value": 42,
+          "label": "Jusqu'à 42 €"
+        },
+        {
+          "value": 49,
+          "label": "Jusqu'à 49 €"
+        }
       ]
-    },
-    {
-      "id": "tarif_reduit",
-      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
-      "type": "boolean",
-      "default": false
     }
   ],
   "compute": {
     "kind": "lookup",
     "rows": [
-      { "match": { "entrees": { "lte": 25000 }, "prix_acces": 7 }, "value": 437.50 },
-      { "match": { "entrees": { "lte": 25000 }, "prix_acces": 14 }, "value": 795.01 },
-      { "match": { "entrees": { "lte": 25000 }, "prix_acces": 21 }, "value": 1152.53 },
-      { "match": { "entrees": { "lte": 25000 }, "prix_acces": 28 }, "value": 1510.03 },
-      { "match": { "entrees": { "lte": 25000 }, "prix_acces": 35 }, "value": 1867.54 },
-      { "match": { "entrees": { "lte": 25000 }, "prix_acces": 42 }, "value": 2225.05 },
-      { "match": { "entrees": { "lte": 25000 } }, "value": 2582.56 },
-
-      { "match": { "entrees": { "lte": 50000 }, "prix_acces": 7 }, "value": 894.94 },
-      { "match": { "entrees": { "lte": 50000 }, "prix_acces": 14 }, "value": 1752.45 },
-      { "match": { "entrees": { "lte": 50000 }, "prix_acces": 21 }, "value": 2259.48 },
-      { "match": { "entrees": { "lte": 50000 }, "prix_acces": 28 }, "value": 3116.98 },
-      { "match": { "entrees": { "lte": 50000 }, "prix_acces": 35 }, "value": 3974.49 },
-      { "match": { "entrees": { "lte": 50000 }, "prix_acces": 42 }, "value": 4832.00 },
-      { "match": { "entrees": { "lte": 50000 } }, "value": 5689.51 },
-
-      { "match": { "entrees": { "lte": 100000 }, "prix_acces": 7 }, "value": 1823.68 },
-      { "match": { "entrees": { "lte": 100000 }, "prix_acces": 14 }, "value": 3281.19 },
-      { "match": { "entrees": { "lte": 100000 }, "prix_acces": 21 }, "value": 4738.70 },
-      { "match": { "entrees": { "lte": 100000 }, "prix_acces": 28 }, "value": 6196.21 },
-      { "match": { "entrees": { "lte": 100000 }, "prix_acces": 35 }, "value": 7653.73 },
-      { "match": { "entrees": { "lte": 100000 }, "prix_acces": 42 }, "value": 9111.24 },
-      { "match": { "entrees": { "lte": 100000 } }, "value": 10568.75 },
-
-      { "match": { "entrees": { "lte": 200000 }, "prix_acces": 7 }, "value": 2730.74 },
-      { "match": { "entrees": { "lte": 200000 }, "prix_acces": 14 }, "value": 5389.08 },
-      { "match": { "entrees": { "lte": 200000 }, "prix_acces": 21 }, "value": 8047.26 },
-      { "match": { "entrees": { "lte": 200000 }, "prix_acces": 28 }, "value": 10705.45 },
-      { "match": { "entrees": { "lte": 200000 }, "prix_acces": 35 }, "value": 13363.64 },
-      { "match": { "entrees": { "lte": 200000 }, "prix_acces": 42 }, "value": 16021.83 },
-      { "match": { "entrees": { "lte": 200000 } }, "value": 18680.01 },
-
-      { "match": { "entrees": { "lte": 300000 }, "prix_acces": 7 }, "value": 3866.49 },
-      { "match": { "entrees": { "lte": 300000 }, "prix_acces": 14 }, "value": 7725.35 },
-      { "match": { "entrees": { "lte": 300000 }, "prix_acces": 21 }, "value": 11584.21 },
-      { "match": { "entrees": { "lte": 300000 }, "prix_acces": 28 }, "value": 15443.08 },
-      { "match": { "entrees": { "lte": 300000 }, "prix_acces": 35 }, "value": 19301.94 },
-      { "match": { "entrees": { "lte": 300000 }, "prix_acces": 42 }, "value": 23160.80 },
-      { "match": { "entrees": { "lte": 300000 } }, "value": 27019.66 },
-
-      { "match": { "entrees": { "lte": 600000 }, "prix_acces": 7 }, "value": 7273.74 },
-      { "match": { "entrees": { "lte": 600000 }, "prix_acces": 14 }, "value": 14734.24 },
-      { "match": { "entrees": { "lte": 600000 }, "prix_acces": 21 }, "value": 22194.74 },
-      { "match": { "entrees": { "lte": 600000 }, "prix_acces": 28 }, "value": 29655.24 },
-      { "match": { "entrees": { "lte": 600000 }, "prix_acces": 35 }, "value": 37115.74 },
-      { "match": { "entrees": { "lte": 600000 }, "prix_acces": 42 }, "value": 44576.24 },
-      { "match": { "entrees": { "lte": 600000 } }, "value": 52036.74 },
-
-      { "match": { "prix_acces": 7 }, "formula": "7273.74 + max(0, (entrees - 600000) / 100000) * 908.60" },
-      { "match": { "prix_acces": 14 }, "formula": "14734.24 + max(0, (entrees - 600000) / 100000) * 1841.30" },
-      { "match": { "prix_acces": 21 }, "formula": "22194.74 + max(0, (entrees - 600000) / 100000) * 2773.99" },
-      { "match": { "prix_acces": 28 }, "formula": "29655.24 + max(0, (entrees - 600000) / 100000) * 3706.68" },
-      { "match": { "prix_acces": 35 }, "formula": "37115.74 + max(0, (entrees - 600000) / 100000) * 4639.37" },
-      { "match": { "prix_acces": 42 }, "formula": "44576.24 + max(0, (entrees - 600000) / 100000) * 5572.06" },
-      { "match": {}, "formula": "52036.74 + max(0, (entrees - 600000) / 100000) * 6504.75" }
-    ],
-    "modifiers": [
-      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+      {
+        "match": {
+          "entrees": {
+            "lte": 25000
+          },
+          "prix_acces": 7
+        },
+        "value": 437.5
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 25000
+          },
+          "prix_acces": 14
+        },
+        "value": 795.01
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 25000
+          },
+          "prix_acces": 21
+        },
+        "value": 1152.53
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 25000
+          },
+          "prix_acces": 28
+        },
+        "value": 1510.03
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 25000
+          },
+          "prix_acces": 35
+        },
+        "value": 1867.54
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 25000
+          },
+          "prix_acces": 42
+        },
+        "value": 2225.05
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 25000
+          }
+        },
+        "value": 2582.56
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 50000
+          },
+          "prix_acces": 7
+        },
+        "value": 894.94
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 50000
+          },
+          "prix_acces": 14
+        },
+        "value": 1752.45
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 50000
+          },
+          "prix_acces": 21
+        },
+        "value": 2259.48
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 50000
+          },
+          "prix_acces": 28
+        },
+        "value": 3116.98
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 50000
+          },
+          "prix_acces": 35
+        },
+        "value": 3974.49
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 50000
+          },
+          "prix_acces": 42
+        },
+        "value": 4832.0
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 50000
+          }
+        },
+        "value": 5689.51
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 100000
+          },
+          "prix_acces": 7
+        },
+        "value": 1823.68
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 100000
+          },
+          "prix_acces": 14
+        },
+        "value": 3281.19
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 100000
+          },
+          "prix_acces": 21
+        },
+        "value": 4738.7
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 100000
+          },
+          "prix_acces": 28
+        },
+        "value": 6196.21
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 100000
+          },
+          "prix_acces": 35
+        },
+        "value": 7653.73
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 100000
+          },
+          "prix_acces": 42
+        },
+        "value": 9111.24
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 100000
+          }
+        },
+        "value": 10568.75
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 200000
+          },
+          "prix_acces": 7
+        },
+        "value": 2730.74
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 200000
+          },
+          "prix_acces": 14
+        },
+        "value": 5389.08
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 200000
+          },
+          "prix_acces": 21
+        },
+        "value": 8047.26
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 200000
+          },
+          "prix_acces": 28
+        },
+        "value": 10705.45
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 200000
+          },
+          "prix_acces": 35
+        },
+        "value": 13363.64
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 200000
+          },
+          "prix_acces": 42
+        },
+        "value": 16021.83
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 200000
+          }
+        },
+        "value": 18680.01
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 300000
+          },
+          "prix_acces": 7
+        },
+        "value": 3866.49
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 300000
+          },
+          "prix_acces": 14
+        },
+        "value": 7725.35
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 300000
+          },
+          "prix_acces": 21
+        },
+        "value": 11584.21
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 300000
+          },
+          "prix_acces": 28
+        },
+        "value": 15443.08
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 300000
+          },
+          "prix_acces": 35
+        },
+        "value": 19301.94
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 300000
+          },
+          "prix_acces": 42
+        },
+        "value": 23160.8
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 300000
+          }
+        },
+        "value": 27019.66
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 600000
+          },
+          "prix_acces": 7
+        },
+        "value": 7273.74
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 600000
+          },
+          "prix_acces": 14
+        },
+        "value": 14734.24
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 600000
+          },
+          "prix_acces": 21
+        },
+        "value": 22194.74
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 600000
+          },
+          "prix_acces": 28
+        },
+        "value": 29655.24
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 600000
+          },
+          "prix_acces": 35
+        },
+        "value": 37115.74
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 600000
+          },
+          "prix_acces": 42
+        },
+        "value": 44576.24
+      },
+      {
+        "match": {
+          "entrees": {
+            "lte": 600000
+          }
+        },
+        "value": 52036.74
+      },
+      {
+        "match": {
+          "prix_acces": 7
+        },
+        "formula": "7273.74 + max(0, (entrees - 600000) / 100000) * 908.60"
+      },
+      {
+        "match": {
+          "prix_acces": 14
+        },
+        "formula": "14734.24 + max(0, (entrees - 600000) / 100000) * 1841.30"
+      },
+      {
+        "match": {
+          "prix_acces": 21
+        },
+        "formula": "22194.74 + max(0, (entrees - 600000) / 100000) * 2773.99"
+      },
+      {
+        "match": {
+          "prix_acces": 28
+        },
+        "formula": "29655.24 + max(0, (entrees - 600000) / 100000) * 3706.68"
+      },
+      {
+        "match": {
+          "prix_acces": 35
+        },
+        "formula": "37115.74 + max(0, (entrees - 600000) / 100000) * 4639.37"
+      },
+      {
+        "match": {
+          "prix_acces": 42
+        },
+        "formula": "44576.24 + max(0, (entrees - 600000) / 100000) * 5572.06"
+      },
+      {
+        "match": {},
+        "formula": "52036.74 + max(0, (entrees - 600000) / 100000) * 6504.75"
+      }
     ]
   },
   "spre": {
     "compute": {
       "kind": "formula",
       "expr": "sacem * 0.65",
-      "min": 110.60
+      "min": 110.6
     }
   },
   "footnote": "SACEM au tarif général par défaut. Hypothèse : sonorisation seule (ni spectacles musicaux ni animations), grille point 1 du barème. Avec spectacles : pourcentage 0,08 % à 0,45 % sur recettes (non simulé ici). Au-delà de 49 € d'accès : paliers supplémentaires par tranche de 7 €."

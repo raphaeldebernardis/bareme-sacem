@@ -12,20 +12,11 @@
       "max": 100,
       "step": 1,
       "unit": "établissements"
-    },
-    {
-      "id": "tarif_reduit",
-      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
-      "type": "boolean",
-      "default": false
     }
   ],
   "compute": {
     "kind": "formula",
-    "expr": "etablissements * 86.39",
-    "modifiers": [
-      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
-    ]
+    "expr": "etablissements * 86.39"
   },
   "spre": {
     "compute": {

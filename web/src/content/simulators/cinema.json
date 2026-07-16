@@ -28,20 +28,11 @@
       "label": "Sonorisation des halls, foyer, espaces communs (en plus des projections)",
       "type": "boolean",
       "default": true
-    },
-    {
-      "id": "tarif_reduit",
-      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
-      "type": "boolean",
-      "default": false
     }
   ],
   "compute": {
     "kind": "formula",
-    "expr": "recettes_billetterie * 0.025 + recettes_pub * 0.025 + recettes_billetterie * 0.00016 + sonorisation_hall * recettes_billetterie * 0.001875",
-    "modifiers": [
-      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
-    ]
+    "expr": "recettes_billetterie * 0.025 + recettes_pub * 0.025 + recettes_billetterie * 0.00016 + sonorisation_hall * recettes_billetterie * 0.001875"
   },
   "spre": {
     "compute": {

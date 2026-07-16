@@ -19,9 +19,18 @@
       "type": "select",
       "default": 1,
       "options": [
-        { "value": 1, "label": "Niveau 1, Fond sonore (hors pratique sportive)" },
-        { "value": 2, "label": "Niveau 2, Accompagnement (ambiance, jingles, DJ, fanfare)" },
-        { "value": 3, "label": "Niveau 3, Synchronisation (danse, GRS, patinage, nat. sync.)" }
+        {
+          "value": 1,
+          "label": "Niveau 1, Fond sonore (hors pratique sportive)"
+        },
+        {
+          "value": 2,
+          "label": "Niveau 2, Accompagnement (ambiance, jingles, DJ, fanfare)"
+        },
+        {
+          "value": 3,
+          "label": "Niveau 3, Synchronisation (danse, GRS, patinage, nat. sync.)"
+        }
       ]
     },
     {
@@ -30,9 +39,18 @@
       "type": "select",
       "default": 3,
       "options": [
-        { "value": 1, "label": "1 animation" },
-        { "value": 3, "label": "Jusqu'à 3" },
-        { "value": 6, "label": "Jusqu'à 6" }
+        {
+          "value": 1,
+          "label": "1 animation"
+        },
+        {
+          "value": 3,
+          "label": "Jusqu'à 3"
+        },
+        {
+          "value": 6,
+          "label": "Jusqu'à 6"
+        }
       ]
     },
     {
@@ -41,12 +59,6 @@
       "type": "boolean",
       "default": false,
       "help": "Cas typique : danse classique / ballet."
-    },
-    {
-      "id": "tarif_reduit",
-      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
-      "type": "boolean",
-      "default": false
     }
   ],
   "compute": {
@@ -60,22 +72,40 @@
       {
         "kind": "lookup",
         "rows": [
-          { "match": { "animations": 1 }, "value": 140.15 },
-          { "match": { "animations": 3 }, "value": 212.96 },
-          { "match": {}, "value": 425.91 }
+          {
+            "match": {
+              "animations": 1
+            },
+            "value": 140.15
+          },
+          {
+            "match": {
+              "animations": 3
+            },
+            "value": 212.96
+          },
+          {
+            "match": {},
+            "value": 425.91
+          }
         ]
       }
     ],
     "modifiers": [
-      { "kind": "multiply", "value": 0.5, "when": { "domaine_public_majoritaire": true } },
-      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+      {
+        "kind": "multiply",
+        "value": 0.5,
+        "when": {
+          "domaine_public_majoritaire": true
+        }
+      }
     ]
   },
   "spre": {
     "compute": {
       "kind": "formula",
       "expr": "sacem * 0.65",
-      "min": 110.60
+      "min": 110.6
     }
   },
   "footnote": "SACEM au tarif général par défaut. Minimum annuel par club appliqué (115,25 € à 425,91 € selon animations). Réveillon, spectacles payants > 200 entrées, bar-restaurant avec animation propre : autres barèmes."

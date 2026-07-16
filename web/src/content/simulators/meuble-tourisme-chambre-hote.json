@@ -20,20 +20,11 @@
       "type": "boolean",
       "default": false,
       "help": "Forfait réduit 107,22 € au lieu de 134,01 € par lieu."
-    },
-    {
-      "id": "tarif_reduit",
-      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
-      "type": "boolean",
-      "default": false
     }
   ],
   "compute": {
     "kind": "formula",
-    "expr": "lieux * (rural_faible_revenu ? 107.22 : 134.01)",
-    "modifiers": [
-      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
-    ]
+    "expr": "lieux * (rural_faible_revenu ? 107.22 : 134.01)"
   },
   "spre": {
     "compute": {

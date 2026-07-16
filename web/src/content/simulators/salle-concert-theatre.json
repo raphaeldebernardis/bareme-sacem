@@ -19,10 +19,22 @@
       "type": "select",
       "default": "musical",
       "options": [
-        { "value": "musical", "label": "Concerts / variétés / musique / comédie musicale (11 %)" },
-        { "value": "pluralite", "label": "Pluralité : ballets, cirque, sons et lumières (5,50 %)" },
-        { "value": "accompagnement", "label": "Audiovisuel / musique d'accompagnement (2,50 %)" },
-        { "value": "humour", "label": "Humoristes / variétés scéniques (16,25 %)" }
+        {
+          "value": "musical",
+          "label": "Concerts / variétés / musique / comédie musicale (11 %)"
+        },
+        {
+          "value": "pluralite",
+          "label": "Pluralité : ballets, cirque, sons et lumières (5,50 %)"
+        },
+        {
+          "value": "accompagnement",
+          "label": "Audiovisuel / musique d'accompagnement (2,50 %)"
+        },
+        {
+          "value": "humour",
+          "label": "Humoristes / variétés scéniques (16,25 %)"
+        }
       ]
     },
     {
@@ -38,18 +50,27 @@
       "type": "select",
       "default": 25000,
       "options": [
-        { "value": 25000, "label": "Jusqu'à 25 000 spectateurs" },
-        { "value": 50000, "label": "25 001 à 50 000" },
-        { "value": 75000, "label": "50 001 à 75 000" },
-        { "value": 100000, "label": "75 001 à 100 000" },
-        { "value": 150000, "label": "Plus de 100 000 (par 25 000 : +361,18 €)" }
+        {
+          "value": 25000,
+          "label": "Jusqu'à 25 000 spectateurs"
+        },
+        {
+          "value": 50000,
+          "label": "25 001 à 50 000"
+        },
+        {
+          "value": 75000,
+          "label": "50 001 à 75 000"
+        },
+        {
+          "value": 100000,
+          "label": "75 001 à 100 000"
+        },
+        {
+          "value": 150000,
+          "label": "Plus de 100 000 (par 25 000 : +361,18 €)"
+        }
       ]
-    },
-    {
-      "id": "tarif_reduit",
-      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
-      "type": "boolean",
-      "default": false
     }
   ],
   "compute": {
@@ -63,16 +84,36 @@
       {
         "kind": "lookup",
         "rows": [
-          { "match": { "frequentation": 25000 }, "value": 240.78 },
-          { "match": { "frequentation": 50000 }, "value": 529.72 },
-          { "match": { "frequentation": 75000 }, "value": 794.59 },
-          { "match": { "frequentation": 100000 }, "value": 1059.47 },
-          { "match": {}, "value": 1420.65 }
+          {
+            "match": {
+              "frequentation": 25000
+            },
+            "value": 240.78
+          },
+          {
+            "match": {
+              "frequentation": 50000
+            },
+            "value": 529.72
+          },
+          {
+            "match": {
+              "frequentation": 75000
+            },
+            "value": 794.59
+          },
+          {
+            "match": {
+              "frequentation": 100000
+            },
+            "value": 1059.47
+          },
+          {
+            "match": {},
+            "value": 1420.65
+          }
         ]
       }
-    ],
-    "modifiers": [
-      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
     ]
   },
   "spre": {
@@ -81,7 +122,9 @@
       "expr": "sacem * 0.65",
       "min": 109.42
     },
-    "skipWhen": { "musique_enregistree": false }
+    "skipWhen": {
+      "musique_enregistree": false
+    }
   },
   "footnote": "SACEM au tarif général par défaut, musique vivante. SPRE spectacles : uniquement si musique enregistrée. SPRE sonorisation : 65 % × forfait (min 109,42 €), simplification. Réduction -20 % sur contrat signé 15 j. avant : non simulée (opt-in séparé). Plafond humoriste : 11 % à 16,25 % selon demande ayants droit."
 }

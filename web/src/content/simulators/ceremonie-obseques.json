@@ -12,20 +12,11 @@
       "max": 3000,
       "step": 10,
       "unit": "convois"
-    },
-    {
-      "id": "tarif_reduit",
-      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
-      "type": "boolean",
-      "default": false
     }
   ],
   "compute": {
     "kind": "formula",
-    "expr": "max(206.64, convois_annuels * 0.25 * 4.16)",
-    "modifiers": [
-      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
-    ]
+    "expr": "max(206.64, convois_annuels * 0.25 * 4.16)"
   },
   "spre": {
     "compute": {

@@ -20,9 +20,18 @@
       "type": "select",
       "default": "radio",
       "options": [
-        { "value": "tv", "label": "Télévision" },
-        { "value": "radio", "label": "Radio / lecteur" },
-        { "value": "jukebox", "label": "Juke-box" }
+        {
+          "value": "tv",
+          "label": "Télévision"
+        },
+        {
+          "value": "radio",
+          "label": "Radio / lecteur"
+        },
+        {
+          "value": "jukebox",
+          "label": "Juke-box"
+        }
       ]
     },
     {
@@ -35,12 +44,6 @@
       "step": 1,
       "unit": "lieux",
       "help": "Halls, foyers, bibliothèques, salles d'étude, couloirs, etc."
-    },
-    {
-      "id": "tarif_reduit",
-      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
-      "type": "boolean",
-      "default": false
     }
   ],
   "compute": {
@@ -55,9 +58,6 @@
         "kind": "formula",
         "expr": "ceil(lieux_sonorises / 10) * 153.09"
       }
-    ],
-    "modifiers": [
-      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
     ]
   },
   "spre": {

@@ -9,9 +9,18 @@
       "type": "radio",
       "default": "gratuite",
       "options": [
-        { "value": "gratuite", "label": "Piscine à entrée gratuite" },
-        { "value": "payante", "label": "Piscine à entrée payante" },
-        { "value": "plage", "label": "Plage sonorisée" }
+        {
+          "value": "gratuite",
+          "label": "Piscine à entrée gratuite"
+        },
+        {
+          "value": "payante",
+          "label": "Piscine à entrée payante"
+        },
+        {
+          "value": "plage",
+          "label": "Plage sonorisée"
+        }
       ]
     },
     {
@@ -19,12 +28,26 @@
       "label": "Longueur du bassin",
       "type": "select",
       "default": 25,
-      "when": { "type": "gratuite" },
+      "when": {
+        "type": "gratuite"
+      },
       "options": [
-        { "value": 25, "label": "25 mètres" },
-        { "value": 33, "label": "33 mètres" },
-        { "value": 50, "label": "50 mètres" },
-        { "value": 51, "label": "Plus de 50 mètres" }
+        {
+          "value": 25,
+          "label": "25 mètres"
+        },
+        {
+          "value": 33,
+          "label": "33 mètres"
+        },
+        {
+          "value": 50,
+          "label": "50 mètres"
+        },
+        {
+          "value": 51,
+          "label": "Plus de 50 mètres"
+        }
       ]
     },
     {
@@ -36,89 +59,399 @@
       "max": 500000,
       "step": 500,
       "unit": "entrées",
-      "when": { "type": "payante" }
+      "when": {
+        "type": "payante"
+      }
     },
     {
       "id": "prix_entree",
       "label": "Prix moyen d'une entrée",
       "type": "select",
       "default": 2.59,
-      "when": { "type": "payante" },
+      "when": {
+        "type": "payante"
+      },
       "options": [
-        { "value": 1.52, "label": "≤ 1,52 €" },
-        { "value": 1.98, "label": "1,98 €" },
-        { "value": 2.59, "label": "2,59 €" },
-        { "value": 4.00, "label": "Plus de 2,59 € (prix moyen ~4 €)" }
+        {
+          "value": 1.52,
+          "label": "≤ 1,52 €"
+        },
+        {
+          "value": 1.98,
+          "label": "1,98 €"
+        },
+        {
+          "value": 2.59,
+          "label": "2,59 €"
+        },
+        {
+          "value": 4.0,
+          "label": "Plus de 2,59 € (prix moyen ~4 €)"
+        }
       ]
-    },
-    {
-      "id": "tarif_reduit",
-      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
-      "type": "boolean",
-      "default": false
     }
   ],
   "compute": {
     "kind": "lookup",
     "rows": [
-      { "match": { "type": "plage" }, "value": 159.81 },
-
-      { "match": { "type": "gratuite", "longueur": 25 }, "value": 72.89 },
-      { "match": { "type": "gratuite", "longueur": 33 }, "value": 98.94 },
-      { "match": { "type": "gratuite", "longueur": 50 }, "value": 151.99 },
-      { "match": { "type": "gratuite" }, "value": 159.81 },
-
-      { "match": { "type": "payante", "entrees": { "lte": 2500 }, "prix_entree": 1.52 }, "value": 38.69 },
-      { "match": { "type": "payante", "entrees": { "lte": 2500 }, "prix_entree": 1.98 }, "value": 49.55 },
-      { "match": { "type": "payante", "entrees": { "lte": 2500 }, "prix_entree": 2.59 }, "value": 64.03 },
-      { "match": { "type": "payante", "entrees": { "lte": 2500 } }, "formula": "64.03 + (prix_entree - 2.59) / 0.15 * 3.63" },
-
-      { "match": { "type": "payante", "entrees": { "lte": 5000 }, "prix_entree": 1.52 }, "value": 70.51 },
-      { "match": { "type": "payante", "entrees": { "lte": 5000 }, "prix_entree": 1.98 }, "value": 90.51 },
-      { "match": { "type": "payante", "entrees": { "lte": 5000 }, "prix_entree": 2.59 }, "value": 117.20 },
-      { "match": { "type": "payante", "entrees": { "lte": 5000 } }, "formula": "117.20 + (prix_entree - 2.59) / 0.15 * 6.68" },
-
-      { "match": { "type": "payante", "entrees": { "lte": 10000 }, "prix_entree": 1.52 }, "value": 126.91 },
-      { "match": { "type": "payante", "entrees": { "lte": 10000 }, "prix_entree": 1.98 }, "value": 162.93 },
-      { "match": { "type": "payante", "entrees": { "lte": 10000 }, "prix_entree": 2.59 }, "value": 210.95 },
-      { "match": { "type": "payante", "entrees": { "lte": 10000 } }, "formula": "210.95 + (prix_entree - 2.59) / 0.15 * 12.00" },
-
-      { "match": { "type": "payante", "entrees": { "lte": 15000 }, "prix_entree": 1.52 }, "value": 169.21 },
-      { "match": { "type": "payante", "entrees": { "lte": 15000 }, "prix_entree": 1.98 }, "value": 217.24 },
-      { "match": { "type": "payante", "entrees": { "lte": 15000 }, "prix_entree": 2.59 }, "value": 281.26 },
-      { "match": { "type": "payante", "entrees": { "lte": 15000 } }, "formula": "281.26 + (prix_entree - 2.59) / 0.15 * 16.01" },
-
-      { "match": { "type": "payante", "entrees": { "lte": 25000 }, "prix_entree": 1.52 }, "value": 229.25 },
-      { "match": { "type": "payante", "entrees": { "lte": 25000 }, "prix_entree": 1.98 }, "value": 294.41 },
-      { "match": { "type": "payante", "entrees": { "lte": 25000 }, "prix_entree": 2.59 }, "value": 381.31 },
-      { "match": { "type": "payante", "entrees": { "lte": 25000 } }, "formula": "381.31 + (prix_entree - 2.59) / 0.15 * 21.73" },
-
-      { "match": { "type": "payante", "entrees": { "lte": 50000 }, "prix_entree": 1.52 }, "value": 352.54 },
-      { "match": { "type": "payante", "entrees": { "lte": 50000 }, "prix_entree": 1.98 }, "value": 452.59 },
-      { "match": { "type": "payante", "entrees": { "lte": 50000 }, "prix_entree": 2.59 }, "value": 585.98 },
-      { "match": { "type": "payante", "entrees": { "lte": 50000 } }, "formula": "585.98 + (prix_entree - 2.59) / 0.15 * 33.35" },
-
-      { "match": { "type": "payante", "entrees": { "lte": 75000 }, "prix_entree": 1.52 }, "value": 370.26 },
-      { "match": { "type": "payante", "entrees": { "lte": 75000 }, "prix_entree": 1.98 }, "value": 475.45 },
-      { "match": { "type": "payante", "entrees": { "lte": 75000 }, "prix_entree": 2.59 }, "value": 615.70 },
-      { "match": { "type": "payante", "entrees": { "lte": 75000 } }, "formula": "615.70 + (prix_entree - 2.59) / 0.15 * 35.06" },
-
-      { "match": { "type": "payante", "entrees": { "lte": 100000 }, "prix_entree": 1.52 }, "value": 423.05 },
-      { "match": { "type": "payante", "entrees": { "lte": 100000 }, "prix_entree": 1.98 }, "value": 543.10 },
-      { "match": { "type": "payante", "entrees": { "lte": 100000 }, "prix_entree": 2.59 }, "value": 703.18 },
-      { "match": { "type": "payante", "entrees": { "lte": 100000 } }, "formula": "703.18 + (prix_entree - 2.59) / 0.15 * 40.01" },
-
-      { "match": { "type": "payante" }, "formula": "703.18 + max(0, (entrees - 100000) / 25000) * 117.20" }
-    ],
-    "modifiers": [
-      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+      {
+        "match": {
+          "type": "plage"
+        },
+        "value": 159.81
+      },
+      {
+        "match": {
+          "type": "gratuite",
+          "longueur": 25
+        },
+        "value": 72.89
+      },
+      {
+        "match": {
+          "type": "gratuite",
+          "longueur": 33
+        },
+        "value": 98.94
+      },
+      {
+        "match": {
+          "type": "gratuite",
+          "longueur": 50
+        },
+        "value": 151.99
+      },
+      {
+        "match": {
+          "type": "gratuite"
+        },
+        "value": 159.81
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 2500
+          },
+          "prix_entree": 1.52
+        },
+        "value": 38.69
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 2500
+          },
+          "prix_entree": 1.98
+        },
+        "value": 49.55
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 2500
+          },
+          "prix_entree": 2.59
+        },
+        "value": 64.03
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 2500
+          }
+        },
+        "formula": "64.03 + (prix_entree - 2.59) / 0.15 * 3.63"
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 5000
+          },
+          "prix_entree": 1.52
+        },
+        "value": 70.51
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 5000
+          },
+          "prix_entree": 1.98
+        },
+        "value": 90.51
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 5000
+          },
+          "prix_entree": 2.59
+        },
+        "value": 117.2
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 5000
+          }
+        },
+        "formula": "117.20 + (prix_entree - 2.59) / 0.15 * 6.68"
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 10000
+          },
+          "prix_entree": 1.52
+        },
+        "value": 126.91
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 10000
+          },
+          "prix_entree": 1.98
+        },
+        "value": 162.93
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 10000
+          },
+          "prix_entree": 2.59
+        },
+        "value": 210.95
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 10000
+          }
+        },
+        "formula": "210.95 + (prix_entree - 2.59) / 0.15 * 12.00"
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 15000
+          },
+          "prix_entree": 1.52
+        },
+        "value": 169.21
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 15000
+          },
+          "prix_entree": 1.98
+        },
+        "value": 217.24
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 15000
+          },
+          "prix_entree": 2.59
+        },
+        "value": 281.26
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 15000
+          }
+        },
+        "formula": "281.26 + (prix_entree - 2.59) / 0.15 * 16.01"
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 25000
+          },
+          "prix_entree": 1.52
+        },
+        "value": 229.25
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 25000
+          },
+          "prix_entree": 1.98
+        },
+        "value": 294.41
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 25000
+          },
+          "prix_entree": 2.59
+        },
+        "value": 381.31
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 25000
+          }
+        },
+        "formula": "381.31 + (prix_entree - 2.59) / 0.15 * 21.73"
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 50000
+          },
+          "prix_entree": 1.52
+        },
+        "value": 352.54
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 50000
+          },
+          "prix_entree": 1.98
+        },
+        "value": 452.59
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 50000
+          },
+          "prix_entree": 2.59
+        },
+        "value": 585.98
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 50000
+          }
+        },
+        "formula": "585.98 + (prix_entree - 2.59) / 0.15 * 33.35"
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 75000
+          },
+          "prix_entree": 1.52
+        },
+        "value": 370.26
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 75000
+          },
+          "prix_entree": 1.98
+        },
+        "value": 475.45
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 75000
+          },
+          "prix_entree": 2.59
+        },
+        "value": 615.7
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 75000
+          }
+        },
+        "formula": "615.70 + (prix_entree - 2.59) / 0.15 * 35.06"
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 100000
+          },
+          "prix_entree": 1.52
+        },
+        "value": 423.05
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 100000
+          },
+          "prix_entree": 1.98
+        },
+        "value": 543.1
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 100000
+          },
+          "prix_entree": 2.59
+        },
+        "value": 703.18
+      },
+      {
+        "match": {
+          "type": "payante",
+          "entrees": {
+            "lte": 100000
+          }
+        },
+        "formula": "703.18 + (prix_entree - 2.59) / 0.15 * 40.01"
+      },
+      {
+        "match": {
+          "type": "payante"
+        },
+        "formula": "703.18 + max(0, (entrees - 100000) / 25000) * 117.20"
+      }
     ]
   },
   "spre": {
     "compute": {
       "kind": "formula",
       "expr": "sacem * 0.65",
-      "min": 110.60
+      "min": 110.6
     }
   },
   "footnote": "SACEM au tarif général par défaut. Piscine payante : grille entrées × prix d'entrée, extrapolation linéaire au-delà du prix standard. Absence de prix d'entrée avec location de cabine : prendre le prix de la cabine diminué de 50 %."

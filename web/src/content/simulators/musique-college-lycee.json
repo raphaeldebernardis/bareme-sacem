@@ -23,24 +23,39 @@
       "step": 1,
       "unit": "établissements",
       "help": "Pour un département ou une académie qui pilote plusieurs collèges/lycées."
-    },
-    {
-      "id": "tarif_reduit",
-      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
-      "type": "boolean",
-      "default": false
     }
   ],
   "compute": {
     "kind": "lookup",
     "rows": [
-      { "match": { "eleves": { "lte": 300 } }, "formula": "etablissements * 150.00" },
-      { "match": { "eleves": { "lte": 500 } }, "formula": "etablissements * 250.00" },
-      { "match": { "eleves": { "lte": 900 } }, "formula": "etablissements * 400.00" },
-      { "match": {}, "formula": "etablissements * 600.00" }
-    ],
-    "modifiers": [
-      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+      {
+        "match": {
+          "eleves": {
+            "lte": 300
+          }
+        },
+        "formula": "etablissements * 150.00"
+      },
+      {
+        "match": {
+          "eleves": {
+            "lte": 500
+          }
+        },
+        "formula": "etablissements * 250.00"
+      },
+      {
+        "match": {
+          "eleves": {
+            "lte": 900
+          }
+        },
+        "formula": "etablissements * 400.00"
+      },
+      {
+        "match": {},
+        "formula": "etablissements * 600.00"
+      }
     ]
   },
   "spre": {

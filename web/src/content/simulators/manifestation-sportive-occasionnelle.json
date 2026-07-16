@@ -9,9 +9,18 @@
       "type": "radio",
       "default": "fond_sonore",
       "options": [
-        { "value": "fond_sonore", "label": "Fond sonore (échauffement, pauses)" },
-        { "value": "animations", "label": "Animations (DJ, animateur ponctuel)" },
-        { "value": "synchronisation", "label": "Synchronisation (patinage, GRS, natation synchronisée)" }
+        {
+          "value": "fond_sonore",
+          "label": "Fond sonore (échauffement, pauses)"
+        },
+        {
+          "value": "animations",
+          "label": "Animations (DJ, animateur ponctuel)"
+        },
+        {
+          "value": "synchronisation",
+          "label": "Synchronisation (patinage, GRS, natation synchronisée)"
+        }
       ]
     },
     {
@@ -30,11 +39,26 @@
       "type": "select",
       "default": 500,
       "options": [
-        { "value": 250, "label": "Jusqu'à 250 places" },
-        { "value": 500, "label": "Jusqu'à 500" },
-        { "value": 1000, "label": "Jusqu'à 1 000" },
-        { "value": 2000, "label": "Jusqu'à 2 000" },
-        { "value": 5000, "label": "Jusqu'à 5 000" }
+        {
+          "value": 250,
+          "label": "Jusqu'à 250 places"
+        },
+        {
+          "value": 500,
+          "label": "Jusqu'à 500"
+        },
+        {
+          "value": 1000,
+          "label": "Jusqu'à 1 000"
+        },
+        {
+          "value": 2000,
+          "label": "Jusqu'à 2 000"
+        },
+        {
+          "value": 5000,
+          "label": "Jusqu'à 5 000"
+        }
       ]
     },
     {
@@ -43,26 +67,32 @@
       "type": "select",
       "default": 0,
       "options": [
-        { "value": 0, "label": "Gratuit" },
-        { "value": 10, "label": "Jusqu'à 10 €" },
-        { "value": 20, "label": "Jusqu'à 20 €" },
-        { "value": 30, "label": "Jusqu'à 30 €" },
-        { "value": 40, "label": "Jusqu'à 40 €" }
+        {
+          "value": 0,
+          "label": "Gratuit"
+        },
+        {
+          "value": 10,
+          "label": "Jusqu'à 10 €"
+        },
+        {
+          "value": 20,
+          "label": "Jusqu'à 20 €"
+        },
+        {
+          "value": 30,
+          "label": "Jusqu'à 30 €"
+        },
+        {
+          "value": 40,
+          "label": "Jusqu'à 40 €"
+        }
       ]
-    },
-    {
-      "id": "tarif_reduit",
-      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
-      "type": "boolean",
-      "default": false
     }
   ],
   "compute": {
     "kind": "formula",
-    "expr": "jours * (categorie == 'fond_sonore' ? (capacite == 250 ? 77.75 : capacite == 500 ? 85.53 : capacite == 1000 ? 96.21 : capacite == 2000 ? 110.64 : 130.00) * (prix_acces == 0 ? 1 : prix_acces <= 10 ? 1.32 : prix_acces <= 20 ? 1.60 : prix_acces <= 30 ? 1.92 : 2.89) : categorie == 'animations' ? (capacite == 250 ? 77.75 : capacite == 500 ? 98.35 : capacite == 1000 ? 125.08 : capacite == 2000 ? 165.96 : 221.00) * (prix_acces == 0 ? 1 : prix_acces <= 10 ? 2.46 : prix_acces <= 20 ? 4.00 : prix_acces <= 30 ? 5.40 : 6.85) : (capacite == 250 ? 77.75 : capacite == 500 ? 113.10 : capacite == 1000 ? 162.59 : capacite == 2000 ? 248.93 : 375.70) * (prix_acces == 0 ? 1 : prix_acces <= 10 ? 5.75 : prix_acces <= 20 ? 12.00 : prix_acces <= 30 ? 15.24 : 19.97))",
-    "modifiers": [
-      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
-    ]
+    "expr": "jours * (categorie == 'fond_sonore' ? (capacite == 250 ? 77.75 : capacite == 500 ? 85.53 : capacite == 1000 ? 96.21 : capacite == 2000 ? 110.64 : 130.00) * (prix_acces == 0 ? 1 : prix_acces <= 10 ? 1.32 : prix_acces <= 20 ? 1.60 : prix_acces <= 30 ? 1.92 : 2.89) : categorie == 'animations' ? (capacite == 250 ? 77.75 : capacite == 500 ? 98.35 : capacite == 1000 ? 125.08 : capacite == 2000 ? 165.96 : 221.00) * (prix_acces == 0 ? 1 : prix_acces <= 10 ? 2.46 : prix_acces <= 20 ? 4.00 : prix_acces <= 30 ? 5.40 : 6.85) : (capacite == 250 ? 77.75 : capacite == 500 ? 113.10 : capacite == 1000 ? 162.59 : capacite == 2000 ? 248.93 : 375.70) * (prix_acces == 0 ? 1 : prix_acces <= 10 ? 5.75 : prix_acces <= 20 ? 12.00 : prix_acces <= 30 ? 15.24 : 19.97))"
   },
   "spre": {
     "compute": {

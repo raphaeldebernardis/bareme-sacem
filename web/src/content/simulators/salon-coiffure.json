@@ -9,8 +9,14 @@
       "type": "radio",
       "default": "hp",
       "options": [
-        { "value": "simple", "label": "Radio ou TV sans haut-parleur supplémentaire" },
-        { "value": "hp", "label": "Appareil avec haut-parleur supplémentaire" }
+        {
+          "value": "simple",
+          "label": "Radio ou TV sans haut-parleur supplémentaire"
+        },
+        {
+          "value": "hp",
+          "label": "Appareil avec haut-parleur supplémentaire"
+        }
       ]
     },
     {
@@ -32,38 +38,96 @@
       "max": 10,
       "step": 1,
       "unit": "appareils",
-      "when": { "appareil": "simple" }
-    },
-    {
-      "id": "tarif_reduit",
-      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
-      "type": "boolean",
-      "default": false
+      "when": {
+        "appareil": "simple"
+      }
     }
   ],
   "compute": {
     "kind": "lookup",
     "rows": [
-      { "match": { "appareil": "simple" }, "formula": "139.24 * appareils_simples" },
-      { "match": { "appareil": "hp", "employes": { "lte": 5 } }, "value": 216.94 },
-      { "match": { "appareil": "hp", "employes": { "lte": 10 } }, "value": 291.56 },
-      { "match": { "appareil": "hp", "employes": { "lte": 15 } }, "value": 581.38 },
-      { "match": { "appareil": "hp" }, "value": 1162.75 }
+      {
+        "match": {
+          "appareil": "simple"
+        },
+        "formula": "139.24 * appareils_simples"
+      },
+      {
+        "match": {
+          "appareil": "hp",
+          "employes": {
+            "lte": 5
+          }
+        },
+        "value": 216.94
+      },
+      {
+        "match": {
+          "appareil": "hp",
+          "employes": {
+            "lte": 10
+          }
+        },
+        "value": 291.56
+      },
+      {
+        "match": {
+          "appareil": "hp",
+          "employes": {
+            "lte": 15
+          }
+        },
+        "value": 581.38
+      },
+      {
+        "match": {
+          "appareil": "hp"
+        },
+        "value": 1162.75
+      }
     ],
-    "fallback": 139.24,
-    "modifiers": [
-      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
-    ]
+    "fallback": 139.24
   },
   "spre": {
     "compute": {
       "kind": "lookup",
       "rows": [
-        { "match": { "employes": { "lte": 2 } }, "value": 110.17 },
-        { "match": { "employes": { "lte": 5 } }, "value": 134.64 },
-        { "match": { "employes": { "lte": 10 } }, "value": 146.91 },
-        { "match": { "employes": { "lte": 15 } }, "value": 232.55 },
-        { "match": {}, "value": 342.73 }
+        {
+          "match": {
+            "employes": {
+              "lte": 2
+            }
+          },
+          "value": 110.17
+        },
+        {
+          "match": {
+            "employes": {
+              "lte": 5
+            }
+          },
+          "value": 134.64
+        },
+        {
+          "match": {
+            "employes": {
+              "lte": 10
+            }
+          },
+          "value": 146.91
+        },
+        {
+          "match": {
+            "employes": {
+              "lte": 15
+            }
+          },
+          "value": 232.55
+        },
+        {
+          "match": {},
+          "value": 342.73
+        }
       ]
     }
   },

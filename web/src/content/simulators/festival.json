@@ -9,8 +9,14 @@
       "type": "radio",
       "default": "recettes",
       "options": [
-        { "value": "recettes", "label": "Recettes (entrées 100 % + annexes 50 %)" },
-        { "value": "depenses", "label": "Dépenses engagées (budget artistique majoré)" }
+        {
+          "value": "recettes",
+          "label": "Recettes (entrées 100 % + annexes 50 %)"
+        },
+        {
+          "value": "depenses",
+          "label": "Dépenses engagées (budget artistique majoré)"
+        }
       ]
     },
     {
@@ -22,7 +28,9 @@
       "max": 10000000,
       "step": 1000,
       "unit": "€ HT",
-      "when": { "assiette": "recettes" }
+      "when": {
+        "assiette": "recettes"
+      }
     },
     {
       "id": "recettes_annexes",
@@ -33,7 +41,9 @@
       "max": 5000000,
       "step": 1000,
       "unit": "€ HT",
-      "when": { "assiette": "recettes" }
+      "when": {
+        "assiette": "recettes"
+      }
     },
     {
       "id": "budget_artistique",
@@ -44,7 +54,9 @@
       "max": 5000000,
       "step": 1000,
       "unit": "€ HT",
-      "when": { "assiette": "depenses" }
+      "when": {
+        "assiette": "depenses"
+      }
     },
     {
       "id": "categorie",
@@ -52,10 +64,22 @@
       "type": "select",
       "default": "musical",
       "options": [
-        { "value": "musical", "label": "Concerts / variétés / musique / comédie musicale (11 %)" },
-        { "value": "pluralite", "label": "Pluralité de genres : ballets, cirque, sons et lumières (5,50 %)" },
-        { "value": "accompagnement", "label": "Audiovisuel ou musique d'accompagnement (2,50 %)" },
-        { "value": "humour", "label": "Humoristes / variétés scéniques (16,25 %)" }
+        {
+          "value": "musical",
+          "label": "Concerts / variétés / musique / comédie musicale (11 %)"
+        },
+        {
+          "value": "pluralite",
+          "label": "Pluralité de genres : ballets, cirque, sons et lumières (5,50 %)"
+        },
+        {
+          "value": "accompagnement",
+          "label": "Audiovisuel ou musique d'accompagnement (2,50 %)"
+        },
+        {
+          "value": "humour",
+          "label": "Humoristes / variétés scéniques (16,25 %)"
+        }
       ]
     },
     {
@@ -64,12 +88,6 @@
       "type": "boolean",
       "default": false,
       "help": "+25 % sur le taux. Projections audiovisuelles : majoration non applicable."
-    },
-    {
-      "id": "tarif_reduit",
-      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
-      "type": "boolean",
-      "default": false
     }
   ],
   "compute": {
@@ -77,8 +95,13 @@
     "expr": "(assiette == 'recettes' ? recettes_entrees + recettes_annexes * 0.5 * 0.75 : budget_artistique * 1.35) * (categorie == 'musical' ? 0.11 : categorie == 'pluralite' ? 0.055 : categorie == 'accompagnement' ? 0.025 : 0.1625)",
     "min": 61.88,
     "modifiers": [
-      { "kind": "multiply", "value": 1.25, "when": { "musique_enregistree": true } },
-      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+      {
+        "kind": "multiply",
+        "value": 1.25,
+        "when": {
+          "musique_enregistree": true
+        }
+      }
     ]
   },
   "spre": {
@@ -87,7 +110,9 @@
       "expr": "sacem * 0.65",
       "min": 102.27
     },
-    "skipWhen": { "musique_enregistree": false }
+    "skipWhen": {
+      "musique_enregistree": false
+    }
   },
   "footnote": "SACEM au tarif général par défaut, musique vivante. Musique vivante exclusive : pas de SPRE. Projection audiovisuelle : pas de +25 % (l'application l'ajoute dès la case cochée). Abattements d'éducation populaire / partenariat SACEM non simulés."
 }

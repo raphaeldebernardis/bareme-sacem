@@ -22,26 +22,17 @@
       "max": 2000,
       "step": 1,
       "unit": "participants"
-    },
-    {
-      "id": "tarif_reduit",
-      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
-      "type": "boolean",
-      "default": false
     }
   ],
   "compute": {
     "kind": "formula",
-    "expr": "max(participants_synchro * 5.60 + participants_autres * 0.97, (participants_synchro > 0 ? 142.24 : 0) + (participants_autres > 0 ? 47.61 : 0))",
-    "modifiers": [
-      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
-    ]
+    "expr": "max(participants_synchro * 5.60 + participants_autres * 0.97, (participants_synchro > 0 ? 142.24 : 0) + (participants_autres > 0 ? 47.61 : 0))"
   },
   "spre": {
     "compute": {
       "kind": "formula",
       "expr": "sacem * 0.65",
-      "min": 110.60
+      "min": 110.6
     }
   },
   "footnote": "SACEM au tarif général par défaut. Stages de danse : barème séparé (30,94 €/jour réduit, réductions par paliers de 10 jours) non inclus ici. Le minimum annuel par type d'activité est appliqué par comparaison avec le cumul au participant."

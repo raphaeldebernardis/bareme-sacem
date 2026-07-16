@@ -19,78 +19,368 @@
       "type": "select",
       "default": 15000,
       "options": [
-        { "value": 2000, "label": "Jusqu'à 2 000 habitants" },
-        { "value": 15000, "label": "Jusqu'à 15 000 habitants" },
-        { "value": 50000, "label": "Jusqu'à 50 000 habitants" },
-        { "value": 200000, "label": "Plus de 50 000 habitants" },
-        { "value": 9999999, "label": "Paris" }
+        {
+          "value": 2000,
+          "label": "Jusqu'à 2 000 habitants"
+        },
+        {
+          "value": 15000,
+          "label": "Jusqu'à 15 000 habitants"
+        },
+        {
+          "value": 50000,
+          "label": "Jusqu'à 50 000 habitants"
+        },
+        {
+          "value": 200000,
+          "label": "Plus de 50 000 habitants"
+        },
+        {
+          "value": 9999999,
+          "label": "Paris"
+        }
       ]
-    },
-    {
-      "id": "tarif_reduit",
-      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
-      "type": "boolean",
-      "default": false
     }
   ],
   "compute": {
     "kind": "lookup",
     "rows": [
-      { "match": { "places": { "lte": 30 }, "population": 2000 }, "value": 576.87 },
-      { "match": { "places": { "lte": 30 }, "population": 15000 }, "value": 721.09 },
-      { "match": { "places": { "lte": 30 }, "population": 50000 }, "value": 973.45 },
-      { "match": { "places": { "lte": 30 }, "population": 200000 }, "value": 1411.55 },
-      { "match": { "places": { "lte": 30 }, "population": 9999999 }, "value": 2151.66 },
-
-      { "match": { "places": { "lte": 60 }, "population": 2000 }, "value": 663.38 },
-      { "match": { "places": { "lte": 60 }, "population": 15000 }, "value": 829.25 },
-      { "match": { "places": { "lte": 60 }, "population": 50000 }, "value": 1119.49 },
-      { "match": { "places": { "lte": 60 }, "population": 200000 }, "value": 1623.25 },
-      { "match": { "places": { "lte": 60 }, "population": 9999999 }, "value": 2474.42 },
-
-      { "match": { "places": { "lte": 100 }, "population": 2000 }, "value": 762.91 },
-      { "match": { "places": { "lte": 100 }, "population": 15000 }, "value": 953.62 },
-      { "match": { "places": { "lte": 100 }, "population": 50000 }, "value": 1287.39 },
-      { "match": { "places": { "lte": 100 }, "population": 200000 }, "value": 1785.58 },
-      { "match": { "places": { "lte": 100 }, "population": 9999999 }, "value": 2721.87 },
-
-      { "match": { "population": 2000 }, "value": 877.32 },
-      { "match": { "population": 15000 }, "value": 1096.68 },
-      { "match": { "population": 50000 }, "value": 1416.15 },
-      { "match": { "population": 200000 }, "value": 1964.13 },
-      { "match": { "population": 9999999 }, "value": 2994.03 }
-    ],
-    "modifiers": [
-      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+      {
+        "match": {
+          "places": {
+            "lte": 30
+          },
+          "population": 2000
+        },
+        "value": 576.87
+      },
+      {
+        "match": {
+          "places": {
+            "lte": 30
+          },
+          "population": 15000
+        },
+        "value": 721.09
+      },
+      {
+        "match": {
+          "places": {
+            "lte": 30
+          },
+          "population": 50000
+        },
+        "value": 973.45
+      },
+      {
+        "match": {
+          "places": {
+            "lte": 30
+          },
+          "population": 200000
+        },
+        "value": 1411.55
+      },
+      {
+        "match": {
+          "places": {
+            "lte": 30
+          },
+          "population": 9999999
+        },
+        "value": 2151.66
+      },
+      {
+        "match": {
+          "places": {
+            "lte": 60
+          },
+          "population": 2000
+        },
+        "value": 663.38
+      },
+      {
+        "match": {
+          "places": {
+            "lte": 60
+          },
+          "population": 15000
+        },
+        "value": 829.25
+      },
+      {
+        "match": {
+          "places": {
+            "lte": 60
+          },
+          "population": 50000
+        },
+        "value": 1119.49
+      },
+      {
+        "match": {
+          "places": {
+            "lte": 60
+          },
+          "population": 200000
+        },
+        "value": 1623.25
+      },
+      {
+        "match": {
+          "places": {
+            "lte": 60
+          },
+          "population": 9999999
+        },
+        "value": 2474.42
+      },
+      {
+        "match": {
+          "places": {
+            "lte": 100
+          },
+          "population": 2000
+        },
+        "value": 762.91
+      },
+      {
+        "match": {
+          "places": {
+            "lte": 100
+          },
+          "population": 15000
+        },
+        "value": 953.62
+      },
+      {
+        "match": {
+          "places": {
+            "lte": 100
+          },
+          "population": 50000
+        },
+        "value": 1287.39
+      },
+      {
+        "match": {
+          "places": {
+            "lte": 100
+          },
+          "population": 200000
+        },
+        "value": 1785.58
+      },
+      {
+        "match": {
+          "places": {
+            "lte": 100
+          },
+          "population": 9999999
+        },
+        "value": 2721.87
+      },
+      {
+        "match": {
+          "population": 2000
+        },
+        "value": 877.32
+      },
+      {
+        "match": {
+          "population": 15000
+        },
+        "value": 1096.68
+      },
+      {
+        "match": {
+          "population": 50000
+        },
+        "value": 1416.15
+      },
+      {
+        "match": {
+          "population": 200000
+        },
+        "value": 1964.13
+      },
+      {
+        "match": {
+          "population": 9999999
+        },
+        "value": 2994.03
+      }
     ]
   },
   "spre": {
     "compute": {
       "kind": "lookup",
       "rows": [
-        { "match": { "places": { "lte": 30 }, "population": 2000 }, "value": 154.53 },
-        { "match": { "places": { "lte": 30 }, "population": 15000 }, "value": 191.84 },
-        { "match": { "places": { "lte": 30 }, "population": 50000 }, "value": 259.77 },
-        { "match": { "places": { "lte": 30 }, "population": 200000 }, "value": 377.02 },
-        { "match": { "places": { "lte": 30 }, "population": 9999999 }, "value": 574.20 },
-
-        { "match": { "places": { "lte": 60 }, "population": 2000 }, "value": 223.81 },
-        { "match": { "places": { "lte": 60 }, "population": 15000 }, "value": 279.77 },
-        { "match": { "places": { "lte": 60 }, "population": 50000 }, "value": 378.35 },
-        { "match": { "places": { "lte": 60 }, "population": 200000 }, "value": 547.57 },
-        { "match": { "places": { "lte": 60 }, "population": 9999999 }, "value": 835.30 },
-
-        { "match": { "places": { "lte": 100 }, "population": 2000 }, "value": 257.12 },
-        { "match": { "places": { "lte": 100 }, "population": 15000 }, "value": 322.39 },
-        { "match": { "places": { "lte": 100 }, "population": 50000 }, "value": 434.31 },
-        { "match": { "places": { "lte": 100 }, "population": 200000 }, "value": 603.52 },
-        { "match": { "places": { "lte": 100 }, "population": 9999999 }, "value": 919.24 },
-
-        { "match": { "population": 2000 }, "value": 295.75 },
-        { "match": { "population": 15000 }, "value": 370.36 },
-        { "match": { "population": 50000 }, "value": 478.28 },
-        { "match": { "population": 200000 }, "value": 663.44 },
-        { "match": { "population": 9999999 }, "value": 1011.16 }
+        {
+          "match": {
+            "places": {
+              "lte": 30
+            },
+            "population": 2000
+          },
+          "value": 154.53
+        },
+        {
+          "match": {
+            "places": {
+              "lte": 30
+            },
+            "population": 15000
+          },
+          "value": 191.84
+        },
+        {
+          "match": {
+            "places": {
+              "lte": 30
+            },
+            "population": 50000
+          },
+          "value": 259.77
+        },
+        {
+          "match": {
+            "places": {
+              "lte": 30
+            },
+            "population": 200000
+          },
+          "value": 377.02
+        },
+        {
+          "match": {
+            "places": {
+              "lte": 30
+            },
+            "population": 9999999
+          },
+          "value": 574.2
+        },
+        {
+          "match": {
+            "places": {
+              "lte": 60
+            },
+            "population": 2000
+          },
+          "value": 223.81
+        },
+        {
+          "match": {
+            "places": {
+              "lte": 60
+            },
+            "population": 15000
+          },
+          "value": 279.77
+        },
+        {
+          "match": {
+            "places": {
+              "lte": 60
+            },
+            "population": 50000
+          },
+          "value": 378.35
+        },
+        {
+          "match": {
+            "places": {
+              "lte": 60
+            },
+            "population": 200000
+          },
+          "value": 547.57
+        },
+        {
+          "match": {
+            "places": {
+              "lte": 60
+            },
+            "population": 9999999
+          },
+          "value": 835.3
+        },
+        {
+          "match": {
+            "places": {
+              "lte": 100
+            },
+            "population": 2000
+          },
+          "value": 257.12
+        },
+        {
+          "match": {
+            "places": {
+              "lte": 100
+            },
+            "population": 15000
+          },
+          "value": 322.39
+        },
+        {
+          "match": {
+            "places": {
+              "lte": 100
+            },
+            "population": 50000
+          },
+          "value": 434.31
+        },
+        {
+          "match": {
+            "places": {
+              "lte": 100
+            },
+            "population": 200000
+          },
+          "value": 603.52
+        },
+        {
+          "match": {
+            "places": {
+              "lte": 100
+            },
+            "population": 9999999
+          },
+          "value": 919.24
+        },
+        {
+          "match": {
+            "population": 2000
+          },
+          "value": 295.75
+        },
+        {
+          "match": {
+            "population": 15000
+          },
+          "value": 370.36
+        },
+        {
+          "match": {
+            "population": 50000
+          },
+          "value": 478.28
+        },
+        {
+          "match": {
+            "population": 200000
+          },
+          "value": 663.44
+        },
+        {
+          "match": {
+            "population": 9999999
+          },
+          "value": 1011.16
+        }
       ]
     }
   },

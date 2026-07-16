@@ -9,10 +9,22 @@
       "type": "select",
       "default": 2000,
       "options": [
-        { "value": 500, "label": "Jusqu'à 500 habitants" },
-        { "value": 2000, "label": "501 à 2 000" },
-        { "value": 3500, "label": "2 001 à 3 500" },
-        { "value": 5000, "label": "3 501 à 5 000" }
+        {
+          "value": 500,
+          "label": "Jusqu'à 500 habitants"
+        },
+        {
+          "value": 2000,
+          "label": "501 à 2 000"
+        },
+        {
+          "value": 3500,
+          "label": "2 001 à 3 500"
+        },
+        {
+          "value": 5000,
+          "label": "3 501 à 5 000"
+        }
       ]
     },
     {
@@ -35,12 +47,6 @@
       "step": 1,
       "unit": "équipements",
       "help": "Bibliothèque, gymnase, piscine, salle d'expo, attente téléphonique, site web, etc. Inutilisé si événements > 0."
-    },
-    {
-      "id": "tarif_reduit",
-      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
-      "type": "boolean",
-      "default": false
     }
   ],
   "compute": {
@@ -50,29 +56,95 @@
       {
         "kind": "lookup",
         "rows": [
-          { "match": { "evenements": 0 }, "formula": "ceil(equipements_sonorises / 3) * 163.06" },
-          { "match": { "population": 500 }, "value": 186.60 },
-          { "match": { "population": 2000, "evenements": { "lte": 3 } }, "value": 251.91 },
-          { "match": { "population": 2000, "evenements": { "lte": 6 } }, "value": 428.25 },
-          { "match": { "population": 2000 }, "formula": "428.25 + max(0, evenements - 6) * 49.96" },
-          { "match": { "population": 3500, "evenements": { "lte": 3 } }, "value": 352.66 },
-          { "match": { "population": 3500, "evenements": { "lte": 6 } }, "value": 599.55 },
-          { "match": { "population": 3500 }, "formula": "599.55 + max(0, evenements - 6) * 69.95" },
-          { "match": { "evenements": { "lte": 3 } }, "value": 440.85 },
-          { "match": { "evenements": { "lte": 6 } }, "value": 749.43 },
-          { "match": {}, "formula": "749.43 + max(0, evenements - 6) * 87.43" }
+          {
+            "match": {
+              "evenements": 0
+            },
+            "formula": "ceil(equipements_sonorises / 3) * 163.06"
+          },
+          {
+            "match": {
+              "population": 500
+            },
+            "value": 186.6
+          },
+          {
+            "match": {
+              "population": 2000,
+              "evenements": {
+                "lte": 3
+              }
+            },
+            "value": 251.91
+          },
+          {
+            "match": {
+              "population": 2000,
+              "evenements": {
+                "lte": 6
+              }
+            },
+            "value": 428.25
+          },
+          {
+            "match": {
+              "population": 2000
+            },
+            "formula": "428.25 + max(0, evenements - 6) * 49.96"
+          },
+          {
+            "match": {
+              "population": 3500,
+              "evenements": {
+                "lte": 3
+              }
+            },
+            "value": 352.66
+          },
+          {
+            "match": {
+              "population": 3500,
+              "evenements": {
+                "lte": 6
+              }
+            },
+            "value": 599.55
+          },
+          {
+            "match": {
+              "population": 3500
+            },
+            "formula": "599.55 + max(0, evenements - 6) * 69.95"
+          },
+          {
+            "match": {
+              "evenements": {
+                "lte": 3
+              }
+            },
+            "value": 440.85
+          },
+          {
+            "match": {
+              "evenements": {
+                "lte": 6
+              }
+            },
+            "value": 749.43
+          },
+          {
+            "match": {},
+            "formula": "749.43 + max(0, evenements - 6) * 87.43"
+          }
         ]
       }
-    ],
-    "modifiers": [
-      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
     ]
   },
   "spre": {
     "compute": {
       "kind": "formula",
       "expr": "sacem * 0.65",
-      "min": 110.60
+      "min": 110.6
     }
   },
   "footnote": "SACEM au tarif général par défaut. Forfait « Événements » intègre déjà la sonorisation permanente. Événements associatifs (mandatés par la commune) inclus. Communes > 5 000 habitants : autre barème."

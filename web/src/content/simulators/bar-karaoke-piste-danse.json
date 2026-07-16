@@ -12,36 +12,135 @@
       "max": 3000000,
       "step": 10000,
       "unit": "€ HT"
-    },
-    {
-      "id": "tarif_reduit",
-      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
-      "type": "boolean",
-      "default": false
     }
   ],
   "compute": {
     "kind": "lookup",
     "rows": [
-      { "match": { "ca": { "lte": 50000 } }, "value": 936.84 },
-      { "match": { "ca": { "lte": 100000 } }, "value": 1958.86 },
-      { "match": { "ca": { "lte": 150000 } }, "value": 3236.37 },
-      { "match": { "ca": { "lte": 200000 } }, "value": 4428.72 },
-      { "match": { "ca": { "lte": 250000 } }, "value": 5493.32 },
-      { "match": { "ca": { "lte": 300000 } }, "value": 6728.25 },
-      { "match": { "ca": { "lte": 350000 } }, "value": 7920.60 },
-      { "match": { "ca": { "lte": 400000 } }, "value": 9198.11 },
-      { "match": { "ca": { "lte": 450000 } }, "value": 10220.13 },
-      { "match": { "ca": { "lte": 500000 } }, "value": 11497.64 },
-      { "match": { "ca": { "lte": 550000 } }, "value": 12647.41 },
-      { "match": { "ca": { "lte": 600000 } }, "value": 13797.17 },
-      { "match": { "ca": { "lte": 650000 } }, "value": 14946.93 },
-      { "match": { "ca": { "lte": 700000 } }, "value": 16096.70 },
-      { "match": { "ca": { "lte": 750000 } }, "value": 17246.46 },
-      { "match": {}, "formula": "17246.46 + (ca - 750000) * 0.0226" }
-    ],
-    "modifiers": [
-      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+      {
+        "match": {
+          "ca": {
+            "lte": 50000
+          }
+        },
+        "value": 936.84
+      },
+      {
+        "match": {
+          "ca": {
+            "lte": 100000
+          }
+        },
+        "value": 1958.86
+      },
+      {
+        "match": {
+          "ca": {
+            "lte": 150000
+          }
+        },
+        "value": 3236.37
+      },
+      {
+        "match": {
+          "ca": {
+            "lte": 200000
+          }
+        },
+        "value": 4428.72
+      },
+      {
+        "match": {
+          "ca": {
+            "lte": 250000
+          }
+        },
+        "value": 5493.32
+      },
+      {
+        "match": {
+          "ca": {
+            "lte": 300000
+          }
+        },
+        "value": 6728.25
+      },
+      {
+        "match": {
+          "ca": {
+            "lte": 350000
+          }
+        },
+        "value": 7920.6
+      },
+      {
+        "match": {
+          "ca": {
+            "lte": 400000
+          }
+        },
+        "value": 9198.11
+      },
+      {
+        "match": {
+          "ca": {
+            "lte": 450000
+          }
+        },
+        "value": 10220.13
+      },
+      {
+        "match": {
+          "ca": {
+            "lte": 500000
+          }
+        },
+        "value": 11497.64
+      },
+      {
+        "match": {
+          "ca": {
+            "lte": 550000
+          }
+        },
+        "value": 12647.41
+      },
+      {
+        "match": {
+          "ca": {
+            "lte": 600000
+          }
+        },
+        "value": 13797.17
+      },
+      {
+        "match": {
+          "ca": {
+            "lte": 650000
+          }
+        },
+        "value": 14946.93
+      },
+      {
+        "match": {
+          "ca": {
+            "lte": 700000
+          }
+        },
+        "value": 16096.7
+      },
+      {
+        "match": {
+          "ca": {
+            "lte": 750000
+          }
+        },
+        "value": 17246.46
+      },
+      {
+        "match": {},
+        "formula": "17246.46 + (ca - 750000) * 0.0226"
+      }
     ]
   },
   "spre": {

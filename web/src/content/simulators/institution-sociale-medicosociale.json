@@ -29,9 +29,18 @@
       "type": "select",
       "default": "radio",
       "options": [
-        { "value": "tv", "label": "Télévision" },
-        { "value": "radio", "label": "CD-DVD-Radio" },
-        { "value": "jukebox", "label": "Juke-box" }
+        {
+          "value": "tv",
+          "label": "Télévision"
+        },
+        {
+          "value": "radio",
+          "label": "CD-DVD-Radio"
+        },
+        {
+          "value": "jukebox",
+          "label": "Juke-box"
+        }
       ]
     },
     {
@@ -54,12 +63,6 @@
       "max": 1000,
       "step": 1,
       "unit": "chambres"
-    },
-    {
-      "id": "tarif_reduit",
-      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
-      "type": "boolean",
-      "default": false
     }
   ],
   "compute": {
@@ -78,9 +81,6 @@
         "kind": "formula",
         "expr": "chambres_sonorisees <= 0 ? 0 : (min(chambres_sonorisees, 50) * 14.96 + max(0, min(chambres_sonorisees, 75) - 50) * 14.51 + max(0, min(chambres_sonorisees, 125) - 75) * 13.62 + max(0, min(chambres_sonorisees, 200) - 125) * 13.18 + max(0, min(chambres_sonorisees, 300) - 200) * 12.23 + max(0, min(chambres_sonorisees, 400) - 300) * 11.77 + max(0, chambres_sonorisees - 400) * 11.35)"
       }
-    ],
-    "modifiers": [
-      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
     ]
   },
   "spre": {

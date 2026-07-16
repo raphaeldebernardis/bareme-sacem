@@ -23,20 +23,11 @@
       "step": 1,
       "unit": "jours",
       "help": "Période couverte (Coupe du Monde ~30 j, Jeux Olympiques ~15 j, Tour de France ~23 j)."
-    },
-    {
-      "id": "tarif_reduit",
-      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
-      "type": "boolean",
-      "default": false
     }
   ],
   "compute": {
     "kind": "formula",
-    "expr": "(places <= 100 ? 111.39 : 222.78) + max(0, ceil((duree_jours - 30) / 15)) * (places <= 100 ? 55.70 : 111.39)",
-    "modifiers": [
-      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
-    ]
+    "expr": "(places <= 100 ? 111.39 : 222.78) + max(0, ceil((duree_jours - 30) / 15)) * (places <= 100 ? 55.70 : 111.39)"
   },
   "spre": {
     "compute": {

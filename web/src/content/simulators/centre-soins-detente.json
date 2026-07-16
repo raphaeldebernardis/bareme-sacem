@@ -20,12 +20,6 @@
       "type": "boolean",
       "default": false,
       "help": "Minimum 237,42 € HT (189,94 € réduit) si coché."
-    },
-    {
-      "id": "tarif_reduit",
-      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
-      "type": "boolean",
-      "default": false
     }
   ],
   "compute": {
@@ -35,29 +29,71 @@
       {
         "kind": "lookup",
         "rows": [
-          { "match": { "praticiens": { "lte": 2 } }, "value": 138.00 },
-          { "match": { "praticiens": { "lte": 5 } }, "value": 261.63 },
-          { "match": { "praticiens": { "lte": 10 } }, "value": 392.79 },
-          { "match": { "praticiens": { "lte": 15 } }, "value": 510.63 },
-          { "match": { "praticiens": { "lte": 20 } }, "value": 587.22 },
-          { "match": { "praticiens": { "lte": 30 } }, "value": 675.29 },
-          { "match": {}, "value": 776.59 }
+          {
+            "match": {
+              "praticiens": {
+                "lte": 2
+              }
+            },
+            "value": 138.0
+          },
+          {
+            "match": {
+              "praticiens": {
+                "lte": 5
+              }
+            },
+            "value": 261.63
+          },
+          {
+            "match": {
+              "praticiens": {
+                "lte": 10
+              }
+            },
+            "value": 392.79
+          },
+          {
+            "match": {
+              "praticiens": {
+                "lte": 15
+              }
+            },
+            "value": 510.63
+          },
+          {
+            "match": {
+              "praticiens": {
+                "lte": 20
+              }
+            },
+            "value": 587.22
+          },
+          {
+            "match": {
+              "praticiens": {
+                "lte": 30
+              }
+            },
+            "value": 675.29
+          },
+          {
+            "match": {},
+            "value": 776.59
+          }
         ]
       },
       {
         "kind": "formula",
         "expr": "audiovisuel * 237.42"
       }
-    ],
-    "modifiers": [
-      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
     ]
   },
   "spre": {
     "compute": {
       "kind": "formula",
       "expr": "sacem * 0.65",
-      "min": 110.60
+      "min": 110.6
     }
   },
   "footnote": "SACEM au tarif général par défaut. Salle d'attente d'un professionnel libéral : barème distinct (n° 33). Audiovisuel : plancher 237,42 € (189,94 € réduit)."

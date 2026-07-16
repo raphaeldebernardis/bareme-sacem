@@ -9,8 +9,14 @@
       "type": "radio",
       "default": "distribution",
       "options": [
-        { "value": "distribution", "label": "Aire de distribution (couvre aussi la caisse)" },
-        { "value": "caisse", "label": "Caisse uniquement" }
+        {
+          "value": "distribution",
+          "label": "Aire de distribution (couvre aussi la caisse)"
+        },
+        {
+          "value": "caisse",
+          "label": "Caisse uniquement"
+        }
       ]
     },
     {
@@ -22,36 +28,87 @@
       "max": 50,
       "step": 1,
       "unit": "points",
-      "when": { "zone": "distribution" }
-    },
-    {
-      "id": "tarif_reduit",
-      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
-      "type": "boolean",
-      "default": false
+      "when": {
+        "zone": "distribution"
+      }
     }
   ],
   "compute": {
     "kind": "lookup",
     "rows": [
-      { "match": { "zone": "caisse" }, "value": 69.02 },
-      { "match": { "zone": "distribution", "points": { "lte": 2 } }, "value": 69.02 },
-      { "match": { "zone": "distribution", "points": { "lte": 3 } }, "value": 80.39 },
-      { "match": { "zone": "distribution", "points": { "lte": 5 } }, "value": 110.64 },
-      { "match": { "zone": "distribution", "points": { "lte": 7 } }, "value": 137.35 },
-      { "match": { "zone": "distribution", "points": { "lte": 9 } }, "value": 165.65 },
-      { "match": { "zone": "distribution", "points": { "lte": 10 } }, "value": 179.34 },
-      { "match": { "zone": "distribution" }, "formula": "179.34 + (points - 10) * 12.36" }
-    ],
-    "modifiers": [
-      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+      {
+        "match": {
+          "zone": "caisse"
+        },
+        "value": 69.02
+      },
+      {
+        "match": {
+          "zone": "distribution",
+          "points": {
+            "lte": 2
+          }
+        },
+        "value": 69.02
+      },
+      {
+        "match": {
+          "zone": "distribution",
+          "points": {
+            "lte": 3
+          }
+        },
+        "value": 80.39
+      },
+      {
+        "match": {
+          "zone": "distribution",
+          "points": {
+            "lte": 5
+          }
+        },
+        "value": 110.64
+      },
+      {
+        "match": {
+          "zone": "distribution",
+          "points": {
+            "lte": 7
+          }
+        },
+        "value": 137.35
+      },
+      {
+        "match": {
+          "zone": "distribution",
+          "points": {
+            "lte": 9
+          }
+        },
+        "value": 165.65
+      },
+      {
+        "match": {
+          "zone": "distribution",
+          "points": {
+            "lte": 10
+          }
+        },
+        "value": 179.34
+      },
+      {
+        "match": {
+          "zone": "distribution"
+        },
+        "formula": "179.34 + (points - 10) * 12.36"
+      }
     ]
   },
   "spre": {
     "compute": {
       "kind": "formula",
       "expr": "sacem * 0.65",
-      "min": 110.60
+      "min": 110.6
     }
   },
   "footnote": "SACEM au tarif général par défaut. Au-delà de 10 points, +12,36 € HT par point supplémentaire. Le forfait aire de distribution couvre la caisse, pas de double facturation."

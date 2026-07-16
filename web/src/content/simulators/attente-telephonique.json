@@ -12,30 +12,87 @@
       "max": 5000,
       "step": 1,
       "unit": "salariés"
-    },
-    {
-      "id": "tarif_reduit",
-      "label": "Je bénéficie du tarif réduit (contrat général SACEM signé dans les 15 jours)",
-      "type": "boolean",
-      "default": false
     }
   ],
   "compute": {
     "kind": "lookup",
     "rows": [
-      { "match": { "salaries": { "lte": 19 } }, "value": 73.37 },
-      { "match": { "salaries": { "lte": 49 } }, "value": 91.72 },
-      { "match": { "salaries": { "lte": 99 } }, "value": 123.81 },
-      { "match": { "salaries": { "lte": 199 } }, "value": 185.72 },
-      { "match": { "salaries": { "lte": 249 } }, "value": 325.04 },
-      { "match": { "salaries": { "lte": 499 } }, "value": 650.06 },
-      { "match": { "salaries": { "lte": 999 } }, "value": 1300.15 },
-      { "match": { "salaries": { "lte": 1999 } }, "value": 2600.31 },
-      { "match": { "salaries": { "lte": 3500 } }, "value": 5200.61 },
-      { "match": {}, "formula": "5200.61 + max(0, salaries - 3500) * 1.45" }
-    ],
-    "modifiers": [
-      { "kind": "multiply", "value": 0.8, "when": { "tarif_reduit": true } }
+      {
+        "match": {
+          "salaries": {
+            "lte": 19
+          }
+        },
+        "value": 73.37
+      },
+      {
+        "match": {
+          "salaries": {
+            "lte": 49
+          }
+        },
+        "value": 91.72
+      },
+      {
+        "match": {
+          "salaries": {
+            "lte": 99
+          }
+        },
+        "value": 123.81
+      },
+      {
+        "match": {
+          "salaries": {
+            "lte": 199
+          }
+        },
+        "value": 185.72
+      },
+      {
+        "match": {
+          "salaries": {
+            "lte": 249
+          }
+        },
+        "value": 325.04
+      },
+      {
+        "match": {
+          "salaries": {
+            "lte": 499
+          }
+        },
+        "value": 650.06
+      },
+      {
+        "match": {
+          "salaries": {
+            "lte": 999
+          }
+        },
+        "value": 1300.15
+      },
+      {
+        "match": {
+          "salaries": {
+            "lte": 1999
+          }
+        },
+        "value": 2600.31
+      },
+      {
+        "match": {
+          "salaries": {
+            "lte": 3500
+          }
+        },
+        "value": 5200.61
+      },
+      {
+        "match": {},
+        "formula": "5200.61 + max(0, salaries - 3500) * 1.45"
+      }
     ]
   },
   "footnote": "SACEM au tarif général par défaut. Au-delà de 3 500 salariés, +1,45 € par salarié supplémentaire. La SPRE ne s'applique pas aux attentes téléphoniques (barème SACEM seul)."
