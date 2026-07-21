@@ -281,14 +281,14 @@ describe("simulate, SPRE handling", () => {
     expect(res.withoutSpre.totalAnnual).toBe(1000);
   });
 
-  it("computes breakeven months against PlaySafe one-time fee", () => {
+  it("breakeven immédiat (1 mois) dès que le coût annuel dépasse l'abonnement", () => {
     const fiche: FicheSimulator = {
       ...baseFiche,
       compute: { kind: "constant", value: 900 },
     };
     const res = simulate(fiche, {});
-    // 450 / 900 * 12 = 6
-    expect(res.withoutSpre.breakevenMonths).toBe(6);
+    // 900 € / an > 104,64 € d'abonnement annuel → rentabilisé dès le 1er mois
+    expect(res.withoutSpre.breakevenMonths).toBe(1);
   });
 
   it("returns Infinity breakeven when total is zero", () => {
@@ -307,10 +307,12 @@ describe("simulate, SPRE handling", () => {
     };
     const res = simulate(fiche, {});
     const horizons = res.withoutSpre.savings.map((s) => s.amount);
+    // Abonnement : le coût PlaySafe est annuel, donc soustrait à chaque année
+    // de l'horizon (et non une seule fois comme l'ancien forfait à vie).
     expect(horizons).toEqual([
-      1000 * 5 - PLAYSAFE_PRICE_HT,
-      1000 * 10 - PLAYSAFE_PRICE_HT,
-      1000 * 15 - PLAYSAFE_PRICE_HT,
+      1000 * 5 - PLAYSAFE_PRICE_HT * 5,
+      1000 * 10 - PLAYSAFE_PRICE_HT * 10,
+      1000 * 15 - PLAYSAFE_PRICE_HT * 15,
     ]);
   });
 });

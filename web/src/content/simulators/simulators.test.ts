@@ -78,20 +78,6 @@ describe("salon-coiffure", () => {
     ).toBe(342.73);
   });
 
-  it("applies -20 % when tarif réduit", () => {
-    const general = simulate(fiche, {
-      appareil: "hp",
-      employes: 5,
-      tarif_reduit: false,
-    }).sacem;
-    const reduit = simulate(fiche, {
-      appareil: "hp",
-      employes: 5,
-      tarif_reduit: true,
-    }).sacem;
-    expect(reduit).toBeCloseTo(general * 0.8, 1);
-  });
-
   it("appareil simple: per-appareil pricing via formula", () => {
     const { sacem } = simulate(fiche, {
       appareil: "simple",
@@ -116,23 +102,21 @@ describe("magasin-commerce-detail", () => {
     expect(spre).toBe(110.6); // SPRE tiered lookup, 0-2
   });
 
-  it("6 employés tarif réduit → 471,21 € (markdown example)", () => {
+  it("6 employés tarif général → 589,01 € (barème 2026)", () => {
     const { sacem, spre } = simulate(fiche, {
       employes: 6,
       audiovisuel: false,
-      tarif_reduit: true,
     });
-    expect(sacem).toBeCloseTo(471.21, 1);
+    expect(sacem).toBeCloseTo(589.01, 1);
     expect(spre).toBe(233.49); // SPRE tranche 6-10
   });
 
-  it("15 employés tarif réduit → 1 179,62 € (markdown example)", () => {
+  it("15 employés tarif général → 1 474,53 € (barème 2026)", () => {
     const { sacem, spre } = simulate(fiche, {
       employes: 15,
       audiovisuel: false,
-      tarif_reduit: true,
     });
-    expect(sacem).toBeCloseTo(1179.62, 1);
+    expect(sacem).toBeCloseTo(1474.53, 1);
     expect(spre).toBe(356.39);
   });
 
@@ -181,58 +165,52 @@ describe("animation-chr", () => {
 describe("musique-entreprise-administration", () => {
   const fiche = loadFiche("musique-entreprise-administration");
 
-  it("TPE 8 salariés, sans événement, réduit → 76,31 €", () => {
+  it("TPE 8 salariés, sans événement, tarif général → 95,39 €", () => {
     const { sacem } = simulate(fiche, {
       salaries: 8,
       evenements: "aucun",
-      tarif_reduit: true,
     });
-    expect(sacem).toBeCloseTo(76.31, 1);
+    expect(sacem).toBeCloseTo(95.39, 1);
   });
 
-  it("ETI 400 salariés, 8 événements, réduit → 2 162,96 €", () => {
+  it("ETI 400 salariés, 8 événements, tarif général → 2 703,70 €", () => {
     const { sacem } = simulate(fiche, {
       salaries: 400,
       evenements: "beaucoup",
-      tarif_reduit: true,
     });
-    expect(sacem).toBeCloseTo(2162.96, 1);
+    expect(sacem).toBeCloseTo(2703.7, 1);
   });
 });
 
 describe("karting", () => {
   const fiche = loadFiche("karting");
 
-  it("2 000 m² tarif réduit ≈ 980 € HT (markdown example, 0,5 € tol)", () => {
+  it("2 000 m² tarif général → 1 220 € HT", () => {
     const { sacem } = simulate(fiche, {
       surface: 2000,
-      tarif_reduit: true,
     });
-    // 2000 * 0.61 * 0.8 = 976. Markdown uses 0.49 directly = 980.
-    // General-rate × 0.8 has a rounding offset of ~4 €; stay within 5.
-    expect(Math.abs(sacem - 980)).toBeLessThan(5);
+    // 2000 * 0.61 = 1220
+    expect(sacem).toBeCloseTo(1220, 0);
   });
 
-  it("small surface → minimum applied", () => {
+  it("small surface → formule linéaire, pas de plancher", () => {
     const { sacem } = simulate(fiche, {
       surface: 100,
-      tarif_reduit: false,
     });
-    // 100 * 0.61 = 61, but minimum general is 142.24
-    expect(sacem).toBeCloseTo(142.24, 1);
+    // 100 * 0.61 = 61 (la fiche n'a plus de minimum depuis la refonte)
+    expect(sacem).toBeCloseTo(61, 1);
   });
 });
 
 describe("patinoire", () => {
   const fiche = loadFiche("patinoire");
 
-  it("100 000 € de recettes tarif réduit ≈ 1 500 € (markdown)", () => {
+  it("100 000 € de recettes tarif général → 1 880 €", () => {
     const { sacem } = simulate(fiche, {
       recettes: 100000,
-      tarif_reduit: true,
     });
-    // 100000 * 0.0188 * 0.8 = 1504, markdown 1500 is using 1.5 % directly
-    expect(sacem).toBeCloseTo(1504, 0);
+    // 100000 * 0.0188 = 1880
+    expect(sacem).toBeCloseTo(1880, 0);
   });
 });
 
@@ -248,17 +226,6 @@ describe("hebergement-touristique", () => {
       tarif_reduit: false,
     });
     expect(sacem).toBeCloseTo(141.28, 1);
-  });
-
-  it("petit hôtel 8 chambres tarif réduit → 113,02 €", () => {
-    const { sacem } = simulate(fiche, {
-      chambres: 8,
-      etoiles: 3,
-      parties_communes: true,
-      chambres_sonorisees: false,
-      tarif_reduit: true,
-    });
-    expect(sacem).toBeCloseTo(113.02, 1);
   });
 });
 
@@ -294,82 +261,62 @@ describe("reveillon", () => {
 describe("bar-karaoke-piste-danse", () => {
   const fiche = loadFiche("bar-karaoke-piste-danse");
 
-  it("80 000 € CA réduit → 1 567,09 € (markdown example)", () => {
+  it("80 000 € CA tarif général → 1 958,86 €", () => {
     const { sacem } = simulate(fiche, {
       ca: 80000,
-      tarif_reduit: true,
     });
-    expect(sacem).toBeCloseTo(1567.09, 1);
+    expect(sacem).toBeCloseTo(1958.86, 1);
   });
 
-  it("500 000 € CA réduit → 9 198,11 €", () => {
+  it("500 000 € CA tarif général → 11 497,64 €", () => {
     const { sacem } = simulate(fiche, {
       ca: 500000,
-      tarif_reduit: true,
     });
-    expect(sacem).toBeCloseTo(9198.11, 1);
+    expect(sacem).toBeCloseTo(11497.64, 1);
   });
 });
 
 describe("salle-sport-fitness", () => {
   const fiche = loadFiche("salle-sport-fitness");
 
-  it("400 m² sans cours tarif réduit ≈ 315 € (markdown example)", () => {
+  it("400 m² sans cours tarif général → 394,57 €", () => {
     const { sacem } = simulate(fiche, {
       surface: 400,
       heures_cours: 0,
-      tarif_reduit: true,
     });
-    // max(200, 400*0.85)=340 × 1.1605 × 0.8 = 315.66
-    expect(sacem).toBeCloseTo(315.66, 1);
+    // max(200, 400*0.85)=340 × 1.1605 = 394.57
+    expect(sacem).toBeCloseTo(394.57, 1);
   });
 
   it("surface < 200 m² is floored to 200 m²", () => {
     const { sacem } = simulate(fiche, {
       surface: 100,
       heures_cours: 0,
-      tarif_reduit: true,
     });
-    // max(200, 100*0.85)=200 × 1.1605 × 0.8 = 185.68
-    expect(sacem).toBeCloseTo(185.68, 1);
+    // max(200, 100*0.85)=200 × 1.1605 = 232.10
+    expect(sacem).toBeCloseTo(232.1, 1);
   });
 
   it("20 h de cours → abattement 35 % + 2 tranches cours", () => {
     const { sacem } = simulate(fiche, {
       surface: 800,
       heures_cours: 20,
-      tarif_reduit: true,
     });
-    // max(200, 800*0.65)=520 × 1.1605 × 0.8 = 482.77 + ceil(20/12)=2 × 557 × 0.8 = 891.20
-    // total ≈ 1373.97
-    expect(sacem).toBeCloseTo(1373.97, 0);
+    // max(200, 800*0.65)=520 × 1.1605 = 603.46 + ceil(20/12)=2 × 557 = 1114
+    // total ≈ 1717.46
+    expect(sacem).toBeCloseTo(1717.46, 0);
   });
 });
 
 describe("parc-stationnement", () => {
   const fiche = loadFiche("parc-stationnement");
 
-  it("300 emplacements à 0,61 € réduit → 150,92 €", () => {
+  it("300 emplacements à 0,61 € tarif général → 150,92 €", () => {
     const { sacem } = simulate(fiche, {
       emplacements: 300,
       prix_heure: 0.61,
-      tarif_reduit: true,
     });
     expect(sacem).toBeCloseTo(150.92, 1);
-  });
-
-  it("non-réduit = réduit × 1,25 (inverse multiplier)", () => {
-    const reduit = simulate(fiche, {
-      emplacements: 300,
-      prix_heure: 0.61,
-      tarif_reduit: true,
-    }).sacem;
-    const general = simulate(fiche, {
-      emplacements: 300,
-      prix_heure: 0.61,
-      tarif_reduit: false,
-    }).sacem;
-    expect(general).toBeCloseTo(reduit * 1.25, 1);
   });
 });
 
@@ -450,69 +397,61 @@ describe("site-internet-marchand", () => {
 describe("local-associatif", () => {
   const fiche = loadFiche("local-associatif");
 
-  it("80 membres, 1 appareil, réduit → 67,17 €", () => {
+  it("80 membres, 1 appareil, tarif général → 83,96 €", () => {
     const { sacem } = simulate(fiche, {
       membres: 80,
       appareils: 1,
-      tarif_reduit: true,
     });
-    expect(sacem).toBeCloseTo(67.17, 1);
+    expect(sacem).toBeCloseTo(83.96, 1);
   });
 
-  it("150 membres, 2 appareils, réduit → 107,47 € (markdown example)", () => {
+  it("150 membres, 2 appareils, tarif général → 134,34 €", () => {
     const { sacem } = simulate(fiche, {
       membres: 150,
       appareils: 2,
-      tarif_reduit: true,
     });
-    // (2 × 67.17 × 0.8) × 0.8 = 85.98 ? wait…
     // Formula: appareils * (membres<=200 ? 83.96 : 126.62) * (appareils>1 ? 0.8 : 1)
-    // = 2 * 83.96 * 0.8 = 134.34 (general)
-    // × 0.8 (tarif réduit modifier) = 107.47 ✔
-    expect(sacem).toBeCloseTo(107.47, 1);
+    // = 2 * 83.96 * 0.8 = 134.34
+    expect(sacem).toBeCloseTo(134.34, 1);
   });
 });
 
 describe("musique-college-lycee", () => {
   const fiche = loadFiche("musique-college-lycee");
 
-  it("250 élèves 1 établissement réduit → 120 €", () => {
+  it("250 élèves 1 établissement tarif général → 150 €", () => {
     const { sacem } = simulate(fiche, {
       eleves: 250,
       etablissements: 1,
-      tarif_reduit: true,
     });
-    expect(sacem).toBeCloseTo(120, 1);
+    expect(sacem).toBeCloseTo(150, 1);
   });
 
-  it("1 200 élèves 1 établissement réduit → 480 €", () => {
+  it("1 200 élèves 1 établissement tarif général → 600 €", () => {
     const { sacem } = simulate(fiche, {
       eleves: 1200,
       etablissements: 1,
-      tarif_reduit: true,
     });
-    expect(sacem).toBeCloseTo(480, 1);
+    expect(sacem).toBeCloseTo(600, 1);
   });
 });
 
 describe("meuble-tourisme-chambre-hote", () => {
   const fiche = loadFiche("meuble-tourisme-chambre-hote");
 
-  it("gîte unique tarif réduit → 107,21 €", () => {
+  it("gîte unique tarif général → 134,01 €", () => {
     const { sacem } = simulate(fiche, {
       lieux: 1,
       rural_faible_revenu: false,
-      tarif_reduit: true,
     });
-    expect(sacem).toBeCloseTo(107.21, 1);
+    expect(sacem).toBeCloseTo(134.01, 1);
   });
 
-  it("gîte rural faible revenu réduit → 85,78 €", () => {
+  it("gîte rural faible revenu tarif général → 107,22 €", () => {
     const { sacem } = simulate(fiche, {
       lieux: 1,
       rural_faible_revenu: true,
-      tarif_reduit: true,
     });
-    expect(sacem).toBeCloseTo(85.78, 1);
+    expect(sacem).toBeCloseTo(107.22, 1);
   });
 });
