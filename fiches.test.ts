@@ -2,10 +2,14 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { defaultAnswers, simulate } from "../../lib/simulator-engine";
-import type { FicheSimulator } from "../../lib/simulator-types";
+import { defaultAnswers, simulate } from "./moteur";
+import type { FicheSimulator } from "./types";
 
-const dir = path.dirname(fileURLToPath(import.meta.url));
+// ⚠️ LES FICHES SONT DANS UN SOUS-DOSSIER DEPUIS LE DÉCOUPAGE. Le test vivait
+// au milieu des JSON et lisait son propre répertoire ; il lit maintenant
+// `fiches/`. Sans ça il ne trouve aucune fiche et passe en vert sur une liste
+// vide — un test qui ne teste rien est pire qu'un test rouge.
+const dir = path.join(path.dirname(fileURLToPath(import.meta.url)), "fiches");
 
 function loadFiche(slug: string): FicheSimulator {
   const raw = fs.readFileSync(path.join(dir, `${slug}.json`), "utf-8");

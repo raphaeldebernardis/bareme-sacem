@@ -7,7 +7,7 @@ import type {
   Question,
   Scenario,
   SimulatorResult,
-} from "./simulator-types";
+} from "./types";
 
 // Plan le moins cher : Essentiel facturation annuelle, 8,72 € HT/mois × 12.
 export const PLAYSAFE_ANNUAL_HT = 104.64;

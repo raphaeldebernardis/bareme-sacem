@@ -6,8 +6,8 @@ import {
   evalCompute,
   simulate,
   visibleQuestions,
-} from "./simulator-engine";
-import type { Compute, FicheSimulator, Question } from "./simulator-types";
+} from "./moteur";
+import type { Compute, FicheSimulator, Question } from "./types";
 
 // ---------------------------------------------------------------------------
 // evalCondition
