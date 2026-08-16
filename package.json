@@ -1,0 +1,19 @@
+{
+  "name": "@playsafe/bareme-sacem",
+  "version": "1.0.0",
+  "description": "Le barème SACEM : 49 fiches, le moteur de calcul, les types. Partagé par le site et l'application PlaySafe.",
+  "type": "module",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "exports": {
+    ".": "./index.ts",
+    "./moteur": "./moteur.ts",
+    "./types": "./types.ts",
+    "./fiches/*": "./fiches/*"
+  },
+  "scripts": {
+    "gen": "node gen-fiches.mjs",
+    "test": "vitest run"
+  },
+  "files": ["index.ts", "moteur.ts", "types.ts", "fiches.gen.ts", "fiches", "gen-fiches.mjs"]
+}
